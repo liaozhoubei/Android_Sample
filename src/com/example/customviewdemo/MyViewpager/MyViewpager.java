@@ -136,6 +136,7 @@ public class MyViewpager extends Activity {
 		mTv_desc.setText(contentDescs[0]);
 		// 初始化上一次记录位置为0
 		previousSelectedPosition = 0;
+		
 		mViewPager.setAdapter(new MyPagerAdapter());
 		// 使用Integer.MAX_VALUE可能会产生BUG，因此可以直接使用500000
 		int position = Integer.MAX_VALUE / 2 - (Integer.MAX_VALUE / 2 % mImageViewList.size());
@@ -152,23 +153,26 @@ public class MyViewpager extends Activity {
 
 		@Override
 		public boolean isViewFromObject(View view, Object object) {
-			// 固定写法
+			// 指定复用的判断逻辑, 固定写法
 			return view == object;
 		}
 
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
+				//返回要显示的条目内容, 创建条目
+			
 			// 设置但position大于mImageViewList.size()的时候重新从0开始，避免数组越界
 			int newPosition = position % mImageViewList.size();
-			// 设置viewpager的图片
+			// a. 把View对象添加到container中
 			ImageView imageView = mImageViewList.get(newPosition);
+			// b. 把View对象返回给框架, 适配器
 			container.addView(imageView);
-			return imageView;
+			return imageView; // 必须重写, 否则报异常
 		}
 		
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
-			// 固定写法，移除视图
+			// object 要销毁的对象
 			container.removeView((View) object);
 		}
 		
@@ -183,6 +187,8 @@ public class MyViewpager extends Activity {
 
 		@Override
 		public void onPageSelected(int position) {
+			// 新的条目被选中时调用
+			
 			// 设置但position大于mImageViewList.size()的时候重新从0开始
 			int newPosition = position % mImageViewList.size();
 			// 设置标题和白色小圆点的位置
