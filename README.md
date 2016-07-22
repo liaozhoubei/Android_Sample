@@ -6,3 +6,8 @@ A demo of customView
 1、类似于优酷客户端早期的菜单栏，效果如下
 
 ![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/youkumenu.gif)
+
+
+2、MyViewpager轮播图的实现，效果如下
+
+![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/myviewpager.gif)
