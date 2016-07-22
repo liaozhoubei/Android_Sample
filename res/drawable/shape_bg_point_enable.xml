@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:shape="oval">
+    <!-- android:shape="oval"表示设置什么图案，oval代表圆形
+    	corners android:radius="5dp"表示图案的角度，这里设置为圆角
+    	solid android:color="#ffffff"表示填充图案为白色 -->
+    <corners android:radius="5dp"/>
+    <solid android:color="#ffffff"/>
+
+</shape>
