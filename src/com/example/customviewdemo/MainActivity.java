@@ -2,8 +2,8 @@ package com.example.customviewdemo;
 
 import com.example.customviewdemo.MyPopupwindow.MyPopupwindow;
 import com.example.customviewdemo.MyViewpager.MyViewpager;
-import com.example.customviewdemo.Refreshlist.Refreshlist;
-import com.example.customviewdemo.Sliding.Sliding;
+import com.example.customviewdemo.Refreshlist.RefreshlistActivity;
+import com.example.customviewdemo.Sliding.SlidingActivity;
 import com.example.customviewdemo.Toggleview.ToggleActivity;
 import com.example.customviewdemo.Youkumenu.Youkumenu;
 
@@ -34,11 +34,11 @@ public class MainActivity extends Activity {
 	}
 	
 	public void Refreshlist(View v) {
-		startActivity(new Intent(MainActivity.this, Refreshlist.class));
+		startActivity(new Intent(MainActivity.this, RefreshlistActivity.class));
 	}
 	
 	public void Sliding(View v) {
-		startActivity(new Intent(MainActivity.this, Sliding.class));
+		startActivity(new Intent(MainActivity.this, SlidingActivity.class));
 	}
 	
 	public void MyPopupwindow(View v) {
