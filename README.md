@@ -13,5 +13,6 @@ A demo of customView
 ![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/myviewpager.gif)
 
 3、ToggleView完全自定义的开关
+
 ![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/toggleview.gif)
 
