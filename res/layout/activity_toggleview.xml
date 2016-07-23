@@ -1,11 +1,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:toggleview="http://schemas.android.com/apk/res/com.example.customviewdemo"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <com.example.customviewdemo.Toggleview.ToggleView
         android:id="@+id/toggleView"
         android:layout_centerInParent="true"
+        toggleview:switch_background="@drawable/switch_background"
+        toggleview:slide_button="@drawable/ic_launcher"
+        toggleview:switch_state="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
