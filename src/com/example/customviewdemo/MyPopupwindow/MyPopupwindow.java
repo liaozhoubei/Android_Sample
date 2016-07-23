@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import com.example.customviewdemo.R;
 
 import android.app.Activity;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,11 +24,11 @@ import android.widget.TextView;
  * @author ASUS-H61M
  *
  */
-public class MyPopupwindow extends Activity implements OnClickListener{
+public class MyPopupwindow extends Activity implements OnClickListener, OnItemClickListener{
 	private EditText et_input;
 	private ImageView ib_dropdown;
 	private ListView listView;
-	private ArrayList<String> list;
+	private ArrayList<String> data;
 	private PopupWindow popupWindow;
 
 	@Override
@@ -34,15 +37,12 @@ public class MyPopupwindow extends Activity implements OnClickListener{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_mypopupwindow);
 		
-		ininView();
-	}
-
-	private void ininView() {
 		et_input = (EditText) findViewById(R.id.et_input);
 		ib_dropdown = (ImageView) findViewById(R.id.ib_dropdown);
 		ib_dropdown.setOnClickListener(this);
-		
 	}
+
+
 
 	@Override
 	public void onClick(View v) {
@@ -54,33 +54,50 @@ public class MyPopupwindow extends Activity implements OnClickListener{
 	private void showPopupWindow() {
 		
 		initListView();
-		
+		// 显示下拉选择框
 		popupWindow = new PopupWindow(listView, et_input.getWidth(), 300);
+		// 设置点击外部区域, 自动隐藏
+		popupWindow.setOutsideTouchable(true);// 外部可触摸
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());// 设置空的背景, 响应点击事件
+		popupWindow.setFocusable(true); //设置可获取焦点
 		popupWindow.showAsDropDown(et_input, 0, 0);
-		popupWindow.setOutsideTouchable(true);
 	}
-	
+	// 初始化要显示的内容
 	private void initListView() {
 		listView = new ListView(getApplicationContext());
-		list = new ArrayList<String>();
+		listView.setDividerHeight(0);  // 设置分割线边距
+		listView.setBackgroundResource(R.drawable.listview_background);
+		
+		listView.setOnItemClickListener(this);
+		
+		data = new ArrayList<String>();
 		for (int i = 0; i < 30; i ++){
+			// 添加数据
 			String str = "1000" + i;
-			list.add(str);
+			data.add(str);
 		}
 		
 		listView.setAdapter(new MyAdapter());		
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		// listview条目点击事件
+		String string = data.get(position);
+		et_input.setText(string);
+		popupWindow.dismiss();
 	}
 
 	private class MyAdapter extends BaseAdapter{
 
 		@Override
 		public int getCount() {
-			return list.size();
+			return data.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			return list.get(position);
+			return data.get(position);
 		}
 
 		@Override
@@ -103,14 +120,17 @@ public class MyPopupwindow extends Activity implements OnClickListener{
 				view = convertView;
 				viewHolder = (ViewHolder) view.getTag();
 			}
-			viewHolder.tv_number.setText(list.get(position));
+			viewHolder.tv_number.setText(data.get(position));
 			
 			viewHolder.ib_delete.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					list.remove(position);
-					if (list.size() == 0) {
+					// 在条目中点击删除
+					data.remove(position);
+					notifyDataSetChanged();
+					if (data.size() == 0) {
+						// 当数据为0的时候隐藏popuwindow
 						popupWindow.dismiss();
 					}
 				}
@@ -126,4 +146,10 @@ public class MyPopupwindow extends Activity implements OnClickListener{
 		}
 		
 	}
+
+
+
+
+
+
 }

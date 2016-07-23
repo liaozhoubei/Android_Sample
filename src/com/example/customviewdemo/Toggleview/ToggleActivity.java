@@ -11,11 +11,16 @@ import android.view.Window;
  * @author ASUS-H61M
  *
  */
-public class Toggleview extends Activity {
+public class ToggleActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_toggleview);
+		ToggleView toggleView = (ToggleView)findViewById(R.id.toggleView);
+		
+		toggleView.setSwitchBackgroundResource(R.drawable.switch_background);
+		toggleView.setSlideButtonResource(R.drawable.slide_button);
+		toggleView.setSwitchState(true);
 	}
 }

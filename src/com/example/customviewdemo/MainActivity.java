@@ -4,7 +4,7 @@ import com.example.customviewdemo.MyPopupwindow.MyPopupwindow;
 import com.example.customviewdemo.MyViewpager.MyViewpager;
 import com.example.customviewdemo.Refreshlist.Refreshlist;
 import com.example.customviewdemo.Sliding.Sliding;
-import com.example.customviewdemo.Toggleview.Toggleview;
+import com.example.customviewdemo.Toggleview.ToggleActivity;
 import com.example.customviewdemo.Youkumenu.Youkumenu;
 
 import android.app.Activity;
@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void Toggleview(View v) {
-		startActivity(new Intent(MainActivity.this, Toggleview.class));
+		startActivity(new Intent(MainActivity.this, ToggleActivity.class));
 	}
 	
 	public void Refreshlist(View v) {

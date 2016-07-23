@@ -27,7 +27,7 @@
         <activity android:name="com.example.customviewdemo.MyViewpager.MyViewpager"></activity>
         <activity android:name="com.example.customviewdemo.Refreshlist.Refreshlist"></activity>
         <activity android:name="com.example.customviewdemo.Sliding.Sliding"></activity>
-        <activity android:name="com.example.customviewdemo.Toggleview.Toggleview"></activity>
+        <activity android:name="com.example.customviewdemo.Toggleview.ToggleActivity"></activity>
         <activity android:name="com.example.customviewdemo.Youkumenu.Youkumenu"></activity>
     </application>
 
