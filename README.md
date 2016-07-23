@@ -11,3 +11,7 @@ A demo of customView
 2、MyViewpager轮播图的实现，效果如下
 
 ![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/myviewpager.gif)
+
+3、ToggleView完全自定义的开关
+![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/toggleview.gif)
+
