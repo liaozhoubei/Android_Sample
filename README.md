@@ -28,4 +28,8 @@ A demo of customView
 
 ![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/Sliding.gif)
 
+7、ProgressBar自定义样式
+
+![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/progressbar.gif)
+
 
