@@ -45,6 +45,9 @@ public class MainActivity extends Activity {
 		startActivity(new Intent(MainActivity.this, MyPopupwindow.class));
 	}
 
+	public void ProgressBar(View v) {
+		startActivity(new Intent(MainActivity.this, ProgressBarActivity.class));
+	}
 
 
 }

@@ -47,5 +47,12 @@
         android:layout_gravity="center_horizontal"
         android:onClick="Sliding"
         android:text="Sliding" />
+    
+        <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="ProgressBar"
+        android:text="ProgressBar" />
 
 </LinearLayout>
