@@ -24,6 +24,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:onClick="MyPopupwindow"
+        android:text="MyPopupwindow" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:onClick="Toggleview"
         android:text="Toggleview" />
 
@@ -40,12 +47,5 @@
         android:layout_gravity="center_horizontal"
         android:onClick="Sliding"
         android:text="Sliding" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:onClick="MyPopupwindow"
-        android:text="MyPopupwindow" />
 
 </LinearLayout>
