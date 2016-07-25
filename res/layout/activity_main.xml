@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:onClick="Youkumenu"
-        android:text="Youkumenu" />
+        android:onClick="AnimationMenu"
+        android:text="AnimationMenu" />
 
     <Button
         android:layout_width="match_parent"

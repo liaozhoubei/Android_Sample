@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
  * @author ASUS-H61M
  *
  */
-public class Youkumenu extends Activity implements OnClickListener{
+public class AnimationMenuActivity extends Activity implements OnClickListener{
 	private RelativeLayout rl_level1;
 	private RelativeLayout rl_level2;
 	private RelativeLayout rl_level3;

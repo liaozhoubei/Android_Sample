@@ -5,7 +5,7 @@ import com.example.customviewdemo.MyViewpager.MyViewpager;
 import com.example.customviewdemo.Refreshlist.RefreshlistActivity;
 import com.example.customviewdemo.Sliding.SlidingActivity;
 import com.example.customviewdemo.Toggleview.ToggleActivity;
-import com.example.customviewdemo.Youkumenu.Youkumenu;
+import com.example.customviewdemo.Youkumenu.AnimationMenuActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,8 +21,8 @@ public class MainActivity extends Activity {
 	}
 	
 	
-	public void Youkumenu(View v) {
-		startActivity(new Intent(MainActivity.this, Youkumenu.class));
+	public void AnimationMenu(View v) {
+		startActivity(new Intent(MainActivity.this, AnimationMenuActivity.class));
 	}
 	
 	public void MyViewpager(View v) {
