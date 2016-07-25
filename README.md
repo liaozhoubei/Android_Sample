@@ -12,7 +12,20 @@ A demo of customView
 
 ![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/myviewpager.gif)
 
-3、ToggleView完全自定义的开关
+3、MyPopupwindow，一个展示下拉选择框的视图
+
+![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/MyPopupwindow.gif)
+
+4、ToggleView完全自定义的开关
 
 ![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/toggleview.gif)
+
+5、Refreshlist下拉刷新和加载更多的实现
+
+![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/Refreshlist.gif)
+
+6、Sliding实现侧边栏的效果
+
+![image](https://github.com/liaozhoubei/CustomViewDemo/blob/master/image/Sliding.gif)
+
 
