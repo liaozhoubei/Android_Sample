@@ -26,7 +26,7 @@ import android.widget.TextView;
  * @author ASUS-H61M
  *
  */
-public class MyViewpager extends Activity {
+public class MyViewpagerActivity extends Activity {
 	private int[] imageResIds;
 	private String[] contentDescs;
 	private ViewPager mViewPager;

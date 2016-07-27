@@ -1,4 +1,4 @@
-package com.example.customviewdemo.Youkumenu;
+package com.example.customviewdemo.Animationmenu;
 
 import com.example.customviewdemo.R;
 

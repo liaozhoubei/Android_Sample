@@ -24,7 +24,7 @@ import android.widget.TextView;
  * @author ASUS-H61M
  *
  */
-public class MyPopupwindow extends Activity implements OnClickListener, OnItemClickListener{
+public class MyPopupwindowActivity extends Activity implements OnClickListener, OnItemClickListener{
 	private EditText et_input;
 	private ImageView ib_dropdown;
 	private ListView listView;

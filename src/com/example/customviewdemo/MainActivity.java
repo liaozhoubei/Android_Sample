@@ -1,11 +1,11 @@
 package com.example.customviewdemo;
 
-import com.example.customviewdemo.MyPopupwindow.MyPopupwindow;
-import com.example.customviewdemo.MyViewpager.MyViewpager;
+import com.example.customviewdemo.Animationmenu.AnimationMenuActivity;
+import com.example.customviewdemo.MyPopupwindow.MyPopupwindowActivity;
+import com.example.customviewdemo.MyViewpager.MyViewpagerActivity;
 import com.example.customviewdemo.Refreshlist.RefreshlistActivity;
 import com.example.customviewdemo.Sliding.SlidingActivity;
 import com.example.customviewdemo.Toggleview.ToggleActivity;
-import com.example.customviewdemo.Youkumenu.AnimationMenuActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void MyViewpager(View v) {
-		startActivity(new Intent(MainActivity.this, MyViewpager.class));
+		startActivity(new Intent(MainActivity.this, MyViewpagerActivity.class));
 	}
 	
 	public void Toggleview(View v) {
@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void MyPopupwindow(View v) {
-		startActivity(new Intent(MainActivity.this, MyPopupwindow.class));
+		startActivity(new Intent(MainActivity.this, MyPopupwindowActivity.class));
 	}
 
 	public void ProgressBar(View v) {
