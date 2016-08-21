@@ -30,7 +30,7 @@
         android:text="JSON解析" />
 
     <Button
-        android:id="@+id/GSON_parse"
+        android:id="@+id/gson_parse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="GSON解析" />

@@ -1,0 +1,41 @@
+{
+    "author": "杭州卷瓜网络有限公司",
+    "date": "2014-04-23",
+    "des": "蘑菇街每天由专业时尚编辑为你搜罗最新最时尚的热门单品，传授明星红人穿衣搭配技巧",
+    "downloadNum": "300万+",
+    "downloadUrl": "app/com.mogujie/com.mogujie.apk",
+    "iconUrl": "app/com.mogujie/icon.jpg",
+    "id": 1521914,
+    "name": "蘑菇街",
+    "packageName": "com.mogujie",
+    "safe": [
+        {
+            "safeDes": "已通过安智市场官方认证，是正版软件",
+            "safeDesColor": 0,
+            "safeDesUrl": "app/com.mogujie/safeDesUrl0.jpg",
+            "safeUrl": "app/com.mogujie/safeIcon0.jpg"
+        },
+        {
+            "safeDes": "已通过安智市场安全检测，请放心使用",
+            "safeDesColor": 0,
+            "safeDesUrl": "app/com.mogujie/safeDesUrl1.jpg",
+            "safeUrl": "app/com.mogujie/safeIcon1.jpg"
+        },
+        {
+            "safeDes": "无任何形式的广告",
+            "safeDesColor": 0,
+            "safeDesUrl": "app/com.mogujie/safeDesUrl2.jpg",
+            "safeUrl": "app/com.mogujie/safeIcon2.jpg"
+        }
+    ],
+    "screen": [
+        "app/com.mogujie/screen0.jpg",
+        "app/com.mogujie/screen1.jpg",
+        "app/com.mogujie/screen2.jpg",
+        "app/com.mogujie/screen3.jpg",
+        "app/com.mogujie/screen4.jpg"
+    ],
+    "size": 6746678,
+    "stars": 3.5,
+    "version": "5.6.1"
+}

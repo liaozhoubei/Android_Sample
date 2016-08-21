@@ -15,6 +15,8 @@ public class MainActivity extends Activity implements OnClickListener{
 		findViewById(R.id.netfile).setOnClickListener(this);
 		findViewById(R.id.webview).setOnClickListener(this);
 		findViewById(R.id.getandpost).setOnClickListener(this);
+		findViewById(R.id.json_parse).setOnClickListener(this);
+		findViewById(R.id.gson_parse).setOnClickListener(this);
 
 	}
 
@@ -29,6 +31,12 @@ public class MainActivity extends Activity implements OnClickListener{
 			break;
 		case R.id.getandpost:
 			startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+			break;
+		case R.id.json_parse:
+			startActivity(new Intent(MainActivity.this, JsonParseActivity.class));
+			break;
+		case R.id.gson_parse:
+			startActivity(new Intent(MainActivity.this, GsonParseActivity.class));
 			break;
 
 		default:

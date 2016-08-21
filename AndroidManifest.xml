@@ -28,6 +28,8 @@
         <activity android:name="com.httpandparse.RegisterActivity"></activity>
         <activity android:name="com.httpandparse.NetFileActivity"></activity>
         <activity android:name="com.httpandparse.WebViewActivity"></activity>
+        <activity android:name="com.httpandparse.JsonParseActivity"></activity>
+        <activity android:name="com.httpandparse.GsonParseActivity"></activity>
     </application>
 
 </manifest>
