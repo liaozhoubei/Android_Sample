@@ -14,9 +14,8 @@ import java.util.Properties;
 
 import com.httpandparse.utils.IOUtils;
 
-import android.content.SyncStatusObserver;
 /**
- * 使用Post和Get请求方式请求网络
+ * 使用Post和Get请求方式请求网络(在RegisterActivity中被使用)
  * @author ASUS-H61M
  *
  */
@@ -42,7 +41,6 @@ public class GetAndPost {
 			// 当出现乱码时，可能是由于编码错误引起，尝试改变编码格式，使用URLEncoder.encode()方法
 			url = url + "?name=" + URLEncoder.encode(name, "UTF-8") + "&age=" + URLEncoder.encode(age, "UTF-8");
 		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		InputStream is = null;
@@ -69,10 +67,8 @@ public class GetAndPost {
 				System.out.println("Get方式的result:" + sb.toString());
 			}
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			IOUtils.close(is);
@@ -85,7 +81,6 @@ public class GetAndPost {
 	 * Post方式
 	 */
 	public void doPost() {
-		url = url;
 		InputStream is = null;
 		InputStreamReader isr = null;
 		BufferedReader bufferedReader = null;

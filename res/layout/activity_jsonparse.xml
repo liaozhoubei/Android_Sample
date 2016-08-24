@@ -5,22 +5,25 @@
     android:orientation="vertical" >
 
     <Button
-        android:id="@+id/bt_jsonparse"
+        android:id="@+id/bt_mogujsonparse"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:text="Json开始解析"/>
-    
-    <ScrollView 
+        android:layout_height="wrap_content"
+        android:text="解析mogujson" />
+
+    <Button
+        android:id="@+id/bt_newjsonparse"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        >
-        
-        <TextView 
+        android:layout_height="wrap_content"
+        android:text="解析newjson" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
             android:id="@+id/tv_json"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-        
+            android:layout_height="wrap_content" />
     </ScrollView>
 
 </LinearLayout>

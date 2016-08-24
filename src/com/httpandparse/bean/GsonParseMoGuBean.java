@@ -1,12 +1,12 @@
-package com.httpandparse;
+package com.httpandparse.bean;
 
 import java.util.ArrayList;
 /**
- * 封装gsonparse中的数据的bean类
+ * 封装gsonparse中的数据的bean类(封装mogujson)
  * @author Bei
  *
  */
-public class GsonParseBean {
+public class GsonParseMoGuBean {
 	public String author;
 	public String data;
 	public String des;
