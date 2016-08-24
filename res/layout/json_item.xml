@@ -11,7 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:layout_toRightOf="@id/imageView"
         android:padding="10dp" >
 
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/age"
             android:text="school1"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/school2"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/school1"
             android:text="school2"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </RelativeLayout>
 
 </RelativeLayout>

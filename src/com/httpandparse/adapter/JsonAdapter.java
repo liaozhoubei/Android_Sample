@@ -2,9 +2,12 @@ package com.httpandparse.adapter;
 
 import java.util.List;
 
+import com.httpandparse.HttpThread;
+import com.httpandparse.HttpThread.NetListener;
 import com.httpandparse.R;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,7 @@ public class JsonAdapter extends BaseAdapter{
 	private Context context;
 	private LayoutInflater layoutInflager;
 	private List<Person> list;
+	private Handler handler = new Handler();
 	
 	
 	public JsonAdapter(Context context, List<Person> list) {
@@ -55,10 +59,12 @@ public class JsonAdapter extends BaseAdapter{
 		}
 		
 		Person person = list.get(position);
-		person.getAge();
-		person.getName();
+		viewHolder.name.setText(person.getName());
+		viewHolder.age.setText(String.valueOf(person.getAge()));
 		List<SchoolInfo> schoolInfos = person.getSchoolInfo();
-		person.getUrl();
+		viewHolder.school1.setText(schoolInfos.get(0).getSchool_name());
+		viewHolder.school2.setText(schoolInfos.get(1).getSchool_name());
+		new HttpImage(handler, viewHolder.imageView, person.getUrl()).start();
 		
 		return convertView;
 	}

@@ -47,7 +47,6 @@ public class StreamUtils {
 			while ((len = in.read(b)) != -1) {
 				sb.append(new String(b, 0, len));
 			}
-			System.out.println(sb.toString());
 			return sb.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
