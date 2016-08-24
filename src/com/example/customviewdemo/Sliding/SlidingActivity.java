@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 /**
- * 实现策划面板的视图
+ * 实现侧滑面板的视图
  * @author ASUS-H61M
  *
  */

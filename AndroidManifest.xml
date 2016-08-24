@@ -30,6 +30,7 @@
         <activity android:name="com.example.customviewdemo.Toggleview.ToggleActivity"></activity>
         <activity android:name="com.example.customviewdemo.Animationmenu.AnimationMenuActivity"></activity>
         <activity android:name="com.example.customviewdemo.ProgressBarActivity"></activity>
+        <activity android:name="com.example.customviewdemo.Sliding2.SlidingActivity2"></activity>
     </application>
 
 </manifest>

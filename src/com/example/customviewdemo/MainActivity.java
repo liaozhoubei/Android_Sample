@@ -5,6 +5,7 @@ import com.example.customviewdemo.MyPopupwindow.MyPopupwindowActivity;
 import com.example.customviewdemo.MyViewpager.MyViewpagerActivity;
 import com.example.customviewdemo.Refreshlist.RefreshlistActivity;
 import com.example.customviewdemo.Sliding.SlidingActivity;
+import com.example.customviewdemo.Sliding2.SlidingActivity2;
 import com.example.customviewdemo.Toggleview.ToggleActivity;
 
 import android.app.Activity;
@@ -39,6 +40,10 @@ public class MainActivity extends Activity {
 	
 	public void Sliding(View v) {
 		startActivity(new Intent(MainActivity.this, SlidingActivity.class));
+	}
+	
+	public void Sliding2(View v) {
+		startActivity(new Intent(MainActivity.this, SlidingActivity2.class));
 	}
 	
 	public void MyPopupwindow(View v) {
