@@ -1,10 +1,6 @@
 package com.httpandparse;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,144 +8,149 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.httpandparse.HttpThread.NetListener;
-import com.httpandparse.adapter.HttpImage;
+import com.httpandparse.adapter.Httpjson;
+import com.httpandparse.adapter.JsonAdapter;
 import com.httpandparse.adapter.Person;
-import com.httpandparse.adapter.SchoolInfo;
+import com.httpandparse.bean.NewBean;
+import com.httpandparse.bean.NewsData;
+import com.httpandparse.bean.NewsTab;
 import com.httpandparse.utils.StreamUtils;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-
+/**
+ * 使用JsonObject解析JSON数据
+ *
+ */
 public class JsonParseActivity extends Activity implements OnClickListener {
 
 	private TextView tv_json;
-	private Button bt_mogujsonparse;
+	private Button bt_jsonparse;
 	private Button bt_newjsonparse;
-	private String url = "http://192.168.43.73:8080/web/JsonServerServlet";
-//	private ListView lv_jsonparse;
+	private String url = "http://192.168.2.124:8080/web/JsonServerServlet"; // 使用web项目组件本地服务器，此处为本机地址
+	private ListView lv_jsonparse;
 	private List<Person> personlists;
-	private ImageView jsonimavege;
-
+	private JsonAdapter adapter;
 	private Handler handler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_jsonparse);
-//		lv_jsonparse = (ListView) findViewById(R.id.lv_jsonparse);
+		lv_jsonparse = (ListView) findViewById(R.id.lv_jsonparse);
 		tv_json = (TextView) findViewById(R.id.tv_json);
-		bt_mogujsonparse = (Button) findViewById(R.id.bt_mogujsonparse);
+		bt_jsonparse = (Button) findViewById(R.id.bt_jsonparse);
 		bt_newjsonparse = (Button) findViewById(R.id.bt_newjsonparse);
-		bt_mogujsonparse.setOnClickListener(this);
+		bt_jsonparse.setOnClickListener(this);
 		bt_newjsonparse.setOnClickListener(this);
-		jsonimavege = (ImageView) findViewById(R.id.jsonimavege);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.bt_mogujsonparse:
-			new Thread() {
-				@Override
-				public void run() {
-					URL httpUrl;
-					try {
-						httpUrl = new URL(url);
-						HttpURLConnection connection = (HttpURLConnection) httpUrl.openConnection();
-						connection.setReadTimeout(5000);
-						connection.setConnectTimeout(5000);
-						connection.setRequestMethod("GET");
-						int responseCode = connection.getResponseCode();
-						if (responseCode == HttpURLConnection.HTTP_OK) {
-							InputStream inputStream = connection.getInputStream();
-							String json = StreamUtils.getString(inputStream);
-//							System.out.println(json);
-							personlists = jsonParse(json);
-//							handler.sendEmptyMessage(0);
-							String url2 = "http://192.168.43.73" + personlists.get(0).getUrl();
-							System.out.println(url2);
-//							new HttpImage(handler, jsonimavege, url2).start();
-							new HttpThread(url2, handler, new NetListener() {
-								
-								@Override
-								public void showView(String absolutePath) {
-									Bitmap decodeFile = BitmapFactory.decodeFile(absolutePath);
-									jsonimavege.setImageBitmap(decodeFile);
-									System.out.println("执行了");
-								}
-							}).start();
-						}
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-					super.run();
-				}
-			}.start();
-//			String url1 = "http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1503/17/c2/3974346_1426551981202_mthumb.jpg";
-//			new HttpImage(handler, jsonimavege, url1).start();
+		case R.id.bt_jsonparse:
+			lv_jsonparse.setVisibility(View.VISIBLE);
+			adapter = new JsonAdapter(JsonParseActivity.this);
+			new Httpjson(url, lv_jsonparse, adapter, handler).start();
 			
 			break;
 		case R.id.bt_newjsonparse:
-
+			lv_jsonparse.setVisibility(View.GONE);
+			
+			InputStream newjsonString = getResources().openRawResource(R.raw.newjson);
+			String jsonString = StreamUtils.getString(newjsonString);
+			NewBean parseNewJson = parseNewJson(jsonString);
+			
+			ArrayList<NewsData> newsDatas = parseNewJson.data;
+			String childrenText = null;
+			for (NewsData newData : newsDatas) {
+				ArrayList<NewsTab> children = newData.children;
+				if (children != null) {
+					childrenText = children.toString();
+				}
+			}
+			// 显示部分数据，检验查看是否解析成功
+			tv_json.setText(childrenText);
+			System.out.println("childrenText中的数据" + childrenText);
+			
 			break;
 
 		default:
 			break;
 		}
 	}
-
-	private List<Person> jsonParse(String json) {
+	/**
+	 * 使用JsonObject直接解析json数据
+	 * @param json
+	 * @return
+	 */
+	private NewBean parseNewJson(String json){
 		try {
-			List<Person> personlist = new ArrayList<Person>();
 			JSONObject jsonObject = new JSONObject(json);
-			int result = jsonObject.getInt("result");
-			if (result == 1) {
-				JSONArray jsonArray = jsonObject.getJSONArray("personData");
-				for (int i = 0; i < jsonArray.length(); i++) {
-					Person person = new Person();
-					JSONObject personData = jsonArray.getJSONObject(i);
-					int age = personData.getInt("age");
-					String url = personData.getString("url");
-					String name = personData.getString("name");
-					person.setAge(age);
-					person.setName(name);
-					person.setUrl(url);
-					System.out.println();
-
-					List<SchoolInfo> schoolInfolist = new ArrayList<SchoolInfo>();
-					JSONArray schoolInfoArray = personData.getJSONArray("schoolInfo");
-					for (int j = 0; j < schoolInfoArray.length(); j++) {
-						JSONObject schoolInfojson = schoolInfoArray.getJSONObject(j);
-						String schoolName = schoolInfojson.getString("School_name");
-						SchoolInfo schoolInfo = new SchoolInfo();
-						schoolInfo.setSchool_name(schoolName);
-						schoolInfolist.add(schoolInfo);
-					}
-					person.setSchoolInfo(schoolInfolist);
-					personlist.add(person);
+			int retcode = jsonObject.getInt("retcode");
+			if (retcode == 200) {
+				// 使用newBean来暂时保存json中的数据
+				NewBean newBean = new NewBean();
+				ArrayList<Integer> extendlist = new ArrayList<Integer>();
+				
+				JSONArray extendArray = jsonObject.getJSONArray("extend");
+				for (int i = 0; i < extendArray.length(); i ++) {
+					int extendData = extendArray.getInt(i);
+					extendlist.add(extendData);
 				}
+				
+				newBean.extend = extendlist;
+				
+				ArrayList<NewsData> datalist = new ArrayList<NewsData>();
+				JSONArray dataArray = jsonObject.getJSONArray("data");
+				for (int j = 0; j < dataArray.length(); j ++) {
+					JSONObject dataObject = dataArray.getJSONObject(j);
+					int id = dataObject.getInt("id");
+					String title = dataObject.getString("title");
+					String url = null;
+					// 判断dataObject是否存在url属性
+					if (dataObject.has("url")) {
+						url = dataObject.getString("url");
+					}
+					
+					NewsData newsData = new NewsData();
+					newsData.id = id;
+					newsData.title = title;
+					newsData.url = url;
+					
+					ArrayList<NewsTab> childrenlist = new ArrayList<NewsTab>();
+					if (dataObject.has("children")) {
+						JSONArray childrenArray = dataObject.getJSONArray("children");
+						for (int k = 0; k < childrenArray.length(); k ++) {
+							NewsTab newsTab = new NewsTab();
+							JSONObject children = childrenArray.getJSONObject(k);
+							int childrenId = children.getInt("id");
+							String childrenTitle = children.getString("title");
+							String childrenUrl = children.getString("url");
+							
+							newsTab.id = childrenId;
+							newsTab.title = childrenTitle;
+							newsTab.url = childrenUrl;
+							childrenlist.add(newsTab);
+							newsData.children = childrenlist;
+						}
+					}
+					datalist.add(newsData);
+				}
+				newBean.data = datalist;
+				return newBean;
 			}
-			return personlist;
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return null;
 	}
+
 
 }

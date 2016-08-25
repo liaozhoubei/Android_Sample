@@ -20,7 +20,7 @@ public class HttpImage extends Thread{
 	private Handler handler;
 	private ImageView imageView;
 	private String url;
-	public HttpImage(Handler handler, ImageView imageView, String url) {
+	public HttpImage(String url, Handler handler, ImageView imageView) {
 		super();
 		this.handler = handler;
 		this.imageView = imageView;
@@ -36,13 +36,20 @@ public class HttpImage extends Thread{
 			connection.setReadTimeout(5000);
 			connection.setConnectTimeout(5000);
 			connection.setRequestMethod("GET");
-//			int responseCode = connection.getResponseCode();
-//			System.out.println("链接的响应码" +responseCode);
-//			if (responseCode == HttpURLConnection.HTTP_OK) {
+			int responseCode = connection.getResponseCode();
+			System.out.println("链接的响应码" +responseCode);
+			if (responseCode == HttpURLConnection.HTTP_OK) {
 				InputStream inputStream = connection.getInputStream();
-				Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-				imageView.setImageBitmap(bitmap);
-//			}
+				final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+				handler.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						imageView.setImageBitmap(bitmap);
+					}
+				});
+				
+			}
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -11,20 +11,36 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 /**
  * 暂时无用
  */
 import com.httpandparse.utils.StreamUtils;
 
+import android.content.Context;
+import android.os.Handler;
+import android.util.Log;
+import android.widget.ListView;
+import android.widget.Toast;
+/**
+ * 获取WEB项目中的json数据和解析json的线程类
+ * @author ASUS-H61M
+ *
+ */
 public class Httpjson extends Thread {
 	private String url;
-	
-	
+	private Context context;
+	private ListView listView;
+	private JsonAdapter adapter;
+	private Handler handler;
 
-	public Httpjson(String url) {
+	public Httpjson(String url, ListView listView, JsonAdapter adapter, Handler handler) {
+		super();
 		this.url = url;
+		this.listView = listView;
+		this.adapter = adapter;
+		this.handler = handler;
 	}
-
 
 	@Override
 	public void run() {
@@ -36,21 +52,28 @@ public class Httpjson extends Thread {
 			connection.setConnectTimeout(5000);
 			connection.setRequestMethod("GET");
 			int responseCode = connection.getResponseCode();
+			String json = null;
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				InputStream inputStream = connection.getInputStream();
-				String json = StreamUtils.getString(inputStream);
+				json = StreamUtils.getString(inputStream);
 				System.out.println(json);
 			}
+			final List<Person> jsonParse = jsonParse(json);
+			handler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					adapter.setData(jsonParse);
+					listView.setAdapter(adapter);
+				}
+			});
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	private List<Person> jsonParse(String json) {
 		try {
 			List<Person> personlist = new ArrayList<Person>();
@@ -68,7 +91,7 @@ public class Httpjson extends Thread {
 					person.setName(name);
 					person.setUrl(url);
 					System.out.println(url);
-					
+
 					List<SchoolInfo> schoolInfolist = new ArrayList<SchoolInfo>();
 					JSONArray schoolInfoArray = personData.getJSONArray("schoolInfo");
 					for (int j = 0; j < schoolInfoArray.length(); j++) {
@@ -81,13 +104,15 @@ public class Httpjson extends Thread {
 					person.setSchoolInfo(schoolInfolist);
 					personlist.add(person);
 				}
+				return personlist;
+			} else {
+				Toast.makeText(context, "erro", Toast.LENGTH_SHORT).show();
 			}
-			return personlist;
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Log.e("JsonParseActivity", "json解析出现了问题");
 		}
-		
+
 		return null;
 	}
 }

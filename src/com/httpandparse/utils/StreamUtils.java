@@ -20,10 +20,11 @@ public class StreamUtils {
 	 * @return 返回从输入流中获得的String
 	 */
 	public static String getStringData(InputStream in) {
+		StringBuffer sb = new StringBuffer();
+		BufferedInputStream bis = null;
 		try {
-			BufferedInputStream bis = new BufferedInputStream(in);
+			 bis =new BufferedInputStream(in);
 			int len;
-			StringBuffer sb = new StringBuffer();
 			while ((len = bis.read()) != -1) {
 				sb.append((char) len);
 			}
@@ -31,27 +32,28 @@ public class StreamUtils {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			IOUtils.close(bis);
 		}
 
-		return null;
+		return sb.toString();
 	}
 
 	/**
 	 * 使用读取字节数据方法解析inputStream
 	 */
 	public static String getString(InputStream in) {
+		StringBuffer sb = new StringBuffer();
 		try {
-			StringBuffer sb = new StringBuffer();
 			byte[] b = new byte[1024];
 			int len = 0;
 			while ((len = in.read(b)) != -1) {
 				sb.append(new String(b, 0, len));
 			}
-			return sb.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return sb.toString();
 	}
 
 	/**
@@ -61,19 +63,24 @@ public class StreamUtils {
 	 * @return 返回String字符串
 	 */
 	public static String getDecodeString(InputStream in, String decode) {
+		InputStreamReader inputStreamReader = null;
+		BufferedReader bufferedReader = null;
+		StringBuffer sb = new StringBuffer();
 		try {
-			InputStreamReader inputStreamReader = new InputStreamReader(in, decode);
-			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			inputStreamReader = new InputStreamReader(in, decode);
+			bufferedReader = new BufferedReader(inputStreamReader);
 			String str;
-			StringBuffer sb = new StringBuffer();
 			while ((str = bufferedReader.readLine()) != null) {
 				sb.append(str);
 			}
 			return sb.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			IOUtils.close(inputStreamReader);
+			IOUtils.close(bufferedReader);
 		}
-		return null;
+		return sb.toString();
 	}
 
 }

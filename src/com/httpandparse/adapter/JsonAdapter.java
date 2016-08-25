@@ -14,7 +14,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+/**
+ * 填充JsonParseActivity中listView的适配器
+ * @author ASUS-H61M
+ *
+ */
 public class JsonAdapter extends BaseAdapter{
 	
 	private Context context;
@@ -30,6 +34,16 @@ public class JsonAdapter extends BaseAdapter{
 		layoutInflager = LayoutInflater.from(context);
 	}
 
+	
+	public JsonAdapter(Context context) {
+		super();
+		this.context = context;
+		layoutInflager = LayoutInflater.from(context);
+	}
+	
+	public void setData(List<Person> list) {
+		this.list = list;
+	}
 
 	@Override
 	public int getCount() {
@@ -64,7 +78,7 @@ public class JsonAdapter extends BaseAdapter{
 		List<SchoolInfo> schoolInfos = person.getSchoolInfo();
 		viewHolder.school1.setText(schoolInfos.get(0).getSchool_name());
 		viewHolder.school2.setText(schoolInfos.get(1).getSchool_name());
-		new HttpImage(handler, viewHolder.imageView, person.getUrl()).start();
+		new HttpImage(person.getUrl(), handler, viewHolder.imageView).start();
 		
 		return convertView;
 	}
