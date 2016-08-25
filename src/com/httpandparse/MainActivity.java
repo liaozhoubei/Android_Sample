@@ -17,6 +17,8 @@ public class MainActivity extends Activity implements OnClickListener{
 		findViewById(R.id.getandpost).setOnClickListener(this);
 		findViewById(R.id.json_parse).setOnClickListener(this);
 		findViewById(R.id.gson_parse).setOnClickListener(this);
+		findViewById(R.id.xml_parse).setOnClickListener(this);
+		
 
 	}
 
@@ -38,7 +40,9 @@ public class MainActivity extends Activity implements OnClickListener{
 		case R.id.gson_parse:
 			startActivity(new Intent(MainActivity.this, GsonParseActivity.class));
 			break;
-
+		case R.id.xml_parse:
+			startActivity(new Intent(MainActivity.this, XMLParseActivity.class));
+			break;
 		default:
 			break;
 		}

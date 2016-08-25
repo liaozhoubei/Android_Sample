@@ -35,4 +35,10 @@
         android:layout_height="wrap_content"
         android:text="GSON解析" />
 
+    <Button
+        android:id="@+id/xml_parse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="XML解析" />
+
 </LinearLayout>
