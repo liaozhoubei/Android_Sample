@@ -1,8 +1,6 @@
-package com.httpandparse;
+package com.httpandparse.bean;
 
 import java.util.ArrayList;
-
-import com.httpandparse.bean.SmsBean;
 
 public class SmsDao {
 	//获取短信数据，模拟一些假数据

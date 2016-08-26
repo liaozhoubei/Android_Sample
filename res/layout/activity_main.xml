@@ -41,4 +41,10 @@
         android:layout_height="wrap_content"
         android:text="XML解析" />
 
+    <Button
+        android:id="@+id/bt_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="上传文件" />
+
 </LinearLayout>

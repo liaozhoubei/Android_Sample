@@ -31,6 +31,7 @@
         <activity android:name="com.httpandparse.JsonParseActivity"></activity>
         <activity android:name="com.httpandparse.GsonParseActivity"></activity>
         <activity android:name="com.httpandparse.XMLParseActivity"></activity>
+        <activity android:name="com.httpandparse.UploadActivity"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.httpandparse;
 
-import com.httpandparse.HttpThread.NetListener;
+import com.httpandparse.thread.HttpThread;
+import com.httpandparse.thread.HttpThread.NetListener;
 
 import android.app.Activity;
 import android.graphics.Bitmap;

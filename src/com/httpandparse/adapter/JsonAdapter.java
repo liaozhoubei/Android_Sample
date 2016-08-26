@@ -2,9 +2,9 @@ package com.httpandparse.adapter;
 
 import java.util.List;
 
-import com.httpandparse.HttpThread;
-import com.httpandparse.HttpThread.NetListener;
 import com.httpandparse.R;
+import com.httpandparse.thread.HttpThread;
+import com.httpandparse.thread.HttpThread.NetListener;
 
 import android.content.Context;
 import android.os.Handler;

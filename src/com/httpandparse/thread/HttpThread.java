@@ -1,4 +1,4 @@
-package com.httpandparse;
+package com.httpandparse.thread;
 
 import java.io.File;
 import java.io.FileOutputStream;

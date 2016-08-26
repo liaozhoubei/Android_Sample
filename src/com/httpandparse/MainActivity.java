@@ -18,6 +18,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		findViewById(R.id.json_parse).setOnClickListener(this);
 		findViewById(R.id.gson_parse).setOnClickListener(this);
 		findViewById(R.id.xml_parse).setOnClickListener(this);
+		findViewById(R.id.bt_upload).setOnClickListener(this);
 		
 
 	}
@@ -42,6 +43,9 @@ public class MainActivity extends Activity implements OnClickListener{
 			break;
 		case R.id.xml_parse:
 			startActivity(new Intent(MainActivity.this, XMLParseActivity.class));
+			break;
+		case R.id.bt_upload:
+			startActivity(new Intent(MainActivity.this, UploadActivity.class));
 			break;
 		default:
 			break;

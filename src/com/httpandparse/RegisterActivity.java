@@ -1,5 +1,7 @@
 package com.httpandparse;
 
+import com.httpandparse.thread.GetAndPost;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;

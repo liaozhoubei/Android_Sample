@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.xmlpull.v1.XmlSerializer;
 
 import com.httpandparse.bean.SmsBean;
+import com.httpandparse.bean.SmsDao;
 
 import android.content.Context;
 import android.util.Xml;
