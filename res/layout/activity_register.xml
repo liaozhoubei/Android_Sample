@@ -33,14 +33,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="年龄" />
+            android:text="密码" />
 
         <EditText
-            android:id="@+id/et_age"
+            android:id="@+id/et_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="请输入年龄" />
+            android:hint="请输入密码" />
     </LinearLayout>
 
     <LinearLayout

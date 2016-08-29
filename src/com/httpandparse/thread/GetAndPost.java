@@ -22,24 +22,24 @@ import com.httpandparse.utils.IOUtils;
 public class GetAndPost {
 
 	private String name;
-	private String age;
+	private String password;
 	private String url;
 
-	public GetAndPost(String url, String name, String age) {
+	public GetAndPost(String url, String name, String password) {
 		super();
 		this.name = name;
-		this.age = age;
+		this.password = password;
 		this.url = url;
 	}
 
 
 	/**
 	 * Get方式
-	 */
+	 */	
 	public void doGet() {
 		try {
 			// 当出现乱码时，可能是由于编码错误引起，尝试改变编码格式，使用URLEncoder.encode()方法
-			url = url + "?name=" + URLEncoder.encode(name, "UTF-8") + "&age=" + URLEncoder.encode(age, "UTF-8");
+			url = url + "?username=" + URLEncoder.encode(name, "UTF-8") + "&pwd=" + URLEncoder.encode(password, "UTF-8");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
@@ -86,15 +86,15 @@ public class GetAndPost {
 		BufferedReader bufferedReader = null;
 		try {
 			// 获得当前系统信息
-			Properties properties = System.getProperties();
-			properties.list(System.out);
+//			Properties properties = System.getProperties();
+//			properties.list(System.out);
 
 			URL httpUrl = new URL(url);
 			HttpURLConnection connection = (HttpURLConnection) httpUrl.openConnection();
 			connection.setReadTimeout(5000);
 			connection.setConnectTimeout(5000);
 			connection.setRequestMethod("POST");
-			String content = "name=" + name + "&age=" + age;
+			String content = "username=" + name + "&pwd=" + password;
 			// Content-Length： 请求内容的长度
 			connection.setRequestProperty("Content-Length", content.length() + "");
 			// Cache-Control： 控制HTTP缓存的方法， 详情可见：

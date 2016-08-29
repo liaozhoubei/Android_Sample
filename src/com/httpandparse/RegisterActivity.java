@@ -16,10 +16,11 @@ import android.widget.EditText;
 public class RegisterActivity extends Activity {
 
 	private EditText et_name;
-	private EditText et_age;
+	private EditText et_password;
 	private Button bt_get;
 	private Button bt_post;
-	private String url = "http://192.168.2.124:8080/web/MyServlet";
+	// 192.168.43.73请更改为本机ip地址
+	private String url = "http://192.168.43.73:8080/bei/servlet/LoginServlet";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +28,9 @@ public class RegisterActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
 		et_name = (EditText) findViewById(R.id.et_name);
-		et_age = (EditText) findViewById(R.id.et_age);
+		et_password = (EditText) findViewById(R.id.et_password);
+		
 		bt_get = (Button) findViewById(R.id.bt_get);
-		bt_post = (Button) findViewById(R.id.bt_post);
-		
-		
-		
 		bt_get.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -43,14 +41,14 @@ public class RegisterActivity extends Activity {
 					@Override
 					public void run() {
 						final String name = et_name.getText().toString().trim();
-						final String age = et_age.getText().toString().trim();
-						new GetAndPost(url, name, age).doGet();;
+						final String password = et_password.getText().toString().trim();
+						new GetAndPost(url, name, password).doGet();;
 					}
 				}).start();
 			}
 		});
 
-		
+		bt_post = (Button) findViewById(R.id.bt_post);	
 		bt_post.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -60,8 +58,8 @@ public class RegisterActivity extends Activity {
 					@Override
 					public void run() {
 						final String name = et_name.getText().toString().trim();
-						final String age = et_age.getText().toString().trim();
-						new GetAndPost(url, name, age).doPost();;
+						final String password = et_password.getText().toString().trim();
+						new GetAndPost(url, name, password).doPost();;
 					}
 				}).start();
 			}
