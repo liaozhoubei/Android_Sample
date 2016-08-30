@@ -74,6 +74,11 @@ public class Httpjson extends Thread {
 		}
 	}
 
+	/**
+	 * 从网络中获取JSON字符串，然后解析
+	 * @param json
+	 * @return
+	 */
 	private List<Person> jsonParse(String json) {
 		try {
 			List<Person> personlist = new ArrayList<Person>();

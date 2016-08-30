@@ -34,7 +34,7 @@ public class JsonParseActivity extends Activity implements OnClickListener {
 	private TextView tv_json;
 	private Button bt_jsonparse;
 	private Button bt_newjsonparse;
-	private String url = "http://192.168.2.124:8080/web/JsonServerServlet"; // 使用web项目组件本地服务器，此处为本机地址
+	private String url = "http://192.168.1.66:8080/bei/JsonServerServlet"; // 使用web项目组件本地服务器，此处为本机地址
 	private ListView lv_jsonparse;
 	private List<Person> personlists;
 	private JsonAdapter adapter;
@@ -56,6 +56,7 @@ public class JsonParseActivity extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.bt_jsonparse:
+			// 从网络中获取JSON数据，完整json数据在raw文件夹下的netjson
 			lv_jsonparse.setVisibility(View.VISIBLE);
 			adapter = new JsonAdapter(JsonParseActivity.this);
 			new Httpjson(url, lv_jsonparse, adapter, handler).start();
