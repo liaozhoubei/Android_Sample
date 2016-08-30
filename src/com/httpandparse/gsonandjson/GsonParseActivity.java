@@ -1,9 +1,13 @@
-package com.httpandparse;
+package com.httpandparse.gsonandjson;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.httpandparse.R;
+import com.httpandparse.R.id;
+import com.httpandparse.R.layout;
+import com.httpandparse.R.raw;
 import com.httpandparse.bean.GsonParseMoGuBean;
 import com.httpandparse.bean.GsonParseMoGuBean.SafeInfo;
 import com.httpandparse.bean.NewBean;

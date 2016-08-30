@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
+<Smss>
+	<Sms id = "1">
+	<num>110</num>
+	<msg>来警局做个笔录</msg>
+	<date>2015-08-29</date>
+</Sms>
+
+<Sms id = "2">
+	<num>120</num>
+	<msg>最近咋样</msg>
+	<date>2015-08-29</date>
+</Sms>
+
+<Sms id = "3">
+	<num>119</num>
+	<msg>火灭了吗</msg>
+	<date>2015-08-29</date>
+</Sms>
+
+</Smss>

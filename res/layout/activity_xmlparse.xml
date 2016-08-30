@@ -18,7 +18,17 @@
         android:layout_height="wrap_content"
         android:text="解析XML" />
 
+    <Button
+        android:id="@+id/bt_domparse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DOM解析XML" />
 
+    <Button
+        android:id="@+id/bt_saxparse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SAX解析XML" />
 
     <ScrollView
         android:layout_width="match_parent"

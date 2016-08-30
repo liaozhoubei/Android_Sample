@@ -1,4 +1,4 @@
-package com.httpandparse.adapter;
+package com.httpandparse.http;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -57,9 +57,6 @@ public class HttpImage extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		super.run();
 	}
 	
 

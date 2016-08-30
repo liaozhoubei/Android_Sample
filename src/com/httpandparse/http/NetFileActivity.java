@@ -1,5 +1,8 @@
-package com.httpandparse;
+package com.httpandparse.http;
 
+import com.httpandparse.R;
+import com.httpandparse.R.id;
+import com.httpandparse.R.layout;
 import com.httpandparse.thread.HttpThread;
 import com.httpandparse.thread.HttpThread.NetListener;
 

@@ -1,4 +1,4 @@
-package com.httpandparse.adapter;
+package com.httpandparse.gsonandjson;
 
 import java.io.IOException;
 import java.io.InputStream;

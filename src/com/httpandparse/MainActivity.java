@@ -1,5 +1,12 @@
 package com.httpandparse;
 
+import com.httpandparse.gsonandjson.GsonParseActivity;
+import com.httpandparse.gsonandjson.JsonParseActivity;
+import com.httpandparse.http.NetFileActivity;
+import com.httpandparse.http.RegisterActivity;
+import com.httpandparse.http.WebViewActivity;
+import com.httpandparse.xml.XMLParseActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

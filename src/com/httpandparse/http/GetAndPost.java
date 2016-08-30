@@ -1,4 +1,4 @@
-package com.httpandparse.thread;
+package com.httpandparse.http;
 
 import java.io.BufferedReader;
 import java.io.IOException;

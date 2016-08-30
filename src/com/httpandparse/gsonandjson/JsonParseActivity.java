@@ -1,4 +1,4 @@
-package com.httpandparse;
+package com.httpandparse.gsonandjson;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -8,9 +8,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.httpandparse.adapter.Httpjson;
-import com.httpandparse.adapter.JsonAdapter;
-import com.httpandparse.adapter.Person;
+import com.httpandparse.R;
+import com.httpandparse.R.id;
+import com.httpandparse.R.layout;
+import com.httpandparse.R.raw;
 import com.httpandparse.bean.NewBean;
 import com.httpandparse.bean.NewsData;
 import com.httpandparse.bean.NewsTab;

@@ -25,12 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.httpandparse.RegisterActivity"></activity>
-        <activity android:name="com.httpandparse.NetFileActivity"></activity>
-        <activity android:name="com.httpandparse.WebViewActivity"></activity>
-        <activity android:name="com.httpandparse.JsonParseActivity"></activity>
-        <activity android:name="com.httpandparse.GsonParseActivity"></activity>
-        <activity android:name="com.httpandparse.XMLParseActivity"></activity>
+        <activity android:name="com.httpandparse.http.RegisterActivity"></activity>
+        <activity android:name="com.httpandparse.http.NetFileActivity"></activity>
+        <activity android:name="com.httpandparse.http.WebViewActivity"></activity>
+        <activity android:name="com.httpandparse.gsonandjson.JsonParseActivity"></activity>
+        <activity android:name="com.httpandparse.gsonandjson.GsonParseActivity"></activity>
+        <activity android:name="com.httpandparse.xml.XMLParseActivity"></activity>
         <activity android:name="com.httpandparse.UploadActivity"></activity>
     </application>
 

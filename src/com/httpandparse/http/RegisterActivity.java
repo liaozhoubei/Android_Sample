@@ -1,6 +1,8 @@
-package com.httpandparse;
+package com.httpandparse.http;
 
-import com.httpandparse.thread.GetAndPost;
+import com.httpandparse.R;
+import com.httpandparse.R.id;
+import com.httpandparse.R.layout;
 
 import android.app.Activity;
 import android.os.Bundle;

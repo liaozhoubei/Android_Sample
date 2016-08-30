@@ -1,4 +1,4 @@
-package com.httpandparse.adapter;
+package com.httpandparse.gsonandjson;
 
 public class SchoolInfo {
 	private String School_name;

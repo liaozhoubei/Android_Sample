@@ -1,8 +1,9 @@
-package com.httpandparse.adapter;
+package com.httpandparse.gsonandjson;
 
 import java.util.List;
 
 import com.httpandparse.R;
+import com.httpandparse.http.HttpImage;
 import com.httpandparse.thread.HttpThread;
 import com.httpandparse.thread.HttpThread.NetListener;
 
