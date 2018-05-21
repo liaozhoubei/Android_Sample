@@ -96,7 +96,7 @@ public class GetAndPost {
 			connection.setRequestMethod("POST");
 			String content = "username=" + name + "&pwd=" + password;
 			// Content-Length： 请求内容的长度
-			connection.setRequestProperty("Content-Length", content.length() + "");
+			connection.setRequestProperty("Content-Length", content.getBytes().length + "");
 			// Cache-Control： 控制HTTP缓存的方法， 详情可见：
 			// http://www.cnblogs.com/yuyii/archive/2008/10/16/1312238.html
 			connection.setRequestProperty("Cache-Control", "max-age=0");
