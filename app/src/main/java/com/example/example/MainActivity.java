@@ -43,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
             for (ActivityInfo activity : packageInfo.activities) {
                 Class aClass = Class.forName(activity.name);
 
-                if (aClass.getSimpleName().equals("PermissionActivity") || aClass.getSimpleName().equals("AppSettingsDialogHolderActivity")) {
+                if (aClass.getSimpleName().equals("PermissionActivity")
+                        || aClass.getSimpleName().equals("AppSettingsDialogHolderActivity")
+                        || aClass.getSimpleName().equals("MainActivity")) {
                     continue;
                 }
                 activityBeanList.add(new ActivityBean(aClass));
