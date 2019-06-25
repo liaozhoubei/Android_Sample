@@ -25,6 +25,7 @@ public class PhotoUtils {
 
     /**
      * 调用相机进行拍照
+     *
      * @param activity    当前activity
      * @param requestCode 调用系统相机请求码
      */
@@ -34,17 +35,8 @@ public class PhotoUtils {
         //拍照后原图回存入此路径下
         File camerafile = new File(Environment.getExternalStorageDirectory().getPath() + File.separator + System.currentTimeMillis() + ".jpg");
         Intent intentCamera = new Intent("android.media.action.IMAGE_CAPTURE");
-        Uri cameraUri;  //拍照后照片存储路径
-        // 在适配android 4.4
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-            cameraUri = Uri.fromFile(camerafile);
-        } else {
-            /**
-             * 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
-             * 并且这样可以解决MIUI系统上拍照返回size为0的情况
-             */
-            cameraUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".FileProvider", camerafile);
-        }
+
+        Uri cameraUri = createUri(activity, camerafile);  //拍照后照片存储路径
         // 若不使用以上方法，则在获取需要给应用授权
         // Uri fileUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".FileProvider", camerafile);
         //
@@ -56,6 +48,7 @@ public class PhotoUtils {
         //     grantUriPermission(packageName, cameraUri, Intent.FLAG_GRANT_READ_URI_PERMISSION
         //             | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         // }
+
         intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         //将拍照结果保存至photo_file的Uri中，不保留在相册中
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
@@ -68,6 +61,7 @@ public class PhotoUtils {
      * @param requestCode 打开相册的请求码
      */
     public static void openPic(Activity activity, int requestCode) {
+        //这是打开系统默认的相册(就是你系统怎么分类,就怎么显示,展示分类列表)
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //        intent.setType("image/*");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -107,6 +101,25 @@ public class PhotoUtils {
         intent.putExtra("noFaceDetection", true);
 
         activity.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 在低于 android N 的时候，就用以前的 Uri.fromFile(file);方式传递文件路径
+     * @param file
+     * @return
+     */
+    public static Uri createUri(Context context, File file) {
+        Uri newUri;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
+            // 并且这样可以解决MIUI系统上拍照返回size为0的情况
+            newUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".FileProvider", file);
+        } else {
+            // 在适配android 4.4
+            newUri = Uri.fromFile(file);
+        }
+        return newUri;
     }
 
     /**

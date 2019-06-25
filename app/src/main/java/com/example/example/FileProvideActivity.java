@@ -2,6 +2,7 @@ package com.example.example;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -85,20 +86,20 @@ public class FileProvideActivity extends AppCompatActivity {
             String state = Environment.getExternalStorageState();
             if (!state.equals(Environment.MEDIA_MOUNTED)) return;
             // 把原图显示到界面上
-            Uri cropImageUri = Uri.fromFile(new File(getExternalCacheDir(), "face-cropped"));
+            File cachefile = new File(getExternalCacheDir(), "face-cropped");
+            Uri cropImageUri =Uri.fromFile(cachefile);
             PhotoUtils.cropImageUri(this, cameraUri, cropImageUri, 1, 1, 480, 480, GET_PHOTO_FROM_CROP);
 
         } else if (requestCode == GET_PHOTO_FROM_GALLERY && resultCode == Activity.RESULT_OK
                 && null != data) {
             try {
-                getBitmapFromGallery(data);
-
+                getBitmapFromGallery(FileProvideActivity.this,data);
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(this, "获取图片失败", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == GET_PHOTO_FROM_CROP && resultCode == Activity.RESULT_OK) {
-            Bitmap bitmap = getBitmepAfterCrop();
+            Bitmap bitmap = getBitmepAfterCrop(FileProvideActivity.this);
             if (bitmap == null) return;
             ivImg.setImageBitmap(bitmap);
         } else if (requestCode == REQUEST_CODE_SELECT_FILE && resultCode == Activity.RESULT_OK) {
@@ -109,20 +110,25 @@ public class FileProvideActivity extends AppCompatActivity {
     }
 
     // 获取相册中的照片
-    private void getBitmapFromGallery(Intent data) {
+    private void getBitmapFromGallery(Context context,Intent data) {
         // 设置需要裁剪的缓存路径
-        Uri cropImageUri = Uri.fromFile(new File(getExternalCacheDir(), "face-cropped"));
+        File cachefile = new File(getExternalCacheDir(), "face-cropped");
+        Uri cropImageUri = Uri.fromFile(cachefile);
         // 解析真实的图片路径
         String path = PhotoUtils.getPath(this, data.getData());
         String realPath = Uri.parse(path).getPath();
-        Uri newUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".FileProvider", new File(realPath));
+        File realfile = new File(realPath);
+        Uri newUri = PhotoUtils.createUri(context,realfile);
+
         PhotoUtils.cropImageUri(this, newUri, cropImageUri, 1, 1, 480, 480, GET_PHOTO_FROM_CROP);
     }
 
     // 获取以及裁剪的图片
-    private Bitmap getBitmepAfterCrop() {
+    private Bitmap getBitmepAfterCrop(Context context) {
         // 从缓存路径中查找图片
-        Uri cropImageUri = Uri.fromFile(new File(getExternalCacheDir(), "face-cropped"));
+        File cachefile = new File(getExternalCacheDir(), "face-cropped");
+//        Uri cropImageUri = PhotoUtils.createUri(context,cachefile);
+        Uri cropImageUri = Uri.fromFile(cachefile);
         Bitmap bitmap = PhotoUtils.getBitmapFromUri(cropImageUri, this);
         if (bitmap == null) {
             Toast.makeText(this, "获取图片失败", Toast.LENGTH_SHORT).show();
@@ -130,6 +136,8 @@ public class FileProvideActivity extends AppCompatActivity {
         }
         return bitmap;
     }
+
+
 
     /**
      * 获取另一个应用分享的文件内容，对于 kitkat 版本，无法通过 ContentResolver 获取文件路径
@@ -154,6 +162,7 @@ public class FileProvideActivity extends AppCompatActivity {
 
     /**
      * Android 4.4 以后，从 ContentResolver 中获取文件内容
+     *
      * @param data
      */
     private void getDocumentAboveKitKat(Intent data) {

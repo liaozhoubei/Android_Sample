@@ -40,6 +40,8 @@ android {
 
     buildTypes {
         debug {
+            // 添加debug版本包名后缀
+//            applicationIdSuffix ".debug"
             minifyEnabled false
             signingConfig signingConfigs.debug
         }
