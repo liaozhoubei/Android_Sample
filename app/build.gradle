@@ -56,8 +56,8 @@ android {
             variant.outputs.all {
                 def createTime = new Date().format("YYYYMMdd", TimeZone.getTimeZone("GMT+08:00"))
 //                if (variant.name.equals("debug")) {
-                    //这里修改apk文件名
-                    outputFileName = "${defaultConfig.applicationId}_v${variant.versionName}_${createTime}_${variant.name}.apk"
+                //这里修改apk文件名
+                outputFileName = "${defaultConfig.applicationId}_v${variant.versionName}_${createTime}_${variant.name}.apk"
 //                } else {
 //                    //这里修改apk文件名
 //                    outputFileName = "${defaultConfig.applicationId}_v${variant.versionName}_${createTime}.apk"
@@ -77,6 +77,11 @@ dependencies {
     // For developers using AndroidX in their applications
     implementation 'pub.devrel:easypermissions:3.0.0'
 
-    // For developers using the Android Support Library
-    implementation 'pub.devrel:easypermissions:2.0.1'
+    implementation "android.arch.lifecycle:runtime:1.1.1"
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
+    implementation 'android.arch.paging:runtime:1.0.1'
 }

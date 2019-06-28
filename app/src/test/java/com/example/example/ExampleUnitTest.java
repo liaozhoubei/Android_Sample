@@ -13,5 +13,14 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
+        int youNumber= 5;
+        String str = String.format("%1$-35s", "a");
+        System.out.println("h"+ str+"w");
+        String str1 = String.format("%1$35s", "a");
+        System.out.println("h"+ str1+"w");
+
+        long l = 258;
+        String format = String.format("% -20d", l);
+        System.out.println("d"+ format+"d");
     }
 }

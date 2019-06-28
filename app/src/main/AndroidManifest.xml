@@ -13,12 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FileListActivity"/>
+        <activity android:name=".jetpck.LiveDataActivity"></activity>
+        <activity android:name=".FileListActivity" />
         <activity android:name=".FileProvideActivity" />
-        <activity android:name=".PermissionActivity"
+        <activity
+            android:name=".PermissionActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
