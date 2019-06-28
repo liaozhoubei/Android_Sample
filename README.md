@@ -2,6 +2,14 @@
 
 一个简单的 android 示例工程
 
+项目运行环境：
+
+    android 28
+    android studio 3.4
+    androidx 依赖包
+
+## 源码介绍
+
 bg_splash.xml       用于闪屏页时避免 app 冷启动时白屏
 
 FileProvideActivity 演示如何使用 FileProvide 从相册、相机、裁剪中获取图片
