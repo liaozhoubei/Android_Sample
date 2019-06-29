@@ -58,5 +58,7 @@ public class PermissionActivity extends AppCompatActivity implements EasyPermiss
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
         Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
+        Toast.makeText(this, "您拒绝了权限", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

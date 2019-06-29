@@ -4,7 +4,8 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 8.0系统 获取 未知应用安装权限 -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FileProvideActivity"></activity>
+        <activity android:name=".InstallApkActivity"></activity>
+        <activity android:name=".FileProvideActivity" />
         <activity android:name=".PermissionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +25,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"></activity>
-
-        <!-- 7.0以上摄像头调取 -->
+            android:launchMode="singleTop" /> <!-- 7.0以上摄像头调取 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.example.FileProvider"
