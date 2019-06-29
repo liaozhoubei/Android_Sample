@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.example.util;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,29 +16,44 @@ import android.provider.MediaStore;
 
 import androidx.core.content.FileProvider;
 
+import com.example.example.BuildConfig;
+
 import java.io.File;
 
 public class PhotoUtils {
     private static final String TAG = "PhotoUtils";
 
     /**
+     * 调用相机进行拍照
+     *
      * @param activity    当前activity
-     * @param imageUri    拍照后照片存储路径
      * @param requestCode 调用系统相机请求码
      */
-    public static void takePicture(Activity activity, Uri imageUri, int requestCode) {
+    public static Uri takePicture(Activity activity, int requestCode) {
         //调用系统相机(8.0需要在intent()里写相机路径)
+
+        //拍照后原图回存入此路径下
+        File camerafile = new File(Environment.getExternalStorageDirectory().getPath() + File.separator + System.currentTimeMillis() + ".jpg");
         Intent intentCamera = new Intent("android.media.action.IMAGE_CAPTURE");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            //添加这一句表示对目标应用临时授权该Uri所代表的文件
-            intentCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        }
+
+        Uri cameraUri = createUri(activity, camerafile);  //拍照后照片存储路径
+        // 若不使用以上方法，则在获取需要给应用授权
+        // Uri fileUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".FileProvider", camerafile);
+        //
+        // List<ResolveInfo> resInfoList = getPackageManager()
+        //         .queryIntentActivities(intentCamera, PackageManager.MATCH_DEFAULT_ONLY);
+        // for (ResolveInfo resolveInfo : resInfoList) {
+        //     String packageName = resolveInfo.activityInfo.packageName;
+        //     //添加这一句表示对目标应用临时授权该Uri所代表的文件
+        //     grantUriPermission(packageName, cameraUri, Intent.FLAG_GRANT_READ_URI_PERMISSION
+        //             | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        // }
+
         intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         //将拍照结果保存至photo_file的Uri中，不保留在相册中
-        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
         activity.startActivityForResult(intentCamera, requestCode);
-
-
+        return cameraUri;
     }
 
     /**
@@ -46,6 +61,7 @@ public class PhotoUtils {
      * @param requestCode 打开相册的请求码
      */
     public static void openPic(Activity activity, int requestCode) {
+        //这是打开系统默认的相册(就是你系统怎么分类,就怎么显示,展示分类列表)
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //        intent.setType("image/*");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -53,7 +69,6 @@ public class PhotoUtils {
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         }
         activity.startActivityForResult(intent, requestCode);
-
     }
 
     /**
@@ -86,6 +101,25 @@ public class PhotoUtils {
         intent.putExtra("noFaceDetection", true);
 
         activity.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 在低于 android N 的时候，就用以前的 Uri.fromFile(file);方式传递文件路径
+     * @param file
+     * @return
+     */
+    public static Uri createUri(Context context, File file) {
+        Uri newUri;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
+            // 并且这样可以解决MIUI系统上拍照返回size为0的情况
+            newUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".FileProvider", file);
+        } else {
+            // 在适配android 4.4
+            newUri = Uri.fromFile(file);
+        }
+        return newUri;
     }
 
     /**

@@ -4,17 +4,65 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.example"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+//    ndk {
+//        abiFilters 'armeabi-v7a'
+////            abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', "mips64"
+//    }
+
+    // 禁止Google抓取您的应用内容的提示
+    // 或者在AndroidManifest.xml文件中，至少一个activity的intent-filter中添加
+    //    <action android:name="android.intent.action.VIEW" />
+    lintOptions {
+        disable 'GoogleAppIndexingWarning'
+    }
+
+    //关闭APK Signature Scheme v2(Android7.0)
+    signingConfigs {
+        release {
+
+//            v2SigningEnabled false
+        }
+        debug {
+//            v2SigningEnabled false
+            storeFile file('../mykey.jks')
+            storePassword '123456'
+            keyAlias 'mykey'
+            keyPassword '123456'
+        }
+    }
+
     buildTypes {
+        debug {
+            // 添加debug版本包名后缀
+//            applicationIdSuffix ".debug"
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                def createTime = new Date().format("YYYYMMdd", TimeZone.getTimeZone("GMT+08:00"))
+//                if (variant.name.equals("debug")) {
+                //这里修改apk文件名
+                outputFileName = "${defaultConfig.applicationId}_v${variant.versionName}_${createTime}_${variant.name}.apk"
+//                } else {
+//                    //这里修改apk文件名
+//                    outputFileName = "${defaultConfig.applicationId}_v${variant.versionName}_${createTime}.apk"
+//                }
+            }
     }
 }
 
@@ -29,6 +77,11 @@ dependencies {
     // For developers using AndroidX in their applications
     implementation 'pub.devrel:easypermissions:3.0.0'
 
-    // For developers using the Android Support Library
-    implementation 'pub.devrel:easypermissions:2.0.1'
+    implementation "android.arch.lifecycle:runtime:1.1.1"
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
+    implementation 'android.arch.paging:runtime:1.0.1'
 }

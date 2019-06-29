@@ -17,24 +17,24 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class PermissionActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     private static final String TAG = "PermissionActivity";
     private static final int RC_PERMISSION = 122;
-    String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+    String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_permission);
+//        getWindow().getDecorView().setBackground(null);
+        try {
+            // 仅仅是用来展示一些起屏页
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         requestPermissionTask();
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        // EasyPermissions handles the request result.
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
 
     @AfterPermissionGranted(RC_PERMISSION)
     private void requestPermissionTask() {
@@ -48,6 +48,17 @@ public class PermissionActivity extends AppCompatActivity implements EasyPermiss
             EasyPermissions.requestPermissions(this, "允许权限请求",
                     RC_PERMISSION, permissions);
         }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // EasyPermissions handles the request result.
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override

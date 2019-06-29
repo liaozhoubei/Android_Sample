@@ -3,7 +3,6 @@ package com.example.example;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,14 +27,19 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 
 // 可查看 https://blog.csdn.net/lmj623565791/article/details/72859156 了解相关知识
 public class FileProvideActivity extends AppCompatActivity {
@@ -139,86 +143,8 @@ public class FileProvideActivity extends AppCompatActivity {
             ivImg.setImageBitmap(bitmap);
         } else if (requestCode == REQUEST_CODE_SELECT_FILE && resultCode == Activity.RESULT_OK) {
 
-//            getDocument(data);
-            String s = uriToString(FileProvideActivity.this, data.getData());
-            Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
-        }
-    }
+            getDocument(data);
 
-    public static String uriToString(Context ctx, Uri uri) {
-        String path = null;
-        if (ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                if (DocumentsContract.isDocumentUri(ctx, uri)) {
-                    // ExternalStorageProvider
-                    if ("com.android.externalstorage.documents".equals(uri.getAuthority())) {
-                        String docId = DocumentsContract.getDocumentId(uri);
-                        String[] split = docId.split(":");
-                        String type = split[0];
-                        if ("primary".equalsIgnoreCase(type)) {
-                            path = Environment.getExternalStorageDirectory() + "/" + split[1];
-                        }
-                    } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
-                        // DownloadsProvider
-                        String id = DocumentsContract.getDocumentId(uri);
-                        Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-                        path = getDataColumn(ctx, contentUri, null, null);
-                    } else if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
-                        // MediaProvider
-                        String docId = DocumentsContract.getDocumentId(uri);
-                        String[] split = docId.split(":");
-                        String type = split[0];
-                        Uri contentUri = null;
-                        if ("image".equals(type)) {
-                            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                        } else if ("video".equals(type)) {
-                            contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                        } else if ("audio".equals(type)) {
-                            contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                        }
-                        String selection = "_id=?";
-                        String[] selectionArgs = new String[]{split[1]};
-                        path = getDataColumn(ctx, contentUri, selection, selectionArgs);
-                    }
-                } else {
-                    path = getRealPathFromUri(ctx, uri);
-                }
-            }
-        }
-        return path;
-    }
-
-    private static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
-        Cursor cursor = null;
-        final String column = "_data";
-        final String[] projection = {column};
-        try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                final int column_index = cursor.getColumnIndexOrThrow(column);
-                return cursor.getString(column_index);
-            }
-        } finally {
-            if (cursor != null)
-                cursor.close();
-        }
-        return null;
-    }
-
-
-    private static String getRealPathFromUri(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            if (cursor == null) return contentUri.getPath();
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
         }
     }
 
@@ -251,14 +177,14 @@ public class FileProvideActivity extends AppCompatActivity {
      */
     private void getDocument(Intent data) {
 //        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-        String path = PhotoUtils.getPath(this, data.getData());
-        Toast.makeText(this, "" + path, Toast.LENGTH_SHORT).show();
-        Log.e("FileProvideActivity", "getDocument: " + path);
-        int index = path.lastIndexOf("/");
-        String substring = path.substring(index + 1, path.length());
-        Log.e("FileProvideActivity", "substring: " + substring);
-        String realPath = path.replace("file:///", "");
-        boolean b = exportFileToAnother(new File(realPath), substring);
+            String path = PhotoUtils.getPath(this, data.getData());
+            Toast.makeText(this, "" + path, Toast.LENGTH_SHORT).show();
+            Log.e("FileProvideActivity", "getDocument: " + path);
+            int index = path.lastIndexOf("/");
+            String substring = path.substring(index + 1, path.length());
+            Log.e("FileProvideActivity", "substring: " + substring);
+            String realPath = path.replace("file:///", "");
+            boolean b = exportFileToAnother(new File(realPath), substring);
 //        } else {
 //            getDocumentAboveKitKat(data);
 //        }
