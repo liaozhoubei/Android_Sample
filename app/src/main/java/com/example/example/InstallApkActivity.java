@@ -164,11 +164,13 @@ public class InstallApkActivity extends AppCompatActivity implements EasyPermiss
             //获取是否有安装未知来源应用的权限
             boolean haveInstallPermission = getPackageManager().canRequestPackageInstalls();
             if (!haveInstallPermission) {
+                // 显示调用要求打开安装未知来源 apk 权限，避免 crash 。虽然直接调用 startInstall 也会打开权限页面
                 Toast.makeText(this, "请打开安装未知来源应用的权限", Toast.LENGTH_LONG).show();
-                //没有权限 在 yourAppPackageName 设置你的app包名
+                //没有权限 设置你的app包名
                 String packageName = this.getPackageName();
                 Log.e(TAG, "installAPK: " + packageName);
                 Uri packageURI = Uri.parse("package:" + packageName);
+                // 打开相应应用权限页面
                 Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
                 startActivityForResult(intent, REQUEST_UNKNOW_SOURCE);
             } else {
@@ -187,7 +189,8 @@ public class InstallApkActivity extends AppCompatActivity implements EasyPermiss
         //跳转安装
         Intent intentInstall = new Intent();
         Uri uri;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // Android 7.0 以后要用 FileProvider 的方式传递文件路径
             uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".FileProvider", new File(path));
             intentInstall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intentInstall.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);

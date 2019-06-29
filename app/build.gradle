@@ -23,14 +23,8 @@ android {
         disable 'GoogleAppIndexingWarning'
     }
 
-    //关闭APK Signature Scheme v2(Android7.0)
     signingConfigs {
-        release {
-
-//            v2SigningEnabled false
-        }
         debug {
-//            v2SigningEnabled false
             storeFile file('../mykey.jks')
             storePassword '123456'
             keyAlias 'mykey'

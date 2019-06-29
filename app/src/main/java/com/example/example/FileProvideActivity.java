@@ -1,24 +1,18 @@
 package com.example.example;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,21 +21,20 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import com.example.example.util.PhotoUtils;
+import com.example.example.util.Utils;
+
 import java.io.File;
 import java.io.FileDescriptor;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
 
-// 可查看 https://blog.csdn.net/lmj623565791/article/details/72859156 了解相关知识
+//
+
+/**
+ * Android 7.0 以后 获取相册照片以及相机拍照返回的方式发送变化
+ * 通过手机自带的文件系统已无法获取路径，可实现简单的文件浏览器来获取路径
+ * 可查看 https://blog.csdn.net/lmj623565791/article/details/72859156 了解 FileProvide 相关知识
+ */
 public class FileProvideActivity extends AppCompatActivity {
 
     private final int GET_PHOTO_FROM_CAMERA = 115;
@@ -67,53 +60,21 @@ public class FileProvideActivity extends AppCompatActivity {
     }
 
     public void TakePhoto(View view) {
-        //拍照后原图回存入此路径下
-        File camerafile = new File(Environment.getExternalStorageDirectory().getPath() + File.separator + System.currentTimeMillis() + ".jpg");
-        Intent intentCamera = new Intent("android.media.action.IMAGE_CAPTURE");
-        // 在适配android 4.4
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
-            cameraUri = Uri.fromFile(camerafile);
-        } else {
-            /**
-             * 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
-             * 并且这样可以解决MIUI系统上拍照返回size为0的情况
-             */
-            cameraUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".FileProvider", camerafile);
-        }
-        // 若不使用以上方法，则在获取需要给应用授权
-//        Uri fileUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".FileProvider", camerafile);
-//
-//        List<ResolveInfo> resInfoList = getPackageManager()
-//                .queryIntentActivities(intentCamera, PackageManager.MATCH_DEFAULT_ONLY);
-//        for (ResolveInfo resolveInfo : resInfoList) {
-//            String packageName = resolveInfo.activityInfo.packageName;
-//            //添加这一句表示对目标应用临时授权该Uri所代表的文件
-//            grantUriPermission(packageName, cameraUri, Intent.FLAG_GRANT_READ_URI_PERMISSION
-//                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//        }
-        intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-        //将拍照结果保存至photo_file的Uri中，不保留在相册中
-        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
-        startActivityForResult(intentCamera, GET_PHOTO_FROM_CAMERA);
+        cameraUri = PhotoUtils.takePicture(this, GET_PHOTO_FROM_CAMERA);
     }
 
     public void GetFile(View view) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-//        File f = new File(getCacheDir() + File.separator + "temp.cache");
-//        Uri fileUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".FileProvider", f);
-//
-//        List<ResolveInfo> resInfoList = getPackageManager()
-//                .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-//        for (ResolveInfo resolveInfo : resInfoList) {
-//            String packageName = resolveInfo.activityInfo.packageName;
-//            //添加这一句表示对目标应用临时授权该Uri所代表的文件
-//            grantUriPermission(packageName, fileUri, Intent.FLAG_GRANT_READ_URI_PERMISSION
-//                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//        }
-        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        startActivityForResult(Intent.createChooser(intent, "选择文件"), REQUEST_CODE_SELECT_FILE);
+        // 在目标版本为 7.0 之前可用系统文件浏览器获取路径
+        // Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        // intent.setType("*/*");
+        // intent.addCategory(Intent.CATEGORY_OPENABLE);
+        //
+        // intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        // startActivityForResult(Intent.createChooser(intent, "选择文件"), REQUEST_CODE_SELECT_FILE);
+
+        // 在 Android 7.0 以后基本无法通过系统文件浏览器获取到文件路径，
+        // 可实现一个简单的文件浏览器获取文件路径
+        startActivity(new Intent(this, FileListActivity.class));
     }
 
 
@@ -125,20 +86,20 @@ public class FileProvideActivity extends AppCompatActivity {
             String state = Environment.getExternalStorageState();
             if (!state.equals(Environment.MEDIA_MOUNTED)) return;
             // 把原图显示到界面上
-            Uri cropImageUri = Uri.fromFile(new File(getExternalCacheDir(), "face-cropped"));
+            File cachefile = new File(getExternalCacheDir(), "face-cropped");
+            Uri cropImageUri =Uri.fromFile(cachefile);
             PhotoUtils.cropImageUri(this, cameraUri, cropImageUri, 1, 1, 480, 480, GET_PHOTO_FROM_CROP);
 
         } else if (requestCode == GET_PHOTO_FROM_GALLERY && resultCode == Activity.RESULT_OK
                 && null != data) {
             try {
-                getBitmapFromGallery(data);
-
+                getBitmapFromGallery(FileProvideActivity.this,data);
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(this, "获取图片失败", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == GET_PHOTO_FROM_CROP && resultCode == Activity.RESULT_OK) {
-            Bitmap bitmap = getBitmepAfterCrop();
+            Bitmap bitmap = getBitmepAfterCrop(FileProvideActivity.this);
             if (bitmap == null) return;
             ivImg.setImageBitmap(bitmap);
         } else if (requestCode == REQUEST_CODE_SELECT_FILE && resultCode == Activity.RESULT_OK) {
@@ -148,19 +109,26 @@ public class FileProvideActivity extends AppCompatActivity {
         }
     }
 
-    private void getBitmapFromGallery(Intent data) {
+    // 获取相册中的照片
+    private void getBitmapFromGallery(Context context,Intent data) {
         // 设置需要裁剪的缓存路径
-        Uri cropImageUri = Uri.fromFile(new File(getExternalCacheDir(), "face-cropped"));
+        File cachefile = new File(getExternalCacheDir(), "face-cropped");
+        Uri cropImageUri = Uri.fromFile(cachefile);
         // 解析真实的图片路径
         String path = PhotoUtils.getPath(this, data.getData());
         String realPath = Uri.parse(path).getPath();
-        Uri newUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".FileProvider", new File(realPath));
+        File realfile = new File(realPath);
+        Uri newUri = PhotoUtils.createUri(context,realfile);
+
         PhotoUtils.cropImageUri(this, newUri, cropImageUri, 1, 1, 480, 480, GET_PHOTO_FROM_CROP);
     }
 
-    private Bitmap getBitmepAfterCrop() {
+    // 获取以及裁剪的图片
+    private Bitmap getBitmepAfterCrop(Context context) {
         // 从缓存路径中查找图片
-        Uri cropImageUri = Uri.fromFile(new File(getExternalCacheDir(), "face-cropped"));
+        File cachefile = new File(getExternalCacheDir(), "face-cropped");
+//        Uri cropImageUri = PhotoUtils.createUri(context,cachefile);
+        Uri cropImageUri = Uri.fromFile(cachefile);
         Bitmap bitmap = PhotoUtils.getBitmapFromUri(cropImageUri, this);
         if (bitmap == null) {
             Toast.makeText(this, "获取图片失败", Toast.LENGTH_SHORT).show();
@@ -169,14 +137,16 @@ public class FileProvideActivity extends AppCompatActivity {
         return bitmap;
     }
 
+
+
     /**
-     * 从文件管理器中获取文件内容，对于 kitkat 版本，无法通过 ContentResolver 获取文件路径
+     * 获取另一个应用分享的文件内容，对于 kitkat 版本，无法通过 ContentResolver 获取文件路径
      * 7.0 以后已经无法在获取文件的真实路径，只能通过获取其文件句柄，然后写入设置的文件夹中
      *
      * @param data
      */
     private void getDocument(Intent data) {
-//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
             String path = PhotoUtils.getPath(this, data.getData());
             Toast.makeText(this, "" + path, Toast.LENGTH_SHORT).show();
             Log.e("FileProvideActivity", "getDocument: " + path);
@@ -184,12 +154,17 @@ public class FileProvideActivity extends AppCompatActivity {
             String substring = path.substring(index + 1, path.length());
             Log.e("FileProvideActivity", "substring: " + substring);
             String realPath = path.replace("file:///", "");
-            boolean b = exportFileToAnother(new File(realPath), substring);
-//        } else {
-//            getDocumentAboveKitKat(data);
-//        }
+            boolean b = Utils.ExportFileToAnother(new File(realPath), substring);
+        } else {
+            getDocumentAboveKitKat(data);
+        }
     }
 
+    /**
+     * Android 4.4 以后，从 ContentResolver 中获取文件内容
+     *
+     * @param data
+     */
     private void getDocumentAboveKitKat(Intent data) {
         Cursor returnCursor = null;
         try {
@@ -231,7 +206,7 @@ public class FileProvideActivity extends AppCompatActivity {
             if (parcelFileDescriptor == null) {
                 FileDescriptor fd = parcelFileDescriptor.getFileDescriptor();
 
-                boolean b = exportFileToAnotherByFileDescriptor(fd, fileName);
+                boolean b = Utils.ExportFileToAnotherByFileDescriptor(fd, fileName);
                 if (b) {
                     Toast.makeText(this, "文件已导出至：" + Environment.getExternalStorageDirectory() + File.separator + "Temp", Toast.LENGTH_SHORT).show();
                 } else {
@@ -249,88 +224,5 @@ public class FileProvideActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 把文件导出
-     *
-     * @param fd
-     * @param fileName
-     */
-    private boolean exportFileToAnotherByFileDescriptor(FileDescriptor fd, String fileName) {
-        FileInputStream fis = null;
-        FileOutputStream fos = null;
-        boolean result = false;
-        try {
-            fis = new FileInputStream(fd);
-            int len = 0;
-            byte[] b = new byte[1024];
-            File file = new File(Environment.getExternalStorageDirectory() + File.separator + "Temp");
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-            File rf = new File(file.getAbsoluteFile() + File.separator + fileName);
-            if (rf.exists()) {
-                rf.delete();
-            }
-            rf.createNewFile();
-            fos = new FileOutputStream(rf);
-            while ((len = fis.read(b)) != -1) {
-                fos.write(b, 0, len);
-            }
-            fos.flush();
-            result = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fis != null)
-                    fis.close();
-                if (fos != null)
-                    fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
-
-    }
-
-    private boolean exportFileToAnother(File sourcefile, String fileName) {
-        FileInputStream fis = null;
-        FileOutputStream fos = null;
-        boolean result = false;
-        try {
-            fis = new FileInputStream(sourcefile);
-            int len = 0;
-            byte[] b = new byte[1024];
-            File file = new File(Environment.getExternalStorageDirectory() + File.separator + "Temp");
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-            File rf = new File(file.getAbsoluteFile() + File.separator + fileName);
-            if (rf.exists()) {
-                rf.delete();
-            }
-            rf.createNewFile();
-            fos = new FileOutputStream(rf);
-            while ((len = fis.read(b)) != -1) {
-                fos.write(b, 0, len);
-            }
-            fos.flush();
-            result = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fis != null)
-                    fis.close();
-                if (fos != null)
-                    fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
-
-    }
 
 }
