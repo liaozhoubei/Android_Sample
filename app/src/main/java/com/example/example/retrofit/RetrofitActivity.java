@@ -16,7 +16,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 /**
  * Retrofit demo
@@ -24,46 +23,92 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
  * 示例数据在 assert 中，分别为 hello.json 以及 test2.xml
  */
 public class RetrofitActivity extends AppCompatActivity {
-
+    private String TAG = "RetrofitActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_retrofit);
+        ConvertOne();
+
+        ConvertSecond();
+    }
+
+    /**
+     * 第一种混合转换器
+     * @return
+     */
+    private void ConvertOne() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.9.219:8080/")
-//                .addConverterFactory(SimpleXmlConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(JsonOrXmlConverterFactory.create())
                 .build();
-
         GnakApi api = retrofit.create(GnakApi.class);
         Call<GankBean> call = api.getAndroidInfo();
         call.enqueue(new Callback<GankBean>() {
                          @Override
                          public void onResponse(Call<GankBean> call, Response<GankBean> response) {
                              List<GankBean.ResultsBean> results = response.body().getResults();
-                             Log.e("Heool", "onResponse: " + results.get(0).toString() );
+                             Log.e(TAG, "GankBean onResponse: " + results.get(0).toString() );
                          }
 
                          @Override
                          public void onFailure(Call<GankBean> call, Throwable t) {
-                             Log.e("Heool", "onFailure: ",t );
+                             Log.e(TAG, "onFailure: ",t );
                          }
                      }
            );
 
 
+        api.getNewsData().enqueue(new Callback<NewsDataXml>() {
+            @Override
+            public void onResponse(Call<NewsDataXml> call, Response<NewsDataXml> response) {
+                List<NewsXml> list = response.body().getList();
+                Log.e(TAG, "NewsDataXml onResponse: " + list.get(0).toString() );
+            }
 
-//        api.getNewsData().enqueue(new Callback<NewsDataXml>() {
-//            @Override
-//            public void onResponse(Call<NewsDataXml> call, Response<NewsDataXml> response) {
-//                List<NewsXml> list = response.body().getList();
-//                Log.e("Heool", "NewsDataXml onResponse: " + list.get(0).toString() );
-//            }
-//
-//            @Override
-//            public void onFailure(Call<NewsDataXml> call, Throwable t) {
-//                Log.e("Heool", "NewsDataXml onFailure: ",t );
-//            }
-//        });
+            @Override
+            public void onFailure(Call<NewsDataXml> call, Throwable t) {
+                Log.e(TAG, "NewsDataXml onFailure: ",t );
+            }
+        });
+    }
+
+    /**
+     * 第二种混合转换器
+     */
+    private void ConvertSecond() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.9.219:8080/")
+                .addConverterFactory(CompositeConverterFactory.create(GsonConverterFactory.create()))
+                .build();
+        GnakApi api = retrofit.create(GnakApi.class);
+        Call<GankBean> call = api.getAndroidInfo_Second();
+        call.enqueue(new Callback<GankBean>() {
+                         @Override
+                         public void onResponse(Call<GankBean> call, Response<GankBean> response) {
+                             List<GankBean.ResultsBean> results = response.body().getResults();
+                             Log.e(TAG, "CompositeConverterFactory GankBean onResponse: " + results.get(0).toString() );
+                         }
+
+                         @Override
+                         public void onFailure(Call<GankBean> call, Throwable t) {
+                             Log.e(TAG, "onFailure: ",t );
+                         }
+                     }
+        );
+
+
+        api.getNewsData_Second().enqueue(new Callback<NewsDataXml>() {
+            @Override
+            public void onResponse(Call<NewsDataXml> call, Response<NewsDataXml> response) {
+                List<NewsXml> list = response.body().getList();
+                Log.e(TAG, "CompositeConverterFactory NewsDataXml onResponse: " + list.get(0).toString() );
+            }
+
+            @Override
+            public void onFailure(Call<NewsDataXml> call, Throwable t) {
+                Log.e(TAG, "CompositeConverterFactory NewsDataXml onFailure: ",t );
+            }
+        });
     }
 }
