@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.example.R;
 
@@ -24,17 +25,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitActivity extends AppCompatActivity {
     private String TAG = "RetrofitActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_retrofit);
-        ConvertOne();
 
+
+    }
+
+    public void convertTwo(View view) {
+        ConvertOne();
+    }
+
+    public void convertOne(View view) {
         ConvertSecond();
     }
 
     /**
      * 第一种混合转换器
+     *
      * @return
      */
     private void ConvertOne() {
@@ -48,27 +58,27 @@ public class RetrofitActivity extends AppCompatActivity {
                          @Override
                          public void onResponse(Call<GankBean> call, Response<GankBean> response) {
                              List<GankBean.ResultsBean> results = response.body().getResults();
-                             Log.e(TAG, "GankBean onResponse: " + results.get(0).toString() );
+                             Log.e(TAG, "GankBean onResponse: " + results.get(0).toString());
                          }
 
                          @Override
                          public void onFailure(Call<GankBean> call, Throwable t) {
-                             Log.e(TAG, "onFailure: ",t );
+                             Log.e(TAG, "onFailure: ", t);
                          }
                      }
-           );
+        );
 
 
         api.getNewsData().enqueue(new Callback<NewsDataXml>() {
             @Override
             public void onResponse(Call<NewsDataXml> call, Response<NewsDataXml> response) {
                 List<NewsXml> list = response.body().getList();
-                Log.e(TAG, "NewsDataXml onResponse: " + list.get(0).toString() );
+                Log.e(TAG, "NewsDataXml onResponse: " + list.get(0).toString());
             }
 
             @Override
             public void onFailure(Call<NewsDataXml> call, Throwable t) {
-                Log.e(TAG, "NewsDataXml onFailure: ",t );
+                Log.e(TAG, "NewsDataXml onFailure: ", t);
             }
         });
     }
@@ -87,12 +97,12 @@ public class RetrofitActivity extends AppCompatActivity {
                          @Override
                          public void onResponse(Call<GankBean> call, Response<GankBean> response) {
                              List<GankBean.ResultsBean> results = response.body().getResults();
-                             Log.e(TAG, "CompositeConverterFactory GankBean onResponse: " + results.get(0).toString() );
+                             Log.e(TAG, "CompositeConverterFactory GankBean onResponse: " + results.get(0).toString());
                          }
 
                          @Override
                          public void onFailure(Call<GankBean> call, Throwable t) {
-                             Log.e(TAG, "onFailure: ",t );
+                             Log.e(TAG, "onFailure: ", t);
                          }
                      }
         );
@@ -102,13 +112,15 @@ public class RetrofitActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<NewsDataXml> call, Response<NewsDataXml> response) {
                 List<NewsXml> list = response.body().getList();
-                Log.e(TAG, "CompositeConverterFactory NewsDataXml onResponse: " + list.get(0).toString() );
+                Log.e(TAG, "CompositeConverterFactory NewsDataXml onResponse: " + list.get(0).toString());
             }
 
             @Override
             public void onFailure(Call<NewsDataXml> call, Throwable t) {
-                Log.e(TAG, "CompositeConverterFactory NewsDataXml onFailure: ",t );
+                Log.e(TAG, "CompositeConverterFactory NewsDataXml onFailure: ", t);
             }
         });
     }
+
+
 }

@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="选择求职区域" />
+            android:text="选择城市" />
 
         <TextView
             android:id="@+id/tv_finish"

@@ -21,3 +21,5 @@ InstallApkActivity  演示如何兼容 android 4.4 及 7.0 以后的应用内更
 LiveDataActivity    演示jetpack 库中的 LiveData 的使用
 
 PickerViewActivity  演示第三方库  Android-PickerView  的使用
+
+RetrofitActivity    演示使用 Retrofit + 转换器 网络请求框架
