@@ -71,6 +71,7 @@ dependencies {
 
     // For developers using AndroidX in their applications
     implementation 'pub.devrel:easypermissions:3.0.0'
+    implementation 'com.blankj:utilcodex:1.25.0'
 
     implementation "android.arch.lifecycle:runtime:1.1.1"
     implementation "android.arch.lifecycle:extensions:1.1.1"
@@ -80,11 +81,15 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
     implementation 'android.arch.paging:runtime:1.0.1'
 
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.google.code.gson:gson:2.8.2'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.6.0' // 字符串转换器
+//    implementation 'com.squareup.retrofit2:converter-jaxb:2.6.0'  // 不支持android
+    implementation 'com.squareup.retrofit2:converter-simplexml:2.6.0'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation('com.squareup.retrofit2:converter-simplexml:2.3.0')
+    implementation ('com.squareup.retrofit2:converter-simplexml:2.3.0')
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.14.1'
 
     implementation 'com.contrarywind:Android-PickerView:4.1.8'// 三级联动
+
 }

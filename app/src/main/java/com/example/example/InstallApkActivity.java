@@ -79,7 +79,8 @@ public class InstallApkActivity extends AppCompatActivity implements EasyPermiss
                 InputStream inputStream = null;
                 FileOutputStream fileOutputStream = null;
                 try {
-                    inputStream = getResources().openRawResource(R.raw.install_apk);
+//                    inputStream = getResources().openRawResource(R.raw.install_apk);
+                    inputStream = null;
                     File parentFile = new File(Environment.getExternalStorageDirectory() + File.separator + "Download");
                     if (!parentFile.exists()){
                         parentFile.mkdirs();
