@@ -67,7 +67,6 @@ public class RetrofitActivity extends AppCompatActivity {
 
     /**
      * 第一种混合转换器
-     *
      * @return
      */
     private void ConvertOne() {
@@ -96,12 +95,12 @@ public class RetrofitActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<NewsDataXml> call, Response<NewsDataXml> response) {
                 List<NewsXml> list = response.body().getList();
-                Log.e(TAG, "NewsDataXml onResponse: " + list.get(0).toString());
+                Log.e(TAG, "NewsDataXml onResponse: " + list.get(0).toString() );
             }
 
             @Override
             public void onFailure(Call<NewsDataXml> call, Throwable t) {
-                Log.e(TAG, "NewsDataXml onFailure: ", t);
+                Log.e(TAG, "NewsDataXml onFailure: ",t );
             }
         });
     }
@@ -120,12 +119,12 @@ public class RetrofitActivity extends AppCompatActivity {
                          @Override
                          public void onResponse(Call<GankBean> call, Response<GankBean> response) {
                              List<GankBean.ResultsBean> results = response.body().getResults();
-                             Log.e(TAG, "CompositeConverterFactory GankBean onResponse: " + results.get(0).toString());
+                             Log.e(TAG, "CompositeConverterFactory GankBean onResponse: " + results.get(0).toString() );
                          }
 
                          @Override
                          public void onFailure(Call<GankBean> call, Throwable t) {
-                             Log.e(TAG, "onFailure: ", t);
+                             Log.e(TAG, "onFailure: ",t );
                          }
                      }
         );
@@ -135,12 +134,12 @@ public class RetrofitActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<NewsDataXml> call, Response<NewsDataXml> response) {
                 List<NewsXml> list = response.body().getList();
-                Log.e(TAG, "CompositeConverterFactory NewsDataXml onResponse: " + list.get(0).toString());
+                Log.e(TAG, "CompositeConverterFactory NewsDataXml onResponse: " + list.get(0).toString() );
             }
 
             @Override
             public void onFailure(Call<NewsDataXml> call, Throwable t) {
-                Log.e(TAG, "CompositeConverterFactory NewsDataXml onFailure: ", t);
+                Log.e(TAG, "CompositeConverterFactory NewsDataXml onFailure: ",t );
             }
         });
     }

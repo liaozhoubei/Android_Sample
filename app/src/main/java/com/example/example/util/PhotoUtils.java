@@ -34,7 +34,7 @@ public class PhotoUtils {
 
         //拍照后原图回存入此路径下
         File camerafile = new File(Environment.getExternalStorageDirectory().getPath() + File.separator + System.currentTimeMillis() + ".jpg");
-        Intent intentCamera = new Intent("android.media.action.IMAGE_CAPTURE");
+        Intent intentCamera = new Intent();
 
         Uri cameraUri = createUri(activity, camerafile);  //拍照后照片存储路径
         // 若不使用以上方法，则在获取需要给应用授权
