@@ -38,10 +38,14 @@ public class CircleSurfaceView extends SurfaceView {
         Path path = new Path();
         int height = this.getHeight();
         int width = this.getWidth();
-        // 判断
-        int radius = Math.min(width, height);
+        // 计算出控件宽高的最小值为直径
+        int diameter = Math.min(width, height);
+        float radius = (float) diameter/2;
+        int max = Math.max(width, height);
+        // 计算出绘制圆形的y轴起始点，让圆形处于中间
+        float offset =(float) (max/2);
         //设置裁剪的圆心，半径
-        path.addCircle(radius / 2, radius / 2, radius / 2, Path.Direction.CCW);
+        path.addCircle(radius , offset , radius , Path.Direction.CCW);
         //裁剪画布，并设置其填充方式
         if(Build.VERSION.SDK_INT >= 26){
             canvas.clipPath(path);
