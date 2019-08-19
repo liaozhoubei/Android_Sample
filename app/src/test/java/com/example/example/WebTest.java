@@ -1,6 +1,6 @@
 package com.example.example;
 
-import com.example.example.retrofit.GnakApi;
+import com.example.example.retrofit.Interceptor.LoggingInterceptor;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -8,6 +8,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -19,6 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;
 //https://www.jianshu.com/p/e906f7ee2a04
+// MockWebServer 测试示例
 @RunWith(JUnit4.class)
 public class WebTest {
     @Rule
@@ -27,9 +31,16 @@ public class WebTest {
 
     @Before
     public void setup() {
+        OkHttpClient  okHttpClient = new OkHttpClient.Builder()
+                .retryOnConnectionFailure(true)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .addNetworkInterceptor(new LoggingInterceptor())
+                .build();
+
         service = new Retrofit.Builder()
                 .baseUrl(mockWebServer.url("/"))  //实际项目中可使用真实url
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
                 .build()
                 .create(Service.class);
     }
