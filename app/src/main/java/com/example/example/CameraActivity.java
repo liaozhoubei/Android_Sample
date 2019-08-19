@@ -166,6 +166,7 @@ public class CameraActivity extends AppCompatActivity {
         public void surfaceCreated(SurfaceHolder holder) {
             // The Surface has been created, now tell the camera where to draw the preview.
             startCameraPreview(holder);
+            surfaceView.setWillNotDraw(false);
         }
 
         @Override
