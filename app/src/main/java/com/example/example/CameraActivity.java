@@ -58,11 +58,14 @@ public class CameraActivity extends AppCompatActivity {
     private int mSensorRotation = 0;
     private SensorManager mSensorManager;
     private Sensor mSensor;
+    private ImageView iv_border;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         surfaceView = findViewById(R.id.sv_prew);
+        iv_border = findViewById(R.id.iv_border);
         initListener();
 
     }
@@ -264,6 +267,13 @@ public class CameraActivity extends AppCompatActivity {
                 layoutParams.width = surfaceWidth;
                 layoutParams.height = surfaceheight;
                 surfaceView.setLayoutParams(layoutParams);
+
+                // 设置 surfaceview 的外边框
+                FrameLayout.LayoutParams iv_borderLayoutParams = (FrameLayout.LayoutParams) iv_border.getLayoutParams();
+                iv_borderLayoutParams.width = surfaceWidth +16;
+                iv_borderLayoutParams.height = surfaceWidth +16;
+                iv_border.setBackgroundResource(R.mipmap.bg_circle_surfaceview);
+
                 surfaceView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
