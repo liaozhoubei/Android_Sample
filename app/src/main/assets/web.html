@@ -1,0 +1,26 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+
+function javaToJS(){
+     document.getElementById("content").innerHTML =
+         "<br\>JAVA调用了JS的无参函数";
+}
+
+function javaToJsWith(arg){
+     <!--document.getElementById("content").innerHTML =-->
+         <!--("<br\>"+arg);-->
+         document.location=arg;
+}
+</script>
+</head>
+<body>
+以下为html内容<br/>
+<h1><div id="content">显示一条文本</div></h1>
+<br/>
+<input type="button"  value="调用java代码，且无参" onclick="window.java.noParameterFunction()" />
+<br/>
+<input type="button"  value="调用java代码，且有参" onclick="window.java.parameterFunction('JS->android 有参成功')"/>
+</body>
+</html>

@@ -23,3 +23,5 @@ LiveDataActivity    演示jetpack 库中的 LiveData 的使用
 PickerViewActivity  演示第三方库  Android-PickerView  的使用
 
 RetrofitActivity    演示使用 Retrofit + 转换器 网络请求框架
+
+WebViewActivity     演示 android 调用 js 方法 以及 js 调用 android 方法
