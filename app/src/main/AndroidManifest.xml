@@ -19,7 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity
+            android:name=".RichEditTextActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".PermissionActivity"
             android:theme="@style/SplashTheme">
@@ -38,12 +40,13 @@
         <activity android:name=".jetpck.LiveDataActivity" /> <!-- 7.0以上摄像头调取 -->
         <activity
             android:name=".WebViewActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CameraActivity" />
         <activity
             android:name=".PickerViewActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".retrofit.RetrofitActivity" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.example.FileProvider"
