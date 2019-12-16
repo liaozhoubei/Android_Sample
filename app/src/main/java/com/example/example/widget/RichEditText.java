@@ -41,8 +41,11 @@ public class RichEditText extends EditText implements View.OnKeyListener {
     // 目前方案一有偶发性的bug: 再 onKey 回调中, 虽然设置了 setSelection 选中字符串,
     // getSelectionStart() 以及 getSelectionEnd() 的值也改变了，然而屏幕上选中效果一闪而过，
     // 再次点击 del ,回调 deleteSurroundingText 时，其 beforeLength 为 1, 导致删除错误长度
-    private int PLAN = 1;
 
+    // 修复方案1 偶发删除无法选中的 bug ,解决方案为: 按下 del 时再次进行重选
+    private int PLAN = 1;
+    // 上次选中的富文本 (仅在选中删除时使用)
+    String preString = "";
     public RichEditText(Context context) {
         super(context);
         init();
@@ -121,33 +124,22 @@ public class RichEditText extends EditText implements View.OnKeyListener {
         return false;
     }
 
-    // 上次选中的富文本 (仅在选中删除时使用)
-    String preString = "";
-    int lastSelectionEnd = 0;   // 避免相同标签在不同位置无法直接选中
+
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         //按下键盘时会出发动作，弹起键盘时同样会触发动作
-        Log.e(TAG, "onKey: action :" + keyCode);
         if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_DOWN) {
             String selectRich = getSelectRich();
-            Log.e(TAG, "onKey: del :" + selectRich + "  satrtPos:" + getSelectionStart() + "  endPos:" + getSelectionEnd());
             if (PLAN == 1) {
                 //  方案1 先选中,不直接删除
                 if (!TextUtils.isEmpty(selectRich) && getSelectionStart() == getSelectionEnd()) {
-                    if (!preString.equals(selectRich) || lastSelectionEnd != getSelectionEnd()) {
-
-                        int startPos = getSelectionStart();
-                        clearFocus();
-                        requestFocus();
-                        setSelection(startPos - selectRich.length(), startPos);
-
-
-                        preString = selectRich;
-                        lastSelectionEnd = getSelectionEnd();
-                        return true;
-
-                    }
+                    int startPos = getSelectionStart();
+                    clearFocus();
+                    requestFocus();
+                    setSelection(startPos - selectRich.length(), startPos);
+                    preString = selectRich;
+                    return true;
                 }
                 preString = "";
             } else if (PLAN == 2) {
@@ -455,7 +447,6 @@ public class RichEditText extends EditText implements View.OnKeyListener {
                 true);
     }
 
-//    private OnKeyListener keyListener;
 
 
     private class MyInputConnection extends InputConnectionWrapper {
@@ -470,6 +461,7 @@ public class RichEditText extends EditText implements View.OnKeyListener {
             return super.sendKeyEvent(event);
         }
 
+        // 重新分发删除键事件
         @Override
         public boolean deleteSurroundingText(int beforeLength, int afterLength) {
             // 在此处 getSelectionStart() 及  getSelectionEnd() 的值是一样的
