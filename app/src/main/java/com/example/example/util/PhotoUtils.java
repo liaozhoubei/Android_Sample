@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.usage.ExternalStorageStats;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -49,12 +50,16 @@ public class PhotoUtils {
         //             | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         // }
 
+
+
+        intentCamera.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         //将拍照结果保存至photo_file的Uri中，不保留在相册中
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
         activity.startActivityForResult(intentCamera, requestCode);
         return cameraUri;
     }
+
 
     /**
      * @param activity    当前activity
@@ -103,15 +108,25 @@ public class PhotoUtils {
         activity.startActivityForResult(intent, requestCode);
     }
 
+
     /**
      * 在低于 android N 的时候，就用以前的 Uri.fromFile(file);方式传递文件路径
+     *
      * @param file
      * @return
      */
     public static Uri createUri(Context context, File file) {
         Uri newUri;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            // Android 10以后使用这种方法
+            String status = Environment.getExternalStorageState();
+            // 判断是否有SD卡,优先使用SD卡存储,当没有SD卡时使用手机存储
+            if (status.equals(Environment.MEDIA_MOUNTED)) {
+                return context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+            } else {
+                return context.getContentResolver().insert(MediaStore.Images.Media.INTERNAL_CONTENT_URI, new ContentValues());
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
             // 并且这样可以解决MIUI系统上拍照返回size为0的情况
             newUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".FileProvider", file);
@@ -140,6 +155,7 @@ public class PhotoUtils {
     }
 
     /**
+     * Android 10 之后不可以使用绝对路径
      * @param context 上下文对象
      * @param uri     当前相册照片的Uri
      * @return 解析后的Uri对应的String

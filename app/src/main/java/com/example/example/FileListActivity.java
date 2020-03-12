@@ -16,6 +16,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,11 +50,17 @@ public class FileListActivity extends AppCompatActivity {
         mTvFileListTitle.setText(absolutePath);
         mFilelist = new ArrayList<>();
         List<MyFile> fileList = getFileList(externalStorageDirectory);
-        mFilelist.addAll(fileList);
+        if (fileList != null)
+            mFilelist.addAll(fileList);
         adapter = new MyAdapter(mFilelist);
         mLvFileList.setAdapter(adapter);
     }
 
+    /**
+     * @param parentFile
+     * @return
+     * @deprecated 在Android 10 中已经无法使用此方法获取文件目录
+     */
     private List<MyFile> getFileList(File parentFile) {
         List<MyFile> list = new ArrayList<>();
         if (parentFile.exists() && parentFile.isDirectory()) {
@@ -129,6 +137,14 @@ public class FileListActivity extends AppCompatActivity {
                 if (childfile.canRead()) {
                     // 如果是可读文件，则返回
                     Toast.makeText(this, childfile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "getFile: " + childfile.getAbsolutePath());
+                    try {
+                        FileInputStream fileInputStream = new FileInputStream(childfile.getAbsoluteFile());
+                        byte[] b = new byte[1024];
+                        fileInputStream.read(b);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     Toast.makeText(this, "该文件无法读取", Toast.LENGTH_SHORT).show();
                 }

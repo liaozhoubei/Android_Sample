@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,12 +22,18 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.example.example.util.FileUtils;
 import com.example.example.util.PhotoUtils;
 import com.example.example.util.Utils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Objects;
 
 //
 
@@ -37,10 +44,12 @@ import java.io.FileNotFoundException;
  */
 public class FileProvideActivity extends AppCompatActivity {
 
+    private static final String TAG = "FileProvideActivity";
     private final int GET_PHOTO_FROM_CAMERA = 115;
     private final int GET_PHOTO_FROM_GALLERY = 114;
     private final int GET_PHOTO_FROM_CROP = 113;
     private final int REQUEST_CODE_SELECT_FILE = 112;
+    private static final int READ_REQUEST_CODE = 42;
     private ImageView ivImg;
     private Uri cameraUri = null;
 
@@ -55,26 +64,33 @@ public class FileProvideActivity extends AppCompatActivity {
         ivImg = (ImageView) findViewById(R.id.iv_img);
     }
 
+    // 获取相册照片
     public void GetPic(View view) {
         PhotoUtils.openPic(this, GET_PHOTO_FROM_GALLERY);
     }
 
+    // 拍照
     public void TakePhoto(View view) {
         cameraUri = PhotoUtils.takePicture(this, GET_PHOTO_FROM_CAMERA);
     }
 
     public void GetFile(View view) {
-        // 在目标版本为 7.0 之前可用系统文件浏览器获取路径
-        // Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        // intent.setType("*/*");
-        // intent.addCategory(Intent.CATEGORY_OPENABLE);
-        //
-        // intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        // startActivityForResult(Intent.createChooser(intent, "选择文件"), REQUEST_CODE_SELECT_FILE);
+        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            FileUtils.performFileSearch(this, READ_REQUEST_CODE );
+        } else {
+            // 在目标版本为 7.0 之前可用系统文件浏览器获取路径
+            // Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            // intent.setType("*/*");
+            // intent.addCategory(Intent.CATEGORY_OPENABLE);
+            //
+            // intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            // startActivityForResult(Intent.createChooser(intent, "选择文件"), REQUEST_CODE_SELECT_FILE);
 
-        // 在 Android 7.0 以后基本无法通过系统文件浏览器获取到文件路径，
-        // 可实现一个简单的文件浏览器获取文件路径
-        startActivity(new Intent(this, FileListActivity.class));
+            // 在 Android 7.0 以后基本无法通过系统文件浏览器获取到文件路径，
+            // 可实现一个简单的文件浏览器获取文件路径
+            startActivity(new Intent(this, FileListActivity.class));
+        }
+
     }
 
 
@@ -82,18 +98,19 @@ public class FileProvideActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_PHOTO_FROM_CAMERA && resultCode != Activity.RESULT_CANCELED) {
-
+            Log.e("FileProvideActivity", "onActivityResult: 拍摄照片");
             String state = Environment.getExternalStorageState();
             if (!state.equals(Environment.MEDIA_MOUNTED)) return;
             // 把原图显示到界面上
             File cachefile = new File(getExternalCacheDir(), "face-cropped");
-            Uri cropImageUri =Uri.fromFile(cachefile);
-            PhotoUtils.cropImageUri(this, cameraUri, cropImageUri, 1, 1, 480, 480, GET_PHOTO_FROM_CROP);
+            Uri cropImageUri = Uri.fromFile(cachefile);
+            PhotoUtils.cropImageUri(this, cameraUri, cropImageUri, 60, 60, 480, 480, GET_PHOTO_FROM_CROP);
 
         } else if (requestCode == GET_PHOTO_FROM_GALLERY && resultCode == Activity.RESULT_OK
                 && null != data) {
             try {
-                getBitmapFromGallery(FileProvideActivity.this,data);
+//                ivImg.setImageURI(data.getData());
+                getBitmapFromGallery(FileProvideActivity.this, data);
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(this, "获取图片失败", Toast.LENGTH_SHORT).show();
@@ -102,25 +119,58 @@ public class FileProvideActivity extends AppCompatActivity {
             Bitmap bitmap = getBitmepAfterCrop(FileProvideActivity.this);
             if (bitmap == null) return;
             ivImg.setImageBitmap(bitmap);
+            Log.e("FileProvideActivity", "onActivityResult: 裁剪照片");
+
         } else if (requestCode == REQUEST_CODE_SELECT_FILE && resultCode == Activity.RESULT_OK) {
 
             getDocument(data);
 
+        } else if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // The ACTION_OPEN_DOCUMENT intent was sent with the request code
+            // READ_REQUEST_CODE. If the request code seen here doesn't match, it's the
+            // response to some other intent, and the code below shouldn't run at all.
+
+            // The document selected by the user won't be returned in the intent.
+            // Instead, a URI to that document will be contained in the return intent
+            // provided to this method as a parameter.
+            // Pull that URI using resultData.getData().
+            Uri uri = null;
+            if (data != null) {
+                uri = data.getData();
+                Log.i(TAG, "Uri: " + uri.toString());
+                FileUtils.dumpFileMetaData(FileProvideActivity.this, uri);
+//                String s = readTextFromUri(uri);
+//                Log.i(TAG, "info: " + s);
+            }
         }
     }
 
-    // 获取相册中的照片
-    private void getBitmapFromGallery(Context context,Intent data) {
-        // 设置需要裁剪的缓存路径
-        File cachefile = new File(getExternalCacheDir(), "face-cropped");
-        Uri cropImageUri = Uri.fromFile(cachefile);
-        // 解析真实的图片路径
-        String path = PhotoUtils.getPath(this, data.getData());
-        String realPath = Uri.parse(path).getPath();
-        File realfile = new File(realPath);
-        Uri newUri = PhotoUtils.createUri(context,realfile);
 
-        PhotoUtils.cropImageUri(this, newUri, cropImageUri, 1, 1, 480, 480, GET_PHOTO_FROM_CROP);
+    /**
+     * Android 10 由于文件权限的关系不能使用图片路径直接加载手机储存卡内的图片，除非图片是在应用的私有目录下
+     * 获取相册中的照片
+     *
+     * @param context
+     * @param data
+     */
+    private void getBitmapFromGallery(Context context, Intent data) {
+        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            File cachefile = new File(getExternalCacheDir(), "face-cropped");
+            Uri cropImageUri = Uri.fromFile(cachefile);
+            PhotoUtils.cropImageUri(this, data.getData(), cropImageUri, 1, 1, 480, 480, GET_PHOTO_FROM_CROP);
+        } else {
+            // 设置需要裁剪的缓存路径
+            File cachefile = new File(getExternalCacheDir(), "face-cropped");
+            Uri cropImageUri = Uri.fromFile(cachefile);
+            // 解析真实的图片路径
+            String path = PhotoUtils.getPath(this, data.getData());
+            String realPath = Uri.parse(path).getPath();
+            File realfile = new File(realPath);
+            Uri newUri = PhotoUtils.createUri(context, realfile);
+
+            PhotoUtils.cropImageUri(this, newUri, cropImageUri, 1, 1, 480, 480, GET_PHOTO_FROM_CROP);
+        }
+
     }
 
     // 获取以及裁剪的图片
@@ -138,12 +188,12 @@ public class FileProvideActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * 获取另一个应用分享的文件内容，对于 kitkat 版本，无法通过 ContentResolver 获取文件路径
      * 7.0 以后已经无法在获取文件的真实路径，只能通过获取其文件句柄，然后写入设置的文件夹中
      *
      * @param data
+     * @deprecated Android 10 不适用,无法获取路径
      */
     private void getDocument(Intent data) {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
@@ -223,6 +273,11 @@ public class FileProvideActivity extends AppCompatActivity {
                 returnCursor.close();
         }
     }
+
+// 打开文件
+
+
+
 
 
 }
