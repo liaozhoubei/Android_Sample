@@ -34,7 +34,7 @@ public class PhotoUtils {
         //调用系统相机(8.0需要在intent()里写相机路径)
 
         //拍照后原图回存入此路径下
-        File camerafile = new File(Environment.getExternalStorageDirectory().getPath() + File.separator + System.currentTimeMillis() + ".jpg");
+        File camerafile = new File(activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath() + File.separator + System.currentTimeMillis() + ".jpg");
         Intent intentCamera = new Intent();
 
         Uri cameraUri = createUri(activity, camerafile);  //拍照后照片存储路径

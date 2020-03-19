@@ -41,6 +41,8 @@ import java.util.Objects;
  * Android 7.0 以后 获取相册照片以及相机拍照返回的方式发送变化
  * 通过手机自带的文件系统已无法获取路径，可实现简单的文件浏览器来获取路径
  * 可查看 https://blog.csdn.net/lmj623565791/article/details/72859156 了解 FileProvide 相关知识
+ *
+ * Android 10 以后，getExternalFilesDir()  为私有目录，可以获取路径，其他文件夹路径均无法获取
  */
 public class FileProvideActivity extends AppCompatActivity {
 
@@ -111,6 +113,8 @@ public class FileProvideActivity extends AppCompatActivity {
             try {
 //                ivImg.setImageURI(data.getData());
                 getBitmapFromGallery(FileProvideActivity.this, data);
+//                Bitmap bitmapFromUri = FileUtils.getBitmapFromUri(FileProvideActivity.this, data.getData());
+//                ivImg.setImageBitmap(bitmapFromUri);
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(this, "获取图片失败", Toast.LENGTH_SHORT).show();
