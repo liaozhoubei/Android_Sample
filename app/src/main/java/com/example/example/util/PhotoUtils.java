@@ -9,9 +9,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
@@ -20,6 +23,10 @@ import androidx.core.content.FileProvider;
 import com.example.example.BuildConfig;
 
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class PhotoUtils {
     private static final String TAG = "PhotoUtils";
@@ -37,7 +44,7 @@ public class PhotoUtils {
         File camerafile = new File(activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getPath() + File.separator + System.currentTimeMillis() + ".jpg");
         Intent intentCamera = new Intent();
 
-        Uri cameraUri = createUri(activity, camerafile);  //拍照后照片存储路径
+        Uri cameraUri = CreateTakePhotoUri(activity, camerafile);  //拍照后照片存储路径
         // 若不使用以上方法，则在获取需要给应用授权
         // Uri fileUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".FileProvider", camerafile);
         //
@@ -50,8 +57,7 @@ public class PhotoUtils {
         //             | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         // }
 
-
-
+        intentCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intentCamera.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         //将拍照结果保存至photo_file的Uri中，不保留在相册中
@@ -108,6 +114,23 @@ public class PhotoUtils {
         activity.startActivityForResult(intent, requestCode);
     }
 
+    public static Uri CreateTakePhotoUri(Context context, File file) {
+        Uri newUri;
+        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            // Android 10以后使用这种方法
+            String status = Environment.getExternalStorageState();
+            // 判断是否有SD卡,优先使用SD卡存储,当没有SD卡时使用手机存储
+            if (status.equals(Environment.MEDIA_MOUNTED)) {
+                newUri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
+            } else {
+                newUri = context.getContentResolver().insert(MediaStore.Images.Media.INTERNAL_CONTENT_URI, new ContentValues());
+            }
+        } else {
+            newUri = createUri(context, file);
+        }
+        return newUri;
+
+    }
 
     /**
      * 在低于 android N 的时候，就用以前的 Uri.fromFile(file);方式传递文件路径
@@ -117,16 +140,7 @@ public class PhotoUtils {
      */
     public static Uri createUri(Context context, File file) {
         Uri newUri;
-        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-            // Android 10以后使用这种方法
-            String status = Environment.getExternalStorageState();
-            // 判断是否有SD卡,优先使用SD卡存储,当没有SD卡时使用手机存储
-            if (status.equals(Environment.MEDIA_MOUNTED)) {
-                return context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
-            } else {
-                return context.getContentResolver().insert(MediaStore.Images.Media.INTERNAL_CONTENT_URI, new ContentValues());
-            }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
             // 并且这样可以解决MIUI系统上拍照返回size为0的情况
             newUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".FileProvider", file);
@@ -156,6 +170,7 @@ public class PhotoUtils {
 
     /**
      * Android 10 之后不可以使用绝对路径
+     *
      * @param context 上下文对象
      * @param uri     当前相册照片的Uri
      * @return 解析后的Uri对应的String
@@ -267,5 +282,108 @@ public class PhotoUtils {
      */
     private static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * 保存图片到 /data/package/DCIM/cache 中
+     * 请注意需要清理图片
+     *
+     * @param context
+     * @param uri
+     * @return
+     */
+    public static String saveBitmap(Context context, Uri uri) {
+        String result = "";
+
+        String status = Environment.getExternalStorageState();
+        File imageCache;
+        // 判断是否有SD卡,优先使用SD卡存储,当没有SD卡时使用手机存储
+        if (status.equals(Environment.MEDIA_MOUNTED)) {
+            File externalFilesDir = context.getExternalFilesDir(Environment.DIRECTORY_DCIM);
+            imageCache = new File(externalFilesDir, "cache");
+            if (!imageCache.exists()) {
+                imageCache.mkdirs();
+            }
+        } else {
+            File filesDir = context.getFilesDir();
+            imageCache = new File(filesDir, "Environment.DIRECTORY_DCIM/cache");
+            if (!imageCache.exists()) {
+                imageCache.mkdirs();
+            }
+        }
+        String image_cache = imageCache.getAbsolutePath();
+        String fileName = System.currentTimeMillis() + ".JPG";
+        File f = new File(image_cache, fileName);
+        if (f.exists()) {
+            f.delete();
+        }
+        ParcelFileDescriptor parcelFileDescriptor = null;
+        try {
+            parcelFileDescriptor =
+                    context.getContentResolver().openFileDescriptor(uri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            Bitmap bitmapFromUri = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+
+            FileOutputStream out = new FileOutputStream(f);
+            bitmapFromUri.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+
+            if (f.exists())
+                result = f.getAbsolutePath();
+//                Log.i(TAG, "已经保存");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                ExifInterface exifInterface = new ExifInterface(fileDescriptor);
+                // 只有jpg 格式才能获取 EXIF 信息
+                int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                        ExifInterface.ORIENTATION_NORMAL);
+                ExifInterface newexifInterface = new ExifInterface(result);
+                newexifInterface.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(orientation));
+                newexifInterface.saveAttributes();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (parcelFileDescriptor != null) {
+                try {
+                    parcelFileDescriptor.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 清理 /data/package/DCIM/cache 中的图片
+     *
+     * @param context
+     */
+    public static void clearImages(Context context) {
+        String status = Environment.getExternalStorageState();
+        File imageCache;
+        // 判断是否有SD卡,优先使用SD卡存储,当没有SD卡时使用手机存储
+        if (status.equals(Environment.MEDIA_MOUNTED)) {
+            File externalFilesDir = context.getExternalFilesDir(Environment.DIRECTORY_DCIM);
+            imageCache = new File(externalFilesDir, "cache");
+            if (!imageCache.exists()) {
+                return;
+            }
+        } else {
+            File filesDir = context.getFilesDir();
+            imageCache = new File(filesDir, "Environment.DIRECTORY_DCIM/cache");
+            if (!imageCache.exists()) {
+                return;
+            }
+        }
+        File[] files = imageCache.listFiles();
+        if (files != null && files.length > 0) {
+            for (File cache : files) {
+                cache.delete();
+            }
+        }
     }
 }

@@ -27,3 +27,5 @@ RetrofitActivity    演示使用 Retrofit + 转换器 网络请求框架
 WebViewActivity     演示 android 调用 js 方法 以及 js 调用 android 方法
 
 RichEditTextActivity    演示一个简单的富文本编辑器, 以及富文本如何点击
+
+MediaStoreActivity  演示如何使用 MediaStore 获取图片

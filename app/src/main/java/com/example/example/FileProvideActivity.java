@@ -60,6 +60,12 @@ public class FileProvideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_provide);
         initView();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                PhotoUtils.clearImages(getBaseContext());
+            }
+        }).start();
     }
 
     private void initView() {
@@ -112,6 +118,7 @@ public class FileProvideActivity extends AppCompatActivity {
                 && null != data) {
             try {
 //                ivImg.setImageURI(data.getData());
+
                 getBitmapFromGallery(FileProvideActivity.this, data);
 //                Bitmap bitmapFromUri = FileUtils.getBitmapFromUri(FileProvideActivity.this, data.getData());
 //                ivImg.setImageBitmap(bitmapFromUri);
@@ -159,9 +166,13 @@ public class FileProvideActivity extends AppCompatActivity {
      */
     private void getBitmapFromGallery(Context context, Intent data) {
         if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            // 先将图片保存到私有目录中，然后再进行裁剪
+            String imagePath = PhotoUtils.saveBitmap(this, data.getData());
+            File realfile = new File(imagePath);
+            Uri newUri = PhotoUtils.createUri(context, realfile);
             File cachefile = new File(getExternalCacheDir(), "face-cropped");
             Uri cropImageUri = Uri.fromFile(cachefile);
-            PhotoUtils.cropImageUri(this, data.getData(), cropImageUri, 1, 1, 480, 480, GET_PHOTO_FROM_CROP);
+            PhotoUtils.cropImageUri(this, newUri, cropImageUri, 1, 1, 480, 480, GET_PHOTO_FROM_CROP);
         } else {
             // 设置需要裁剪的缓存路径
             File cachefile = new File(getExternalCacheDir(), "face-cropped");

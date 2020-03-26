@@ -12,6 +12,8 @@ import com.example.example.retrofit.Interceptor.LoggingInterceptor;
 import com.example.example.retrofit.converter_one.JsonOrXmlConverterFactory;
 import com.example.example.retrofit.converter_two.CompositeConverterFactory;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -340,6 +343,43 @@ public class RetrofitActivity extends AppCompatActivity {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    private void uploadFile(File file, String userId) {
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .build();
+
+        // 设置文件以及文件上传类型封装
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/jpg"), file);
+
+        // 文件上传的请求体封装
+        MultipartBody multipartBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("userId", userId)
+                .addFormDataPart("image", file.getName(), requestBody)
+                .build();
+
+        Request request = new Request.Builder()
+                .url("http://a274273343.ticp.io:50832/loan/picUpload")
+                .post(multipartBody)
+                .build();
+        okhttp3.Call call = client.newCall(request);
+        call.enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull okhttp3.Call call, @NotNull IOException e) {
+                Log.d(TAG, "onFailure: ");
+            }
+
+            @Override
+            public void onResponse(@NotNull okhttp3.Call call, @NotNull okhttp3.Response response) throws IOException {
+                final String result = response.body().string();
+                Log.d(TAG, "onResponse: " +result);
+            }
+        });
+
+
+
     }
 
 }

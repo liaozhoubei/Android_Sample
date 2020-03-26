@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MediaStoreActivity">
 
 
@@ -11,6 +12,17 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_media"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:text="test"
+        android:onClick="test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/iv_test_img"
+        android:layout_width="200dp"
+        android:layout_height="200dp"/>
 
 </LinearLayout>

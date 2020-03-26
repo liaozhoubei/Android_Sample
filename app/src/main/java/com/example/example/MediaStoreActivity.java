@@ -4,14 +4,13 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
-import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.FileDescriptor;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,8 @@ import java.util.List;
 public class MediaStoreActivity extends AppCompatActivity {
     private static final String TAG = "MediaStoreActivity";
     private RecyclerView rvMedia;
+    private ArrayList<Uri> uriArrayList;
+    private ImageView ivTestImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +41,29 @@ public class MediaStoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_media_store);
 
         initView();
-        rvMedia.setLayoutManager(new GridLayoutManager(this,3));
+        rvMedia.setLayoutManager(new GridLayoutManager(this, 3));
 
         ContentResolver contentResolver = this.getContentResolver();
-        ArrayList<Uri> uriArrayList = new ArrayList<>();
+        uriArrayList = new ArrayList<>();
+
         Cursor cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 null, null, null, null);
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
-            while (cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
                 // android 10 不可用
 //            firstImgUri = Uri.fromFile(new File(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))));
                 long id = cursor.getLong(idColumn);
                 // 通过id 查询器uri
                 Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+                String displayName = cursor.getString(
+                        cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                Log.i(TAG, "Display Name: " + displayName);
                 uriArrayList.add(uri);
+                if (uriArrayList.size() > 3) {
+                    break;
+                }
                 Log.e(TAG, "img cursor data=" + cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
                         + ";\nimg cursor type=" + cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.MIME_TYPE)));
             }
@@ -109,9 +119,36 @@ public class MediaStoreActivity extends AppCompatActivity {
 
     private void initView() {
         rvMedia = (RecyclerView) findViewById(R.id.rv_media);
+        ivTestImg = (ImageView) findViewById(R.id.iv_test_img);
     }
 
-    class ImageAdapter extends RecyclerView.Adapter<RecyclerHolder>{
+    public void test(View view) {
+        Bitmap image = null;
+        ParcelFileDescriptor parcelFileDescriptor = null;
+        try {
+//            ContentProviderClient providerClient = context.getContentResolver().acquireContentProviderClient(uri);
+//            ParcelFileDescriptor descriptor = providerClient.openFile(uri, "r");
+//            Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.INTERNAL_CONTENT_URI,144588);
+            parcelFileDescriptor =
+                    getContentResolver().openFileDescriptor(uriArrayList.get(0), "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+            ivTestImg.setImageBitmap(image);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (parcelFileDescriptor != null)
+                try {
+                    parcelFileDescriptor.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
+        Log.e(TAG, "test: over---");
+    }
+
+    class ImageAdapter extends RecyclerView.Adapter<RecyclerHolder> {
         private List<Uri> dataList = new ArrayList<>();
 
         public void setDataList(List<Uri> dataList) {
@@ -127,8 +164,12 @@ public class MediaStoreActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerHolder holder, int position) {
-            Uri uri = dataList.get(position);
-            holder.imageView.setImageURI(uri);
+            try {
+                Uri uri = dataList.get(position);
+                holder.imageView.setImageURI(uri);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
