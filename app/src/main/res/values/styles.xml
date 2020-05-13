@@ -34,5 +34,19 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-
+    <!--name为声明的"属性集合"名，可以随便取，但是最好是设置为跟我们的View一样的名称-->
+    <declare-styleable name="CustomProgressBarView">
+        <!--声明我们的属性，名称为default_size,取值类型为尺寸类型（dp,px等）-->
+        <attr name="default_width" format="dimension" />
+        <attr name="default_height" format="dimension" />
+        <attr name="default_text_size" format="dimension" />
+        <attr name="default_progress_height" format="dimension" />
+        <attr name="default_progress_round" format="dimension" />
+        <attr name="default_padding" format="dimension" />
+        <attr name="default_text_padding" format="dimension" />
+        <attr name="default_progress_back_color" format="color" />
+        <attr name="default_progress_front_color" format="color" />
+        <attr name="default_text_color" format="color" />
+        <attr name="default_text_background_color" format="color" />
+    </declare-styleable>
 </resources>
