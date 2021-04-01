@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if (aClass.getSimpleName().equals("PermissionActivity")
                         || aClass.getSimpleName().equals("AppSettingsDialogHolderActivity")
-                        || aClass.getSimpleName().equals("MainActivity")) {
+                        || aClass.getSimpleName().equals("MainActivity")
+                        || aClass.getSimpleName().equals("LanguageActivity")) {
                     continue;
                 }
                 activityBeanList.add(new ActivityBean(aClass));

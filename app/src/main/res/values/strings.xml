@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Example</string>
+    <string name="tip_language">我是第一，哈哈哈</string>
+    <string name="hello">你好</string>
 </resources>
