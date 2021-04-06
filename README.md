@@ -35,3 +35,5 @@ studytouch.StudyTouchActivity   演示 Android 触摸事件传递
 multilanguage.MultiLanguage     演示如何动态更改国际语言
 
 RecyclerviewActivity    演示 recyclerView 如何更改item间隔
+
+MessengerActivity       演示如何 activity 与 service 使用 Messenger 通信的案例

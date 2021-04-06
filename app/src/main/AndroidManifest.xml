@@ -21,7 +21,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MediaStoreActivity"></activity>
+        <activity android:name=".MessengerActivity"></activity>
+
+        <service
+            android:name=".service.MessengerService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".MediaStoreActivity" />
         <activity
             android:name=".RichEditTextActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -37,10 +44,10 @@
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".studytouch.StudyTouchActivity"/>
-        <activity android:name=".multilanguage.MultiLanguageActivity"/>
-        <activity android:name=".multilanguage.LanguageActivity"/>
-        <activity android:name=".RecyclerviewActivity"/>
+        <activity android:name=".studytouch.StudyTouchActivity" />
+        <activity android:name=".multilanguage.MultiLanguageActivity" />
+        <activity android:name=".multilanguage.LanguageActivity" />
+        <activity android:name=".RecyclerviewActivity" />
         <activity android:name=".InstallApkActivity" />
         <activity android:name=".FileProvideActivity" />
         <activity android:name=".FileListActivity" />
