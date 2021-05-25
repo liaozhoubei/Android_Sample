@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SettingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/asset_changeSkin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="asset_changeSkin"
+            android:text="asset中更改资源" />
+
+        <Button
+            android:id="@+id/sd_changeSkin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="sd_changeSkin"
+            android:text="SD卡更改资源" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/resetSkin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="resetSkin"
+            android:text="恢复默认资源" />
+
+        <Button
+            android:id="@+id/startOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="startOther"
+            android:text="打开改变的页面" />
+    </LinearLayout>
+
+    <fragment
+        android:name="com.example.changeskin.ChangeResourceFragment"
+        android:id="@+id/change_resource"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

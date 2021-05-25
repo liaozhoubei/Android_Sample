@@ -1,0 +1,20 @@
+
+
+ext.deps = [:]
+def versions = [:]
+versions.activity = '1.2.2'
+versions.appcompat = '1.1.0'
+versions.material = "1.0.0"
+versions.constraint_layout = "2.0.4"
+ext.versions = versions
+
+def build_versions = [:]
+build_versions.min_sdk = 19
+build_versions.compile_sdk = 29
+build_versions.target_sdk = 29
+build_versions.build_tools = "29.0.3"
+ext.build_versions = build_versions
+
+deps.app_compat = "androidx.appcompat:appcompat:$versions.appcompat"
+deps.material = "com.google.android.material:material:$versions.material"
+deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
