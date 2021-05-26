@@ -2,6 +2,7 @@ package com.example.changeskin;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -48,7 +49,15 @@ public class SettingActivity extends AppCompatActivity {
     public void sd_changeSkin(View view) {
         Log.e(TAG, "sd_changeSkin: " + Environment.getExternalStorageDirectory() );
         String path = "skinnight-debug.skin";
-        File file = new File(Environment.getExternalStorageDirectory(), path);
+
+        File filesDir;
+        // Android 29 + 有存储限制，只能读取特定目录
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            filesDir = getExternalFilesDir(null);
+        }else {
+            filesDir = Environment.getExternalStorageDirectory();
+        }
+        File file = new File(filesDir, path);
         if (file.exists()){
             Toast.makeText(this, "从 SD 卡中加载资源", Toast.LENGTH_SHORT).show();
             // 加载SD卡
