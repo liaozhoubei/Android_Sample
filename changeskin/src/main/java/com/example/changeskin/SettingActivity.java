@@ -2,6 +2,7 @@ package com.example.changeskin;
 
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,20 +14,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.app.SkinAppCompatDelegateImpl;
+import androidx.fragment.app.Fragment;
 
 import java.io.File;
 
 import skin.support.SkinCompatManager;
+import skin.support.content.res.SkinCompatResources;
 
 public class SettingActivity extends AppCompatActivity {
     String TAG = "SettingActivity";
+    private ChangeResourceFragment changeResourceFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        changeResourceFragment = (ChangeResourceFragment) getSupportFragmentManager().findFragmentById(R.id.change_resource);
 
     }
 
@@ -87,6 +90,18 @@ public class SettingActivity extends AppCompatActivity {
         @Override
         public void onSuccess() {
             Log.e(TAG, "onSuccess: ");
+            SkinCompatResources skinCompatResources = SkinCompatResources.getInstance();
+            Resources resources = skinCompatResources.getSkinResources();
+            try {
+                String appName = getResources().getResourceEntryName(R.string.app_name);
+//                Resources resources = createPackageContext("com.example.testskin.day", 0).getResources();
+                int id = resources.getIdentifier(appName, "string", skinCompatResources.getSkinPkgName());
+                String name = resources.getString(id);
+                Log.e(TAG, "onSuccess: "+ name);
+                changeResourceFragment.setTextView(name);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
