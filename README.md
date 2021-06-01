@@ -12,7 +12,7 @@
 
 app     此模块是一般技术演示
 taskdispatcher  是延迟加载技术的演示(未完成)
-changeSkin      是动态换肤的演示
+changeSkin      是动态换肤的演示(更换背景色及布局)
     nightSkin   是夜间模式，可将此文件生成的 skin 放置于自定义目录，此处为sd卡根目录
     dayskin     是白天模式，生成的文件手动放在 asset/skins 中
 

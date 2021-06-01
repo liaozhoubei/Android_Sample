@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NightSkin</string>
+
+    <string name="theme_name">SkinNight</string>
 </resources>

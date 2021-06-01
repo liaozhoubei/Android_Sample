@@ -2,4 +2,8 @@
 <resources>
     <color name="activitybg">#FFFFFF</color>
     <color name="mytextColor">#000000</color>
+
+    <color name="left_first_text">#FF5722</color>
+    <color name="middle_first_text">#FF9800</color>
+    <color name="right_first_text">#FFC107</color>
 </resources>
