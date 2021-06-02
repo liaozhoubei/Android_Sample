@@ -1,14 +1,23 @@
 package com.example.taskdispatcher.example.net;
 
 import android.util.Log;
-import okhttp3.*;
 
-import javax.annotation.Nullable;
+import androidx.annotation.Nullable;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.List;
+
+
+import okhttp3.Call;
+import okhttp3.Connection;
+import okhttp3.EventListener;
+import okhttp3.Handshake;
+import okhttp3.Protocol;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class OkHttpEventListener extends EventListener {
 

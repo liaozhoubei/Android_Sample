@@ -3,8 +3,9 @@ package com.example.taskdispatcher.example.net;
 import com.facebook.imagepipeline.listener.RequestListener;
 import com.facebook.imagepipeline.request.ImageRequest;
 
-import javax.annotation.Nullable;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 public class FrescoTraceListener implements RequestListener {
 
