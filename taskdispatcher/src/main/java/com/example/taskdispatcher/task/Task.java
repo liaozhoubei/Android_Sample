@@ -12,7 +12,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 
 public abstract class Task implements ITask {
-    protected String mTag = getClass().getSimpleName().toString();
+    protected String TAG = getClass().getSimpleName().toString();
     protected Context mContext = TaskDispatcher.getContext();
     protected boolean mIsMainProcess = TaskDispatcher.isMainProcess();// 当前进程是否是主进程
     private volatile boolean mIsWaiting;// 是否正在等待

@@ -35,6 +35,7 @@ def addRepos(RepositoryHandler handler) {
 //        handler.maven { url "https://jitpack.io" }
     }
     handler.mavenCentral()
+    handler.maven { url 'https://dl.bintray.com/umsdk/release' }
 }
 ext.addRepos = this.&addRepos
 

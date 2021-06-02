@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.taskdispatcher">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
+        android:name=".example.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <!-- 2.设置启动Activity主题 -->
-        <activity android:name=".MainActivity"
+        <activity android:name=".example.MainActivity"
             android:theme="@style/AppTheme.LaunchTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
