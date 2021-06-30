@@ -17,8 +17,16 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class PermissionActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     private static final String TAG = "PermissionActivity";
     private static final int RC_PERMISSION = 122;
-    String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+    String[] permissions = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.ACCESS_WIFI_STATE,
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +41,6 @@ public class PermissionActivity extends AppCompatActivity implements EasyPermiss
         }
         requestPermissionTask();
     }
-
 
 
     @AfterPermissionGranted(RC_PERMISSION)
@@ -68,7 +75,10 @@ public class PermissionActivity extends AppCompatActivity implements EasyPermiss
 
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
+        for (String perm:perms) {
+            Log.e(TAG, "onPermissionsDenied:" + requestCode + ":"  + perm);
+        }
+
         Toast.makeText(this, "您拒绝了权限", Toast.LENGTH_SHORT).show();
         finish();
     }

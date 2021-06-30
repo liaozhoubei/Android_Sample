@@ -49,3 +49,12 @@ RecyclerviewActivity    演示 recyclerView 如何更改item间隔
 
 MessengerActivity       演示如何 activity 与 service 使用 Messenger 通信的案例
 
+SignalListenerActivity  演示如何获取手机信号强度，wifi信号强度，蓝牙连接状态的案例
+
+    获取蓝牙连接状态需要权限：
+            <uses-permission android:name="android.permission.BLUETOOTH" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    获取wifi信号强度需要权限：
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
