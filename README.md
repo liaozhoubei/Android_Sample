@@ -35,6 +35,19 @@ PickerViewActivity  演示第三方库  Android-PickerView  的使用
 
 RetrofitActivity    演示使用 Retrofit + 转换器 网络请求框架
 
+    使用 Retrofit 下载文件时，切记要在接口方法中添加 @Streaming  注解，否则下载大文件会出现 OOM
+    其次使用 okhttp3 下载文件时，添加的日志拦截器 HttpLoggingInterceptor 要将其级别设置为 HttpLoggingInterceptor.Level.NONE，
+    因为使用 Level.BODY 级别，那么它会将请求的 body 保存在内存中而引起 OOM
+
+ > When you use HttpLoggingInterceptor.Level.BODY , then you try to download large file , will save all body in memory for log.
+That's easy let to OOM .
+
+ >https://stackoverflow.com/questions/36643280/fatal-exception-java-lang-outofmemoryerror-using-okhttp3-okio-for-download-file
+
+    关于 network_security_config
+    google在 android P 为了安全起见,已经明确规定禁止http协议额,但是之前很多接口都是http协议，可新建 xml/network_security_config.xml 文件解决,
+    这是因为应用程序的SDK高于或等于24，则只有系统证书才会被信任
+
 WebViewActivity     演示 android 调用 js 方法 以及 js 调用 android 方法
 
 RichEditTextActivity    演示一个简单的富文本编辑器, 以及富文本如何点击

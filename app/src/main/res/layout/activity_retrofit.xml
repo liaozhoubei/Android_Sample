@@ -18,8 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
-        android:text="Download"
-        android:onClick="Download"
+        android:text="DownloadRetrofit"
+        android:onClick="DownloadRetrofit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:text="DownloadOKhttp3"
+        android:onClick="DownloadOKhttp3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

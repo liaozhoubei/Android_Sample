@@ -22,12 +22,14 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,8 +61,23 @@ public class RetrofitActivity extends AppCompatActivity {
         ConvertSecond();
     }
 
-    public void Download(View view) {
-        downLoadMethod();
+    public void DownloadRetrofit(View view) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                downLoadRetrofit();
+            }
+        }).start();
+    }
+
+    public void DownloadOKhttp3(View view) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                downLoadOkhttp3();
+            }
+        }).start();
+
     }
 
     public void Upload(View view) {
@@ -70,6 +87,7 @@ public class RetrofitActivity extends AppCompatActivity {
 
     /**
      * 第一种混合转换器
+     *
      * @return
      */
     private void ConvertOne() {
@@ -98,12 +116,12 @@ public class RetrofitActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<NewsDataXml> call, Response<NewsDataXml> response) {
                 List<NewsXml> list = response.body().getList();
-                Log.e(TAG, "NewsDataXml onResponse: " + list.get(0).toString() );
+                Log.e(TAG, "NewsDataXml onResponse: " + list.get(0).toString());
             }
 
             @Override
             public void onFailure(Call<NewsDataXml> call, Throwable t) {
-                Log.e(TAG, "NewsDataXml onFailure: ",t );
+                Log.e(TAG, "NewsDataXml onFailure: ", t);
             }
         });
     }
@@ -122,12 +140,12 @@ public class RetrofitActivity extends AppCompatActivity {
                          @Override
                          public void onResponse(Call<GankBean> call, Response<GankBean> response) {
                              List<GankBean.ResultsBean> results = response.body().getResults();
-                             Log.e(TAG, "CompositeConverterFactory GankBean onResponse: " + results.get(0).toString() );
+                             Log.e(TAG, "CompositeConverterFactory GankBean onResponse: " + results.get(0).toString());
                          }
 
                          @Override
                          public void onFailure(Call<GankBean> call, Throwable t) {
-                             Log.e(TAG, "onFailure: ",t );
+                             Log.e(TAG, "onFailure: ", t);
                          }
                      }
         );
@@ -137,12 +155,12 @@ public class RetrofitActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<NewsDataXml> call, Response<NewsDataXml> response) {
                 List<NewsXml> list = response.body().getList();
-                Log.e(TAG, "CompositeConverterFactory NewsDataXml onResponse: " + list.get(0).toString() );
+                Log.e(TAG, "CompositeConverterFactory NewsDataXml onResponse: " + list.get(0).toString());
             }
 
             @Override
             public void onFailure(Call<NewsDataXml> call, Throwable t) {
-                Log.e(TAG, "CompositeConverterFactory NewsDataXml onFailure: ",t );
+                Log.e(TAG, "CompositeConverterFactory NewsDataXml onFailure: ", t);
             }
         });
     }
@@ -156,7 +174,7 @@ public class RetrofitActivity extends AppCompatActivity {
         //file1Location文件的路径 ,我是在手机存储根目录下创建了一个文件夹,里面放着了一张图片;
         String file1Location = Environment.getExternalStorageDirectory().getAbsolutePath() +
                 File.separator + "MyDownload" +
-                File.separator +"download.jpg";
+                File.separator + "download.jpg";
         File file = new File(file1Location);
 
         //创建表单map,里面存储服务器本接口所需要的数据;
@@ -202,16 +220,15 @@ public class RetrofitActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 //联网有响应或有返回数据
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     try {
                         System.out.println(response.body().toString());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }else {
+                } else {
 
                 }
-
             }
 
             @Override
@@ -228,8 +245,9 @@ public class RetrofitActivity extends AppCompatActivity {
     /**
      * 响应下载点击事件的方法
      * https://www.jianshu.com/p/1043b8998ac3
+     * 需要注意，下载大文件时， retrofit 要加上 @Streaming  注解，否则会出现 OOM
      */
-    private void downLoadMethod() {
+    private void downLoadRetrofit() {
 
         //创建设置OkHttpClient
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -256,37 +274,78 @@ public class RetrofitActivity extends AppCompatActivity {
 
         //我在百度上找到一张图片,把他的地址拆分了一下,最后一个斜杠之前的url设置为了baseUrl,斜杠之后设置在这里;
         Call<ResponseBody> download = retrofit.create(RetrofitApi.class).download("3071736420860264427.jpg");
-        download.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response != null && response.isSuccessful()) {
-                    boolean toDisk = writeResponseBodyToDisk(response.body());
-                    if (toDisk) {
-                        System.out.println("下载成功请查看");
-                    } else {
-
-                        System.out.println("下载失败,请稍后重试");
-                    }
+        try {
+            Response<ResponseBody> response = download.execute();
+            if (response != null && response.isSuccessful() && response.body() != null) {
+                boolean toDisk = writeResponseBodyToDisk(response.body().contentLength(), response.body().byteStream());
+                if (toDisk) {
+                    System.out.println("下载成功请查看");
                 } else {
-                    System.out.println("服务器返回错误");
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                //连接失败,多数是网络不可用导致的
-                System.out.println("网络不可用");
+                    System.out.println("下载失败,请稍后重试");
+                }
+            } else {
+                System.out.println("服务器返回错误");
+                Log.e(TAG, "downLoadRetrofit: \n"+ response.errorBody().string() );
             }
-        });
+        } catch (Exception e) {
+            Log.e(TAG, "downLoadRetrofit: ",e );
+        }
+    }
+
+    private void downLoadOkhttp3() {
+        HttpLoggingInterceptor.Logger logger = new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(@NotNull String s) {
+                Log.d(TAG, "download: " + s);
+            }
+        };
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(logger);
+        // 注意，若使用日志拦截器同时做下载工作的时候， 最好设置为 Level.NONE, 否则容易会出现 OOM
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+
+        //创建设置OkHttpClient
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(20, TimeUnit.SECONDS)
+                .readTimeout(20, TimeUnit.SECONDS)
+                .writeTimeout(20, TimeUnit.SECONDS)
+                .addInterceptor(httpLoggingInterceptor)
+                //允许失败重试
+                .retryOnConnectionFailure(true)
+                .build();
+        List<Interceptor> interceptors = okHttpClient.interceptors();
+        Log.e(TAG, "downLoadMethod: " + interceptors.size());
+
+        try {
+            // 使用 tomcat 搭建一个文件服务器
+            Request request = new Request.Builder()
+                    .url("http://192.168.99.218:8080/test/test.zip")
+                    .build();
+
+            okhttp3.Response response = okHttpClient.newCall(request).execute();
+            if (response != null && response.isSuccessful()) {
+                ResponseBody body = response.body();
+                boolean toDisk = writeResponseBodyToDisk(body.contentLength(), body.byteStream());
+                if (toDisk) {
+                    System.out.println("下载成功请查看");
+                } else {
+
+                    System.out.println("下载失败,请稍后重试");
+                }
+            } else {
+                System.out.println("服务器返回错误");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * 下载到本地
      *
-     * @param body 内容
      * @return 成功或者失败
      */
-    private boolean writeResponseBodyToDisk(ResponseBody body) {
+    private boolean writeResponseBodyToDisk(long contentLength, InputStream byteStream) {
         String SD_HOME_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "MyDownload/";
         try {
             //判断文件夹是否存在
@@ -306,10 +365,10 @@ public class RetrofitActivity extends AppCompatActivity {
                 //设置每次读写的字节
                 byte[] fileReader = new byte[4096];
 
-                long fileSize = body.contentLength();
+                long fileSize = contentLength;
                 long fileSizeDownloaded = 0;
                 //请求返回的字节流
-                inputStream = body.byteStream();
+                inputStream = byteStream;
                 //创建输出流，再此次可通过 fileSize 与现在写入磁盘的大小获取进度
                 outputStream = new FileOutputStream(futureStudioIconFile);
                 //进行读取操作
@@ -322,7 +381,7 @@ public class RetrofitActivity extends AppCompatActivity {
                     //进行写入操作
                     outputStream.write(fileReader, 0, read);
                     fileSizeDownloaded += read;
-
+                    Log.d(TAG, "已下载: " + (fileSizeDownloaded * 100 / fileSize) + "%");
                 }
                 //刷新
                 outputStream.flush();
@@ -374,12 +433,12 @@ public class RetrofitActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull okhttp3.Call call, @NotNull okhttp3.Response response) throws IOException {
                 final String result = response.body().string();
-                Log.d(TAG, "onResponse: " +result);
+                Log.d(TAG, "onResponse: " + result);
             }
         });
 
 
-
     }
+
 
 }

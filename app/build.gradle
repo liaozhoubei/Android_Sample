@@ -94,6 +94,7 @@ dependencies {
 //    implementation 'com.squareup.retrofit2:converter-jaxb:2.6.0'  // 不支持android
     implementation 'com.squareup.retrofit2:converter-simplexml:2.7.1'
     implementation 'com.squareup.okhttp3:okhttp:4.3.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
 
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.14.1'
 
