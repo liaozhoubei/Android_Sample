@@ -71,3 +71,35 @@ SignalListenerActivity  演示如何获取手机信号强度，wifi信号强度�
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+## 去除重复依赖
+
+打包时若出现重复依赖，可以使用　double shift　快捷键　search everywhere，这时所有相关信息就会出现了，然后在相关的依赖中设置　exclude 即可
+
+如：
+
+    implementation ('com.squareup.retrofit2:converter-simplexml:2.7.1'){
+        // 不包含　xpp3 依赖，否则会有重复引用的错误，导致无法编译 release 包
+        exclude group: 'xpp3', module: 'xpp3'
+    }
+
+exclude 中 group 和 module 的区别如下：
+
+maven格式是：
+
+    <groupID>:<artifactID>:<version>
+
+module就是artifactID
+
+    exclude module: "cardview-v7"
+
+意思就是排除所有artifactID为cardview-v7的库
+
+不管是 com.support.android:cardview-v7:1.0.0 还是别的什么 com.meitu:cardview-v7:2.1.1 都排除
+
+    exclude group:"com.google.zxing", modul:"core"
+
+就是排除 com.google.zxing:core:任何版本号 的库
+
+但是可能有个 com.meitu:zxing:1.11.0 就不会被排除
+
+
