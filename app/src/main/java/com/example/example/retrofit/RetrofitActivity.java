@@ -41,6 +41,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  * Retrofit demo
  * 发现 xml 转换器与 gson 转换器无法同时使用
  * 示例数据在 assert 中，分别为 hello.json 以及 test2.xml
+ * 上传文件： https://blog.csdn.net/john_android/article/details/98033859
  */
 public class RetrofitActivity extends AppCompatActivity {
     private String TAG = "RetrofitActivity";
@@ -404,6 +405,11 @@ public class RetrofitActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * okhttp3 上传文件
+     * @param file
+     * @param userId
+     */
     private void uploadFile(File file, String userId) {
 
         OkHttpClient client = new OkHttpClient.Builder()
