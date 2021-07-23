@@ -21,20 +21,21 @@ buildprotobuf   演示 google protobuf 的用法
 
 ## 源码介绍
 
-bg_splash.xml       用于闪屏页时避免 app 冷启动时白屏
+ - bg_splash.xml       用于闪屏页时避免 app 冷启动时白屏
 
-FileProvideActivity 演示如何使用 FileProvide 从相册、相机、裁剪中获取图片
+ - FileProvideActivity 演示如何使用 FileProvide 从相册、相机、裁剪中获取图片
 
-FileListActivity    演示一个简单的文件浏览器
+ - FileListActivity    演示一个简单的文件浏览器
 
-InstallApkActivity  演示如何兼容 android 4.4 及 7.0 以后的应用内更新
+ - InstallApkActivity  演示如何兼容 android 4.4 及 7.0 以后的应用内更新
 
-LiveDataActivity    演示jetpack 库中的 LiveData 的使用
+ - LiveDataActivity    演示jetpack 库中的 LiveData 的使用
 
-PickerViewActivity  演示第三方库  Android-PickerView  的使用
+ - PickerViewActivity  演示第三方库  Android-PickerView  的使用
 
-RetrofitActivity    演示使用 Retrofit + 转换器 网络请求框架
+ - RetrofitActivity    演示使用 Retrofit + 转换器 网络请求框架
 
+    - 下载上传文件出现 OOM
     使用 Retrofit 下载文件时，切记要在接口方法中添加 @Streaming  注解，否则下载大文件会出现 OOM
     其次使用 okhttp3 下载文件时，添加的日志拦截器 HttpLoggingInterceptor 要将其级别设置为 HttpLoggingInterceptor.Level.NONE，
     因为使用 Level.BODY 级别，那么它会将请求的 body 保存在内存中而引起 OOM
@@ -48,21 +49,40 @@ That's easy let to OOM .
     google在 android P 为了安全起见,已经明确规定禁止http协议额,但是之前很多接口都是http协议，可新建 xml/network_security_config.xml 文件解决,
     这是因为应用程序的SDK高于或等于24，则只有系统证书才会被信任
 
-WebViewActivity     演示 android 调用 js 方法 以及 js 调用 android 方法
+    - 关于混淆
+   使用 retrofit 请求网络的时候，若开启 minifyEnabled 进行代码压缩混淆就会出现网络请求失败的问题。这大概是因为 retrofit 和 gson 注解混淆之后，解析失败的问题，因此要在 proguard-rules.pro 中配置混淆规则，如下：
 
-RichEditTextActivity    演示一个简单的富文本编辑器, 以及富文本如何点击
 
-MediaStoreActivity  演示如何使用 MediaStore 获取图片
+        # Retrofit
+        -dontwarn retrofit2.**
+        -keep class retrofit2.** { *; }
+        -keepattributes Signature
+        -keepattributes Exceptions
 
-studytouch.StudyTouchActivity   演示 Android 触摸事件传递
+        # Gson
+        -keep class com.google.gson.stream.** { *; }
+        -keepattributes EnclosingMethod
 
-multilanguage.MultiLanguage     演示如何动态更改国际语言
+        # Gson
+        -keep class com.example.example.retrofit.**{*;} # 自定义数据模型的bean目录
+   若想在 debug 下测试，需要将 minifyEnabled 设置为 true 即可，在不添加  proguard-rules.pro 情况下会发现请求网络信息没有数据返回
 
-RecyclerviewActivity    演示 recyclerView 如何更改item间隔
 
-MessengerActivity       演示如何 activity 与 service 使用 Messenger 通信的案例
+ - WebViewActivity     演示 android 调用 js 方法 以及 js 调用 android 方法
 
-SignalListenerActivity  演示如何获取手机信号强度，wifi信号强度，蓝牙连接状态的案例
+ - RichEditTextActivity    演示一个简单的富文本编辑器, 以及富文本如何点击
+
+ - MediaStoreActivity  演示如何使用 MediaStore 获取图片
+
+ - studytouch.StudyTouchActivity   演示 Android 触摸事件传递
+
+ - multilanguage.MultiLanguage     演示如何动态更改国际语言
+
+ - RecyclerviewActivity    演示 recyclerView 如何更改item间隔
+
+ - MessengerActivity       演示如何 activity 与 service 使用 Messenger 通信的案例
+
+ - SignalListenerActivity  演示如何获取手机信号强度，wifi信号强度，蓝牙连接状态的案例
 
     获取蓝牙连接状态需要权限：
             <uses-permission android:name="android.permission.BLUETOOTH" />
