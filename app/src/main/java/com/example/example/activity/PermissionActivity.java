@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.example.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.example.example.MainActivity;
+import com.example.example.R;
 
 import java.util.List;
 

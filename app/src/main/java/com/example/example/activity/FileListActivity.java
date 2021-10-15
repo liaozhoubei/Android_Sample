@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.example.activity;
 
 import android.content.Intent;
 import android.os.Build;
@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.example.R;
 
 import java.io.File;
 import java.io.FileInputStream;

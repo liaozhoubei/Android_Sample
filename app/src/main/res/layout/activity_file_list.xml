@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".FileListActivity">
+    tools:context=".activity.FileListActivity">
 
     <TextView
         android:id="@+id/tv_file_list_title"

@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.example.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.example.R;
 import com.example.example.bean.MessageSource;
 import com.example.example.service.MessengerService;
 

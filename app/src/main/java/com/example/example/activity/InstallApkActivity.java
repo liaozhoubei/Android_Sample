@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.example.activity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -18,6 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+
+import com.example.example.BuildConfig;
+import com.example.example.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

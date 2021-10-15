@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.example.activity;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.example.R;
 import com.example.example.util.JsoupUtil;
 import com.example.example.util.SpanHelper;
 import com.example.example.widget.RichEditText;

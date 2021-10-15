@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.example.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -30,6 +30,8 @@ import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 
 import static java.sql.DriverManager.println;
+
+import com.example.example.R;
 
 /**
  * 手机信号，wifi 信号，蓝牙状态监听

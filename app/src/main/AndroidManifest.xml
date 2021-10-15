@@ -31,20 +31,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SignalListenerActivity"></activity>
-        <activity android:name=".MessengerActivity" />
+        <activity android:name=".activity.SignalListenerActivity"></activity>
+        <activity android:name=".activity.MessengerActivity" />
 
         <service
             android:name=".service.MessengerService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".MediaStoreActivity" />
+        <activity android:name=".activity.MediaStoreActivity" />
         <activity
-            android:name=".RichEditTextActivity"
+            android:name=".activity.RichEditTextActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".PermissionActivity"
+            android:name=".activity.PermissionActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,17 +58,17 @@
         <activity android:name=".studytouch.StudyTouchActivity" />
         <activity android:name=".multilanguage.MultiLanguageActivity" />
         <activity android:name=".multilanguage.LanguageActivity" />
-        <activity android:name=".RecyclerviewActivity" />
-        <activity android:name=".InstallApkActivity" />
-        <activity android:name=".FileProvideActivity" />
-        <activity android:name=".FileListActivity" />
+        <activity android:name=".activity.RecyclerviewActivity" />
+        <activity android:name=".activity.InstallApkActivity" />
+        <activity android:name=".activity.FileProvideActivity" />
+        <activity android:name=".activity.FileListActivity" />
         <activity android:name=".jetpck.LiveDataActivity" /> <!-- 7.0以上摄像头调取 -->
         <activity
-            android:name=".WebViewActivity"
+            android:name=".activity.WebViewActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CameraActivity" />
+        <activity android:name=".activity.CameraActivity" />
         <activity
-            android:name=".PickerViewActivity"
+            android:name=".activity.PickerViewActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".retrofit.RetrofitActivity" />
 

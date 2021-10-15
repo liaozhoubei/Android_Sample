@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.example.activity;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -20,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.example.R;
 
 import java.io.FileDescriptor;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.example.activity;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -6,13 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
@@ -20,20 +18,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 
+import com.example.example.R;
 import com.example.example.util.FileUtils;
 import com.example.example.util.PhotoUtils;
 import com.example.example.util.Utils;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Objects;
 
 //
 

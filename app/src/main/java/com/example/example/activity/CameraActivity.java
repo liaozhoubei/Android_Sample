@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.example.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -31,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
+import com.example.example.R;
 import com.example.example.util.BitmapUtils;
 import com.example.example.util.CameraHelper;
 
@@ -39,11 +39,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {

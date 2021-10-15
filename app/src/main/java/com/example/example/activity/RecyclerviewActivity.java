@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.example.activity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.example.R;
 import com.example.example.widget.SpaceItemDecoration;
 
 import java.util.ArrayList;

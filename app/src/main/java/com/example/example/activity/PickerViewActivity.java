@@ -1,4 +1,4 @@
-package com.example.example;
+package com.example.example.activity;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -9,13 +9,11 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.example.example.R;
 import com.example.example.bean.ChinaCityBean;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.TextView;
