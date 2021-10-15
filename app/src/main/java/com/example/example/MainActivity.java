@@ -40,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
             PackageManager packageManager = getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(
                     getPackageName(), PackageManager.GET_ACTIVITIES);
-            for (ActivityInfo activity : packageInfo.activities) {
-                Class aClass = Class.forName(activity.name);
+
+            for (ActivityInfo activityInfo : packageInfo.activities) {
+                Class aClass = Class.forName(activityInfo.name);
 
                 if (aClass.getSimpleName().equals("PermissionActivity")
                         || aClass.getSimpleName().equals("AppSettingsDialogHolderActivity")

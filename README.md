@@ -4,19 +4,23 @@
 
 项目运行环境：
 
-    android 28
+    android 30
     android studio 3.4
     androidx 依赖包
 
 ## 模块介绍
 
-app     此模块是一般技术演示
-taskdispatcher  是延迟加载技术的演示
-changeSkin      是动态换肤的演示(更换背景色及布局)
-    nightSkin   是夜间模式，可将此文件生成的 skin 放置于自定义目录，此处为sd卡根目录
-    dayskin     是白天模式，生成的文件手动放在 asset/skins 中
-makeJar         演示在 Android studio 中如何生成 jar 包
-buildprotobuf   演示 google protobuf 的用法
+ - app     此模块是一般技术演示
+
+ - taskdispatcher  是延迟加载技术的演示
+
+ - changeSkin      是动态换肤的演示(更换背景色及布局)
+     - nightSkin   是夜间模式，可将此文件生成的 skin 放置于自定义目录，此处为sd卡根目录
+     - dayskin     是白天模式，生成的文件手动放在 asset/skins 中
+
+ - makeJar         演示在 Android studio 中如何生成 jar 包
+
+ - buildprotobuf   演示 google protobuf 的用法
 
 
 ## 源码介绍
@@ -28,6 +32,13 @@ buildprotobuf   演示 google protobuf 的用法
  - FileListActivity    演示一个简单的文件浏览器，添加 Android 11 示例
 
  - InstallApkActivity  演示如何兼容 android 4.4 及 7.0 以后的应用内更新
+
+ - CameraActivity      演示如何使用 Camera 1
+
+ - CameraXActivity     演示如何使用 CameraX , 使用 CameraX 必须是 android 5.1 以上，同时对与 Gradle classpath 插件会有要求
+ 
+        unexpected element ＜queries＞ found in ＜manifest＞解决方案
+        https://blog.csdn.net/xuling_1987/article/details/112631111
 
  - LiveDataActivity    演示jetpack 库中的 LiveData 的使用
 
