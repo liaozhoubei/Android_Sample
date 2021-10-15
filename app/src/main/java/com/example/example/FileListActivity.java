@@ -1,7 +1,10 @@
 package com.example.example;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,8 +41,20 @@ public class FileListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_list);
         initView();
-        initdata();
-        initListener();
+        if (Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.Q){
+            // android 11 管理存储卡示例
+            boolean externalStorageManager = Environment.isExternalStorageManager();
+            if (!externalStorageManager){
+                startActivity(new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION));
+                finish();
+            }else {
+                initdata();
+                initListener();
+            }
+        }else {
+            initdata();
+            initListener();
+        }
     }
 
 

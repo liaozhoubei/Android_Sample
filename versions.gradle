@@ -10,9 +10,9 @@ ext.versions = versions
 
 def build_versions = [:]
 build_versions.min_sdk = 19
-build_versions.compile_sdk = 29
-build_versions.target_sdk = 29
-build_versions.build_tools = "29.0.3"
+build_versions.compile_sdk = 30
+build_versions.target_sdk = 30
+build_versions.build_tools = "30.0.3"
 ext.build_versions = build_versions
 
 deps.app_compat = "androidx.appcompat:appcompat:$versions.appcompat"

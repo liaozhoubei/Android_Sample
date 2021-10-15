@@ -25,7 +25,7 @@ buildprotobuf   演示 google protobuf 的用法
 
  - FileProvideActivity 演示如何使用 FileProvide 从相册、相机、裁剪中获取图片
 
- - FileListActivity    演示一个简单的文件浏览器
+ - FileListActivity    演示一个简单的文件浏览器，添加 Android 11 示例
 
  - InstallApkActivity  演示如何兼容 android 4.4 及 7.0 以后的应用内更新
 
