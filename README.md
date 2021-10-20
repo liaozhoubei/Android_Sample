@@ -33,6 +33,34 @@
 
  - InstallApkActivity  演示如何兼容 android 4.4 及 7.0 以后的应用内更新
 
+关于 xml/file_paths.xml 的路径说明
+
+
+    <files-path name="*name*" path="*path*" />   
+    对应的是：Context.getFileDir()的路径地址
+
+    对应路径:Context.getFileDir()+"/${path}/"
+    得到路径:content://${applicationId}/&{name}/
+
+    <cache-path name="*name*" path="*path*" />  
+    对应路径:Context.getCacheFir()+"/${path}/"
+    得到路径:content://${applicationId}/&{name}/
+
+
+    <external-path name="*name*" path="*path*" />  
+    对应路径:Environment.getExternalStorageDirectory()+"/${path}/"
+    得到路径:content://${applicationId}/&{name}/
+
+    <external-files-path name="*name*" path="*path*" />  
+    对应路径:Context.getExternalStorageDirectory()+"/${path}/"
+    得到路径:content://${applicationId}/&{name}/
+
+    <external-cache-path name="*name*" path="*path*" />   
+    对应路径: Context.getExternalCacheDir()+"/${path}/"
+    得到路径：content://${applicationId}/&{name}/
+
+ > https://developer.android.google.cn/reference/androidx/core/content/FileProvider
+
  - CameraActivity      演示如何使用 Camera 1
 
  - CameraXActivity     演示如何使用 CameraX , 使用 CameraX 必须是 android 5.1 以上，同时对与 Gradle classpath 插件会有要求
@@ -135,11 +163,11 @@ module就是artifactID
 
 ## 常用路径
 
-Context.getFilesDir()=/data/data/com.example.example/files
-Context.getCacheDir()=/data/data/com.example.example/cache
-Environment.getExternalStorageDirectory()=/storage/emulated/0
-getExternalFilesDir(Environment.DIRECTORY_PICTURES)=/storage/emulated/0/Android/data/com.example.example/files/Pictures
-Context.getExternalFilesDir(null)=/storage/emulated/0/Android/data/com.example.example/files
-Context.getExternalCacheDir()=/storage/emulated/0/Android/data/com.example.example/cache
+    Context.getFilesDir()=/data/data/com.example.example/files
+    Context.getCacheDir()=/data/data/com.example.example/cache
+    Environment.getExternalStorageDirectory()=/storage/emulated/0
+    getExternalFilesDir(Environment.DIRECTORY_PICTURES)=/storage/emulated/0/Android/data/com.example.example/files/Pictures
+    Context.getExternalFilesDir(null)=/storage/emulated/0/Android/data/com.example.example/files
+    Context.getExternalCacheDir()=/storage/emulated/0/Android/data/com.example.example/cache
 
 
