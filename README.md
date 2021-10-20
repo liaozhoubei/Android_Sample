@@ -133,4 +133,13 @@ module就是artifactID
 
 但是可能有个 com.meitu:zxing:1.11.0 就不会被排除
 
+## 常用路径
+
+Context.getFilesDir()=/data/data/com.example.example/files
+Context.getCacheDir()=/data/data/com.example.example/cache
+Environment.getExternalStorageDirectory()=/storage/emulated/0
+getExternalFilesDir(Environment.DIRECTORY_PICTURES)=/storage/emulated/0/Android/data/com.example.example/files/Pictures
+Context.getExternalFilesDir(null)=/storage/emulated/0/Android/data/com.example.example/files
+Context.getExternalCacheDir()=/storage/emulated/0/Android/data/com.example.example/cache
+
 
