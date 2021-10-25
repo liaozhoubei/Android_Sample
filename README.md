@@ -63,6 +63,35 @@
 
  - CameraActivity      演示如何使用 Camera 1
 
+    关于自动对焦的问题，如果相机设置对焦参数为 Camera.Parameters.FOCUS_MODE_AUTO , 那么在每次
+    调用 Camera.autoFocus(AutoFocusCallback) 的时候就会对焦一次，因此要持续对焦则需要不断的调用 autoFocus 方法，否则后面就不在对焦
+    
+    Camera的对焦模式：
+   
+       + FOCUS_MODE_AUTO : 自动对焦模式，应用需要调用autoFocus(AutoFocusCallback)开始对焦，只会对焦一次，对焦成功会有回调。
+
+       + FOCUS_MODE_INFINITY : 无穷对焦模式，应用很少，不能调用autoFocus(AutoFocusCallback)方法。
+
+       +  FOCUS_MODE_MACRO : 特写镜头对焦模式，应用需要调用autoFocus(AutoFocusCallback)开始对焦
+
+       +  FOCUS_MODE_FIXED : 定焦点模式，焦点不可调用时都是在这种模式，如果Camera能够自动对焦，这种模式会固定焦点，
+    通常应用于超焦距对焦。这种模式不能调用autoFocus(AutoFocusCallback)。
+
+       +  FOCUS_MODE_EDOF : 扩展景深模式
+
+       +  FOCUS_MODE_CONTINUOUS_VIDEO : 连续自动对焦模式，主要用于录制视频过程中，Camera会不断地尝试聚焦，这是录制视频时
+    对焦模式的最好选择，在设置了Camera的参数后就开始自动对焦，但是调用takePicture时不一定已经对焦完成。
+
+       +  FOCUS_MODE_CONTINUOUS_PICTURE : 这种模式是对 FOCUS_MODE_CONTINUOUS_VIDEO连续自动对焦应用于拍照的扩展。
+    Camera会不停的尝试连续对焦，对焦频率会比FOCUS_MODE_CONTINUOUS_VIDEO频繁，当设置了camera参数后开始对焦。
+    注意如果想要重新开始自动聚焦，需要首先调用cancelAutoFocus，然后设置自动对焦模式，在调用autoFocus（AutoFocusCallback）
+    该模式下可调用autoFocus(AutoFocusCallback)，如果当前正在对焦扫描，focus回调函数将在它完成对焦是回调；如果没有正在
+    对焦扫描，将立即放回。autoFocus函数调用后对焦区域是固定的，如果应用想要重新开启自动连续对焦，需要首先调用cancelAutoFocus，
+    重新开始预览无法开启自动连续对焦，需要重新调用autoFocus，如果想要停止自动连续对焦，应用可以修改对焦模式。
+    FOCUS_MODE_AUTO，FOCUS_MODE_CONTINUOUS_VIDEO，FOCUS_MODE_CONTINUOUS_PICTURE通常较为常用。
+    对焦的意义就是在手机晃动，移动或者改变位置时，拍摄画面依然清晰，如果不进行对焦则画面会很模糊
+
+
  - CameraXActivity     演示如何使用 CameraX , 使用 CameraX 必须是 android 5.1 以上，同时对与 Gradle classpath 插件会有要求
  
         unexpected element ＜queries＞ found in ＜manifest＞解决方案

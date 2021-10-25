@@ -1,5 +1,6 @@
 package com.example.example.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +16,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -44,19 +47,37 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * 若要自动对焦，需要设置对焦模式，不同模式的用法不同，详情看 readme.md
+ */
 public class CameraActivity extends AppCompatActivity {
 
     private static final String TAG = "CameraActivity";
     private SurfaceView surfaceView;
     private SurfaceHolder mHolder;
     private Camera mCamera;
-    private int mCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+    private int mCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
     private Camera.Size previewSize;
     private Camera.Parameters mCameraParameters;
     private int mSensorRotation = 0;
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private ImageView iv_border;
+    private boolean isCameraPreview = false;
+    private final int MSG_WHAT = 10;
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            if (msg.what == 10){
+                Log.e(TAG, "handleMessage: " );
+                if (mCamera!= null && isCameraPreview){
+                    mCamera.autoFocus(autoFocusCallback);
+                }
+                mHandler.sendEmptyMessageDelayed(MSG_WHAT, 1*1000);
+            }
+            return false;
+        }
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +106,7 @@ public class CameraActivity extends AppCompatActivity {
         mSensorManager.registerListener(sensorEventListener, mSensor,
                 SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
+        mHandler.sendEmptyMessageDelayed(MSG_WHAT, 5*1000);
     }
 
     private boolean safeCameraOpen(int id) {
@@ -188,6 +210,7 @@ public class CameraActivity extends AppCompatActivity {
             try {
                 mCamera.stopPreview();
             } catch (Exception e) {
+                isCameraPreview = false;
                 // ignore: tried to stop a non-existent preview
             }
 
@@ -198,8 +221,11 @@ public class CameraActivity extends AppCompatActivity {
             try {
                 mCamera.setPreviewDisplay(mHolder);
                 mCamera.startPreview();
-
+                mCamera.cancelAutoFocus();
+                mCamera.autoFocus(autoFocusCallback);
+                isCameraPreview = true;
             } catch (Exception e) {
+                isCameraPreview = false;
                 Log.d(TAG, "Error starting camera preview: " + e.getMessage());
             }
         }
@@ -214,21 +240,31 @@ public class CameraActivity extends AppCompatActivity {
         if (mCamera != null) {
             mCameraParameters = mCamera.getParameters();
             List<Camera.Size> pictureSizes = mCameraParameters.getSupportedPictureSizes();
-//
             try {
                 Collections.sort(pictureSizes, comparator);
                 Log.e(TAG, "surfaceCreated: after sort width:" + pictureSizes.get(0).width + "   height:" + pictureSizes.get(0).height);
                 // 设置拍照时的图片大小，若不设置，拍照会返回最小的尺寸
                 mCameraParameters.setPictureSize(pictureSizes.get(0).width, pictureSizes.get(0).height);
                 // 部分手机设置预览参数会崩溃
-                //  List<Camera.Size> previewSizes = mCameraParameters.getSupportedPreviewSizes();
-                //  Collections.sort(previewSizes, comparator);
-                //  parameters.setPreviewSize(pictureSizes.get(0).width, pictureSizes.get(0).height);
+//                List<Camera.Size> previewSizes = mCameraParameters.getSupportedPreviewSizes();
+//                Collections.sort(previewSizes, comparator);
+//                mCameraParameters.setPreviewSize(pictureSizes.get(0).width, pictureSizes.get(0).height);
                 previewSize = mCameraParameters.getPreviewSize();
+                List<String> focusModes = mCameraParameters.getSupportedFocusModes();   // 1.确定是否支持自动对焦，否则设置自动对焦会导致崩溃
+                for (String mode : focusModes) {
+                    if (mode.equals(Camera.Parameters.FOCUS_MODE_AUTO)) {
+                        mCameraParameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO); // 2.设置对焦模式
+                        Log.e(TAG, "startCameraPreview: set FOCUS_MODE_AUTO"  );
+                        break;
+                    }
+                }
                 requestLayout();
                 mCamera.setParameters(mCameraParameters);
                 mCamera.setPreviewDisplay(holder);
+                mCamera.cancelAutoFocus();  // 3.先取消自动对焦
+                isCameraPreview = true;
             } catch (IOException e) {
+                isCameraPreview = false;
                 e.printStackTrace();
             }
 
@@ -237,6 +273,14 @@ public class CameraActivity extends AppCompatActivity {
             mCamera.startPreview();
         }
     }
+
+    Camera.AutoFocusCallback autoFocusCallback = new Camera.AutoFocusCallback() {
+        @Override
+        public void onAutoFocus(boolean success, Camera camera) {
+            Log.e(TAG, "onAutoFocus: " + success);
+            camera.cancelAutoFocus();
+        }
+    };
 
     /**
      * 重新设置 surfaceView 的宽高，避免预览变形
@@ -416,6 +460,7 @@ public class CameraActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         stopPreviewAndFreeCamera();
+        mHandler.removeMessages(MSG_WHAT);
     }
 
     /**
@@ -431,7 +476,7 @@ public class CameraActivity extends AppCompatActivity {
             // applications. Applications should release the camera immediately
             // during onPause() and re-open() it during onResume()).
             mCamera.release();
-
+            isCameraPreview = false;
             mCamera = null;
         }
     }
