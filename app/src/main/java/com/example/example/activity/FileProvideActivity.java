@@ -27,6 +27,7 @@ import com.example.example.util.Utils;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 //
 
@@ -104,7 +105,14 @@ public class FileProvideActivity extends AppCompatActivity {
             if (!state.equals(Environment.MEDIA_MOUNTED)) return;
             // 把原图显示到界面上
             File cachefile = new File(getExternalCacheDir(), "face-cropped");
-            Uri cropImageUri = Uri.fromFile(cachefile);
+            if (!cachefile.exists()){
+                try {
+                    cachefile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Uri cropImageUri = PhotoUtils.createUri(this, cachefile);
             PhotoUtils.cropImageUri(this, cameraUri, cropImageUri, 60, 60, 480, 480, GET_PHOTO_FROM_CROP);
 
         } else if (requestCode == GET_PHOTO_FROM_GALLERY && resultCode == Activity.RESULT_OK
@@ -146,6 +154,10 @@ public class FileProvideActivity extends AppCompatActivity {
 //                String s = readTextFromUri(uri);
 //                Log.i(TAG, "info: " + s);
             }
+        }
+        if (resultCode != Activity.RESULT_OK){
+            Toast.makeText(this, "执行失败", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "onActivityResult: result error" + resultCode );
         }
     }
 

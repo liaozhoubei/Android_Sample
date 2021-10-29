@@ -15,7 +15,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -36,6 +38,7 @@ import android.widget.Toast;
 import com.example.example.R;
 import com.example.example.util.BitmapUtils;
 import com.example.example.util.CameraHelper;
+import com.example.example.util.PhotoUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -68,12 +71,12 @@ public class CameraActivity extends AppCompatActivity {
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
-            if (msg.what == 10){
-                Log.e(TAG, "handleMessage: " );
-                if (mCamera!= null && isCameraPreview){
+            if (msg.what == 10) {
+                Log.e(TAG, "handleMessage: ");
+                if (mCamera != null && isCameraPreview) {
                     mCamera.autoFocus(autoFocusCallback);
                 }
-                mHandler.sendEmptyMessageDelayed(MSG_WHAT, 1*1000);
+                mHandler.sendEmptyMessageDelayed(MSG_WHAT, 1 * 1000);
             }
             return false;
         }
@@ -97,7 +100,7 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         boolean open = safeCameraOpen(mCameraId);
-        if (!open){
+        if (!open) {
             Toast.makeText(this, "相机打开失败", Toast.LENGTH_SHORT).show();
         }
         mHolder = surfaceView.getHolder();
@@ -106,7 +109,7 @@ public class CameraActivity extends AppCompatActivity {
         mSensorManager.registerListener(sensorEventListener, mSensor,
                 SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
-        mHandler.sendEmptyMessageDelayed(MSG_WHAT, 5*1000);
+        mHandler.sendEmptyMessageDelayed(MSG_WHAT, 5 * 1000);
     }
 
     private boolean safeCameraOpen(int id) {
@@ -137,7 +140,7 @@ public class CameraActivity extends AppCompatActivity {
         surfaceView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.e("CameraActivity", "X坐标：" + event.getX()+",Y坐标："+event.getY());
+                Log.e("CameraActivity", "X坐标：" + event.getX() + ",Y坐标：" + event.getY());
                 cameraFocus(event);
                 return false;
             }
@@ -146,9 +149,10 @@ public class CameraActivity extends AppCompatActivity {
 
     /**
      * 设置相机手动对焦
-     *{@link  }
-     * @see <a href="https://www.jianshu.com/p/d9b7bdb1e574">Android自定义相机Camera实现手动对焦</a>
+     * {@link  }
+     *
      * @param event
+     * @see <a href="https://www.jianshu.com/p/d9b7bdb1e574">Android自定义相机Camera实现手动对焦</a>
      */
     private void cameraFocus(MotionEvent event) {
         int areaX = (int) (event.getX() / surfaceView.getWidth() * 2000) - 1000; // 获取映射区域的X坐标
@@ -254,7 +258,7 @@ public class CameraActivity extends AppCompatActivity {
                 for (String mode : focusModes) {
                     if (mode.equals(Camera.Parameters.FOCUS_MODE_AUTO)) {
                         mCameraParameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO); // 2.设置对焦模式
-                        Log.e(TAG, "startCameraPreview: set FOCUS_MODE_AUTO"  );
+                        Log.e(TAG, "startCameraPreview: set FOCUS_MODE_AUTO");
                         break;
                     }
                 }
@@ -299,9 +303,9 @@ public class CameraActivity extends AppCompatActivity {
                 // 根据实际的预览尺寸，以屏幕宽度的一半为基准，计算 surfaceView 高度，避免画面变形
                 int surfaceheight = 0;
                 int originDegrees = CameraHelper.calculateCameraPreviewOrientation(CameraActivity.this, mCameraId);
-                if (originDegrees == 90 || originDegrees == 270){
+                if (originDegrees == 90 || originDegrees == 270) {
                     surfaceheight = surfaceWidth * previewSize.width / previewSize.height;
-                }else {
+                } else {
                     surfaceheight = surfaceWidth * previewSize.height / previewSize.width;
                 }
 
@@ -312,8 +316,8 @@ public class CameraActivity extends AppCompatActivity {
 
                 // 设置 surfaceview 的外边框
                 FrameLayout.LayoutParams iv_borderLayoutParams = (FrameLayout.LayoutParams) iv_border.getLayoutParams();
-                iv_borderLayoutParams.width = surfaceWidth +16;
-                iv_borderLayoutParams.height = surfaceWidth +16;
+                iv_borderLayoutParams.width = surfaceWidth + 16;
+                iv_borderLayoutParams.height = surfaceWidth + 16;
                 iv_border.setBackgroundResource(R.mipmap.bg_circle_surfaceview);
 
                 surfaceView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -339,7 +343,8 @@ public class CameraActivity extends AppCompatActivity {
 
     /**
      * 调用拍照要注意旋转拍照的角度
-     * @see  <a href="https://blog.csdn.net/u010126792/article/details/86706199">Android Camera预览角度和拍照保存图片角度学习</a>
+     *
+     * @see <a href="https://blog.csdn.net/u010126792/article/details/86706199">Android Camera预览角度和拍照保存图片角度学习</a>
      */
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
 
@@ -348,7 +353,7 @@ public class CameraActivity extends AppCompatActivity {
 
             //获取图片时
             Bitmap bitmap = BitmapUtils.compressImage(data, 720, 1080);
-            int rotation = (CameraHelper.calculateCameraPreviewOrientation(CameraActivity.this, mCameraId)+ mSensorRotation) % 360 ;
+            int rotation = (CameraHelper.calculateCameraPreviewOrientation(CameraActivity.this, mCameraId) + mSensorRotation) % 360;
             Matrix matrix = new Matrix();
             if (mCameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
                 //如果是后置摄像头因为没有镜面效果直接旋转特定角度
@@ -367,6 +372,15 @@ public class CameraActivity extends AppCompatActivity {
             createFileWithByte(photoData);//保存照片
             showImageDialog(result);
 
+            String filePath= "";
+            String fileName = System.currentTimeMillis() + ".JPG";
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                filePath = Environment.DIRECTORY_DCIM ;
+            }else {
+                String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+                filePath = path + File.separator + fileName;
+            }
+            PhotoUtils.saveBitmap(getApplicationContext(), result, filePath, fileName);
             // The Surface has been created, now tell the camera where to draw the preview.
             try {
                 mCamera.setPreviewDisplay(mHolder);
@@ -389,7 +403,7 @@ public class CameraActivity extends AppCompatActivity {
 
             }
 
-            mSensorRotation = calculateSensorRotation(event.values[0],event.values[1]);
+            mSensorRotation = calculateSensorRotation(event.values[0], event.values[1]);
         }
 
         @Override
@@ -399,7 +413,7 @@ public class CameraActivity extends AppCompatActivity {
         }
     };
 
-    public  int calculateSensorRotation(float x, float y) {
+    public int calculateSensorRotation(float x, float y) {
         //x是values[0]的值，X轴方向加速度，从左侧向右侧移动，values[0]为负值；从右向左移动，values[0]为正值
         //y是values[1]的值，Y轴方向加速度，从上到下移动，values[1]为负值；从下往上移动，values[1]为正值
         //不考虑Z轴上的数据，
@@ -419,8 +433,6 @@ public class CameraActivity extends AppCompatActivity {
 
         return -1;
     }
-
-
 
 
     /**
@@ -448,8 +460,6 @@ public class CameraActivity extends AppCompatActivity {
         }
 
     }
-
-
 
 
     public void tackPicFromCamera(View view) {
@@ -520,6 +530,6 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        mSensorManager.unregisterListener(sensorEventListener,mSensor);
+        mSensorManager.unregisterListener(sensorEventListener, mSensor);
     }
 }

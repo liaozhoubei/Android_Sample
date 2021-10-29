@@ -3,6 +3,7 @@ package com.example.example.util;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.usage.ExternalStorageStats;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,7 +20,9 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 
 import com.example.example.BuildConfig;
@@ -29,6 +32,7 @@ import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 public class PhotoUtils {
@@ -323,7 +327,7 @@ public class PhotoUtils {
         ParcelFileDescriptor parcelFileDescriptor = null;
         try {
             parcelFileDescriptor =
-                    context.getContentResolver().openFileDescriptor(uri, "r");
+                    context.getContentResolver().openFileDescriptor(uri, "rw");
             FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
             Bitmap bitmapFromUri = BitmapFactory.decodeFileDescriptor(fileDescriptor);
 
@@ -359,6 +363,51 @@ public class PhotoUtils {
         }
         return result;
     }
+
+    /**
+     *
+     * @param context
+     * @param bitmap
+     * @param filePath  小于 android Q 则为照片存储的全路径，大于则是相对路径
+     * @param fileName
+     */
+    public static void saveBitmap(Context context, Bitmap  bitmap, String filePath, String fileName) {
+
+
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.DESCRIPTION, "This is an image");
+        values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.Images.Media.TITLE, "title"+".jpg");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            values.put(MediaStore.Images.Media.RELATIVE_PATH, filePath);
+        }else {
+            values.put(MediaStore.Images.Media.DATA, filePath );
+        }
+
+        Uri external = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        ContentResolver resolver = context.getContentResolver();
+
+        Uri insertUri = resolver.insert(external, values);
+        OutputStream os = null;
+        if (insertUri != null) {
+            try {
+                os = resolver.openOutputStream(insertUri);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, os);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                try {
+                    if (os != null) {
+                        os.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 
     /**
      * 清理 /data/package/DCIM/cache 中的图片
