@@ -53,22 +53,23 @@ public class PhotoUtils {
 
         Uri cameraUri = CreateTakePhotoUri(activity, camerafile);  //拍照后照片存储路径
         // 若不使用以上方法，则在获取需要给应用授权
-        // Uri fileUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".FileProvider", camerafile);
+//        Uri fileUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".FileProvider", camerafile);
 
-         List<ResolveInfo> resInfoList = activity.getPackageManager()
-                 .queryIntentActivities(intentCamera, PackageManager.MATCH_DEFAULT_ONLY);
-         for (ResolveInfo resolveInfo : resInfoList) {
-             String packageName = resolveInfo.activityInfo.packageName;
-             //添加这一句表示对目标应用(第三方应用)临时授权该Uri所代表的文件
-             activity.grantUriPermission(packageName, cameraUri, Intent.FLAG_GRANT_READ_URI_PERMISSION
-                     | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-         }
-
-//        intentCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        intentCamera.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         //将拍照结果保存至photo_file的Uri中，不保留在相册中
+        // 注意，若指定路径，系统相机返回的 intent 为 null , 不指定路径则 返回的 intent 有数据
         intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
+        // 查询匹配的应用列表，需要在设置 action 和 category 后运行
+        List<ResolveInfo> resInfoList = activity.getPackageManager()
+                .queryIntentActivities(intentCamera, PackageManager.MATCH_ALL);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            //添加这一句表示对目标应用(第三方应用)临时授权该Uri所代表的文件
+            activity.grantUriPermission(packageName, cameraUri, Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
+
+//        intentCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION |Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         activity.startActivityForResult(intentCamera, requestCode);
         return cameraUri;
     }
@@ -103,9 +104,7 @@ public class PhotoUtils {
         Intent intent = new Intent("com.android.camera.action.CROP");
 
         intent.setDataAndType(orgUri, "image/*");
-        // 加入访问权限，查询所有符合 intent 跳转目标应用类型的应用，注意此方法必须放置setDataAndType的方法之后
-        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX", aspectX);
         intent.putExtra("aspectY", aspectY);
@@ -117,7 +116,18 @@ public class PhotoUtils {
         intent.putExtra("return-data", false);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);
-
+        // 加入访问权限，查询所有符合 intent 跳转目标应用类型的应用，注意此方法必须放置setDataAndType的方法之后
+//        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+//                | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        // 查询匹配的应用列表，需要在设置 action 和 category 后运行
+        List<ResolveInfo> resInfoList = activity.getPackageManager()
+                .queryIntentActivities(intent, PackageManager.MATCH_ALL);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            //添加这一句表示对目标应用(第三方应用)临时授权该Uri所代表的文件
+            activity.grantUriPermission(packageName, desUri, Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
         activity.startActivityForResult(intent, requestCode);
     }
 

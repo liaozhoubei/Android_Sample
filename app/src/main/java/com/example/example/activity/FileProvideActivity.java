@@ -101,6 +101,9 @@ public class FileProvideActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_PHOTO_FROM_CAMERA && resultCode != Activity.RESULT_CANCELED) {
             Log.e("FileProvideActivity", "onActivityResult: 拍摄照片");
+            if (data.getData()==null){
+                Log.e(TAG, "onActivityResult capture photo: if you set output path , data will return null ");
+            }
             String state = Environment.getExternalStorageState();
             if (!state.equals(Environment.MEDIA_MOUNTED)) return;
             // 把原图显示到界面上
@@ -117,6 +120,7 @@ public class FileProvideActivity extends AppCompatActivity {
 
         } else if (requestCode == GET_PHOTO_FROM_GALLERY && resultCode == Activity.RESULT_OK
                 && null != data) {
+            // 从相册获取图片
             try {
 //                ivImg.setImageURI(data.getData());
 
@@ -128,13 +132,14 @@ public class FileProvideActivity extends AppCompatActivity {
                 Toast.makeText(this, "获取图片失败", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == GET_PHOTO_FROM_CROP && resultCode == Activity.RESULT_OK) {
+            // 裁剪后获取图片
             Bitmap bitmap = getBitmepAfterCrop(FileProvideActivity.this);
             if (bitmap == null) return;
             ivImg.setImageBitmap(bitmap);
             Log.e("FileProvideActivity", "onActivityResult: 裁剪照片");
 
         } else if (requestCode == REQUEST_CODE_SELECT_FILE && resultCode == Activity.RESULT_OK) {
-
+            // 选择文件
             getDocument(data);
 
         } else if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -155,10 +160,13 @@ public class FileProvideActivity extends AppCompatActivity {
 //                Log.i(TAG, "info: " + s);
             }
         }
+
         if (resultCode != Activity.RESULT_OK){
             Toast.makeText(this, "执行失败", Toast.LENGTH_SHORT).show();
             Log.e(TAG, "onActivityResult: result error" + resultCode );
         }
+        Log.e(TAG, "onActivityResult: is result ok =" + (resultCode == Activity.RESULT_OK) );
+
     }
 
 
