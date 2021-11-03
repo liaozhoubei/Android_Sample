@@ -83,6 +83,7 @@ public class PermissionActivity extends AppCompatActivity implements EasyPermiss
         }
 
         Toast.makeText(this, "您拒绝了权限", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 }

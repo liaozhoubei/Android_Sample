@@ -14,10 +14,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.core.content.PermissionChecker;
 
 import com.example.example.BuildConfig;
 import com.example.example.R;
@@ -26,21 +31,21 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 
-public class InstallApkActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+/**
+ * 安装软件
+ *
+ */
+public class InstallApkActivity extends AppCompatActivity {
     private static final String TAG = "InstallApkActivity";
-    private static final int RC_PERMISSION = 122;
-    private static final int REQUEST_UNKNOW_SOURCE = 133;
     private static final int INSTAKK_APK = 144;
     private static final int InstallError = 145;
     String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private Button btnInstallApk;
-    private String path = Environment.getExternalStorageDirectory() + File.separator + "Download"+"/installapk.apk";
-    private Handler handler = new Handler(new Handler.Callback() {
+    private final String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) +"/installapk.apk";
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == INSTAKK_APK){
@@ -60,14 +65,24 @@ public class InstallApkActivity extends AppCompatActivity implements EasyPermiss
     }
 
     private void initView() {
-        btnInstallApk = (Button) findViewById(R.id.btn_install_apk);
+        Button btnInstallApk = (Button) findViewById(R.id.btn_install_apk);
         btnInstallApk.setOnClickListener(onClickListener);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            requestPermissionTask();
+            int read = PermissionChecker.checkSelfPermission(getApplication(), permissions[0]);
+            int write = PermissionChecker.checkSelfPermission(getApplication(), permissions[1]);
+            if (read == PermissionChecker.PERMISSION_GRANTED && write == PermissionChecker.PERMISSION_GRANTED){
+                // Have permission, do the thing!
+                Toast.makeText(getApplication(), "已拥有读写权限", Toast.LENGTH_LONG).show();
+                copyApkToDownload();
+            }else {
+                // Request one permission
+                permissionLauncher.launch(permissions);
+
+            }
         }
     };
 
@@ -82,9 +97,9 @@ public class InstallApkActivity extends AppCompatActivity implements EasyPermiss
                 InputStream inputStream = null;
                 FileOutputStream fileOutputStream = null;
                 try {
-//                    inputStream = getResources().openRawResource(R.raw.install_apk);
-                    inputStream = null;
-                    File parentFile = new File(Environment.getExternalStorageDirectory() + File.separator + "Download");
+                    inputStream = getResources().openRawResource(R.raw.install_apk);
+//                    File parentFile = new File(Environment.getExternalStorageDirectory() + File.separator + "Download");
+                    File parentFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
                     if (!parentFile.exists()){
                         parentFile.mkdirs();
                     }
@@ -127,41 +142,6 @@ public class InstallApkActivity extends AppCompatActivity implements EasyPermiss
 
 
 
-    @AfterPermissionGranted(RC_PERMISSION)
-    private void requestPermissionTask() {
-        if (EasyPermissions.hasPermissions(this, permissions)) {
-            // Have permission, do the thing!
-            Toast.makeText(this, "已拥有读写权限", Toast.LENGTH_LONG).show();
-            copyApkToDownload();
-        } else {
-            // Request one permission
-            EasyPermissions.requestPermissions(this, "允许权限请求",
-                    RC_PERMISSION, permissions);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // EasyPermissions handles the request result.
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        if (EasyPermissions.hasPermissions(this, permissions)) {
-            Toast.makeText(this, "已拥有读写权限", Toast.LENGTH_LONG).show();
-            copyApkToDownload();
-        } else {
-            Toast.makeText(this, "您拒绝了权限，无法安装", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        Toast.makeText(this, "您拒绝了权限，无法安装", Toast.LENGTH_LONG).show();
-    }
-
     private void installAPK() {
         //版本判断
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -176,7 +156,7 @@ public class InstallApkActivity extends AppCompatActivity implements EasyPermiss
                 Uri packageURI = Uri.parse("package:" + packageName);
                 // 打开相应应用权限页面
                 Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
-                startActivityForResult(intent, REQUEST_UNKNOW_SOURCE);
+                activityResultLauncher.launch(intent);
             } else {
                 Toast.makeText(this, "有未知来源权限", Toast.LENGTH_LONG).show();
                 startInstall(path);
@@ -192,27 +172,43 @@ public class InstallApkActivity extends AppCompatActivity implements EasyPermiss
         //在上面已经获取到apk存储路径
         //跳转安装
         Intent intentInstall = new Intent();
+        intentInstall.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intentInstall.setAction(Intent.ACTION_VIEW);
+
         Uri uri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // Android 7.0 以后要用 FileProvider 的方式传递文件路径
             uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".FileProvider", new File(path));
-            intentInstall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intentInstall.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            intentInstall.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         } else {
             uri = Uri.fromFile(new File(path));
         }
-        intentInstall.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intentInstall.setAction(Intent.ACTION_VIEW);
         intentInstall.setDataAndType(uri, "application/vnd.android.package-archive");
         startActivity(intentInstall);
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_UNKNOW_SOURCE && resultCode == RESULT_OK) {
-            installAPK();
+    private ActivityResultLauncher activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == RESULT_OK){
+                installAPK();
+            }else {
+                Log.e(TAG, "onActivityResult: 申请未知来源权限失败 :" + result );
+            }
         }
-    }
+    });
+
+    private final ActivityResultLauncher permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+        @Override
+        public void onActivityResult(Map<String, Boolean> result) {
+            Set<String> keySet = result.keySet();
+            for (String key:keySet) {
+                Boolean aBoolean = result.get(key);
+                Log.e(TAG, "onActivityResult: key=" + key + "  value="+ aBoolean );
+            }
+            Toast.makeText(getApplication(), "已拥有读写权限", Toast.LENGTH_LONG).show();
+            copyApkToDownload();
+        }
+    });
+
 }
