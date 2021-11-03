@@ -94,6 +94,7 @@ public class CameraActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        Log.e(TAG, "onResume: " );
         if (!CameraHelper.checkCameraHardware(this)) {
             Toast.makeText(this, "相机不存在", Toast.LENGTH_SHORT).show();
             return;
@@ -103,9 +104,12 @@ public class CameraActivity extends AppCompatActivity {
         if (!open) {
             Toast.makeText(this, "相机打开失败", Toast.LENGTH_SHORT).show();
         }
-        mHolder = surfaceView.getHolder();
-        // Create an instance of Camera
-        mHolder.addCallback(callback);
+        if (mHolder == null){
+            mHolder = surfaceView.getHolder();
+            // Create an instance of Camera
+            mHolder.addCallback(callback);
+        }
+        surfaceView.setVisibility(View.VISIBLE);
         mSensorManager.registerListener(sensorEventListener, mSensor,
                 SensorManager.SENSOR_DELAY_NORMAL);
         super.onResume();
@@ -194,10 +198,12 @@ public class CameraActivity extends AppCompatActivity {
             // The Surface has been created, now tell the camera where to draw the preview.
             startCameraPreview(holder);
             surfaceView.setWillNotDraw(false);
+            Log.e(TAG, "surfaceCreated: " );
         }
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            Log.e(TAG, "surfaceChanged: " );
             // If your preview can change or rotate, take care of those events here.
             // Make sure to stop the preview before resizing or reformatting it.
 
@@ -469,7 +475,9 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Log.e(TAG, "onPause: " );
         stopPreviewAndFreeCamera();
+        surfaceView.setVisibility(View.INVISIBLE);
         mHandler.removeMessages(MSG_WHAT);
     }
 
