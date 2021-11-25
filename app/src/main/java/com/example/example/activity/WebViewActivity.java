@@ -27,29 +27,31 @@ public class WebViewActivity extends AppCompatActivity {
         webView.setWebChromeClient(new WebChromeClient());
         // 从assets目录下面的加载html
         webView.loadUrl("file:///android_asset/web.html");
-        webView.addJavascriptInterface(WebViewActivity.this, "java");//  name:android在网页里面可以用 window.name.方法名 调用java方法
-
+        //  name:android在网页里面可以用 window.name.方法名 调用java方法
+        webView.addJavascriptInterface(WebViewActivity.this, "java");
 
         //Button1按钮 无参调用HTML js方法
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 无参数调用 JS的方法
-                webView.loadUrl("javascript:javaToJS()");
-
-            }
-        });
+        findViewById(R.id.button).setOnClickListener(onClickListener);
         //Button2按钮 有参调用HTML js方法
-        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 传递参数调用JS的方法，点击后调用document.location=arg切换网页
-                webView.loadUrl("javascript:javaToJsWith(" + "'https://baike.so.com/doc/456230-483111.html'" + ")");
-            }
-        });
-
-
+        findViewById(R.id.button2).setOnClickListener(onClickListener);
     }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.button:
+                    // 无参数调用 JS的方法
+                    webView.loadUrl("javascript:javaToJS()");
+                    break;
+                case R.id.button2:
+                    // 传递参数调用JS的方法，点击后调用document.location=arg切换网页
+                    webView.loadUrl("javascript:javaToJsWith(" + "'https://baike.so.com/doc/456230-483111.html'" + ")");
+                    break;
+                default:
+            }
+        }
+    };
 
     //由于安全原因 targetSdkVersion>=17需要加 @JavascriptInterface
     //JS调用java，且无参
