@@ -34,22 +34,23 @@
  - InstallApkActivity  演示如何兼容 android 4.4 及 7.0 以后的应用内更新
 
 
-    使用 appcompat 1.3.0 中的 Activity Result API 替代 startActivityForResult() ,ActivityResultLauncher 是一个回调处理一个结果，隐藏没有 requestCode 区分结果
+    使用 appcompat 1.3.0 中的 Activity Result API 替代 startActivityForResult() ,ActivityResultLauncher 是一个回调处理一个结果，隐藏没有 requestCode 区分结果。
     以下是目前所支持的 Contract 方法
-    StartActivityForResult()
-    StartIntentSenderForResult()
-    RequestMultiplePermissions()
-    RequestPermission()
-    TakePicturePreview()
-    TakePicture()
-    TakeVideo()
-    PickContact()
-    GetContent()
-    GetMultipleContents()
-    OpenDocument()
-    OpenMultipleDocuments()
-    OpenDocumentTree()
-    CreateDocument()
+
+        StartActivityForResult()
+        StartIntentSenderForResult()
+        RequestMultiplePermissions()
+        RequestPermission()
+        TakePicturePreview()
+        TakePicture()
+        TakeVideo()
+        PickContact()
+        GetContent()
+        GetMultipleContents()
+        OpenDocument()
+        OpenMultipleDocuments()
+        OpenDocumentTree()
+        CreateDocument()
 
 关于 xml/file_paths.xml 的路径说明
 
