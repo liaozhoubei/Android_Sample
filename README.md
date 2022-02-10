@@ -177,6 +177,13 @@ That's easy let to OOM .
     获取wifi信号强度需要权限：
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+   
+ - UsbManagerActivity 演示使用 libaums 库读取U盘数据
+
+   问题： 
+   
+    - 解析apk应用包后，拔出U盘对导致崩溃，初步判断是由于资源引用的问题，暂未查到解决方法
+    - 提前插入U盘时无法获取路径    
 
 ## 去除重复依赖
 

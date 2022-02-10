@@ -177,7 +177,6 @@ public class FileListActivity extends AppCompatActivity {
         mTvFileListTitle = (TextView) findViewById(R.id.tv_file_list_title);
         mLvFileList = (ListView) findViewById(R.id.lv_file_list);
     }
-
     class MyFile {
         private File file;
         private String fileName;
