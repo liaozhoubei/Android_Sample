@@ -24,11 +24,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.example.R;
-import com.github.mjdev.libaums.UsbMassStorageDevice;
-import com.github.mjdev.libaums.fs.FileSystem;
-import com.github.mjdev.libaums.fs.UsbFile;
-import com.github.mjdev.libaums.fs.UsbFileInputStream;
-import com.github.mjdev.libaums.partition.Partition;
+
 
 
 import java.io.BufferedInputStream;
@@ -40,6 +36,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import me.jahnen.libaums.core.UsbMassStorageDevice;
+import me.jahnen.libaums.core.fs.FileSystem;
+import me.jahnen.libaums.core.fs.UsbFile;
+import me.jahnen.libaums.core.fs.UsbFileInputStream;
+import me.jahnen.libaums.core.partition.Partition;
 
 
 /**

@@ -128,7 +128,7 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     // U盘读写库
-    implementation 'com.github.mjdev:libaums:0.7.4'
+    implementation 'me.jahnen.libaums:core:0.9.1'
 
 
 }
