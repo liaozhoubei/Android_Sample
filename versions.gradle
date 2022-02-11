@@ -31,11 +31,14 @@ def addRepos(RepositoryHandler handler) {
         handler.maven { url("https://maven.aliyun.com/repository/public") }
         handler.maven { url("https://maven.aliyun.com/repository/google") }
         handler.maven { url("https://maven.aliyun.com/repository/gradle-plugin") }
-        handler.google()
+
 //        handler.maven { url "https://jitpack.io" }
+        handler.google()
     }
+    handler.maven { url 'http://maven.aliyun.com/nexus/content/repositories/releases/'}
     handler.mavenCentral()
-    handler.maven { url 'https://dl.bintray.com/umsdk/release' }
+//    handler.maven { url 'https://dl.bintray.com/umsdk/release' }
+//    handler.jcenter()
 
 }
 ext.addRepos = this.&addRepos

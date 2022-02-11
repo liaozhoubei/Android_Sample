@@ -47,9 +47,9 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     // 以下依赖包仅用于测试
     // 地图 SDK
-    implementation 'com.amap.api:3dmap:latest.integration'
-    implementation 'com.amap.api:location:latest.integration'
-    implementation 'com.amap.api:search:latest.integration'
+    implementation 'com.amap.api:3dmap:5.0.0'
+    implementation 'com.amap.api:location:3.3.0'
+    implementation 'com.amap.api:search:5.0.0'
 
     // 腾讯轻量级键值对数据存储框架
     implementation 'com.tencent:mmkv:1.0.17'
@@ -62,8 +62,8 @@ dependencies {
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 
     // 腾讯开源的热修复框架
-    implementation 'com.tencent.bugly:crashreport:latest.release'
-    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+    implementation 'com.tencent.bugly:crashreport:3.3.3'
+    implementation 'com.tencent.bugly:nativecrashreport:3.7.7'
 
     // Facebook 开源的图片加载框架
     implementation 'com.facebook.fresco:fresco:1.11.0'
@@ -73,8 +73,8 @@ dependencies {
     implementation 'com.facebook.fresco:drawee:1.11.0'
 
     // 网络请求框架
-    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
     implementation 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
 
     // 极光推送
@@ -82,10 +82,10 @@ dependencies {
     implementation 'cn.jiguang.sdk:jcore:1.2.5'
 
     // 友盟
-    implementation  'com.umeng.umsdk:analytics:7.5.4'
-    implementation  'com.umeng.umsdk:common:1.5.4'
+//    implementation  'com.umeng.umsdk:analytics:7.5.4'
+//    implementation  'com.umeng.umsdk:common:1.5.4'
 
-    implementation ('com.aliyun.ams:alicloud-android-httpdns:1.1.7@aar') {
+    implementation ('com.aliyun.ams:alicloud-android-httpdns:2.2.1@aar') {
         transitive true
         exclude group: 'com.aliyun.ams', module: 'alicloud-android-utdid'
     }

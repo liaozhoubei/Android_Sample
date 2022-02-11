@@ -35,6 +35,9 @@ Android 11 添加的管理外置存储卡
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activity.USBManager2Activity"
+            android:exported="false" />
+        <activity
             android:name=".activity.UsbManagerActivity"
             android:exported="false" />
         <activity

@@ -82,6 +82,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
+    implementation "androidx.documentfile:documentfile:1.0.1"
     // CameraX core library using the camera2 implementation
     def camerax_version = "1.1.0-alpha10"
     // The following line is optional, as the core library is included indirectly by camera-camera2
@@ -93,6 +94,7 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha30"
     // If you want to additionally use the CameraX Extensions library
     implementation "androidx.camera:camera-extensions:1.0.0-alpha30"
+
 
     // For developers using AndroidX in their applications
     implementation 'pub.devrel:easypermissions:3.0.0'
