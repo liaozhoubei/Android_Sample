@@ -10,9 +10,9 @@ ext.versions = versions
 
 def build_versions = [:]
 build_versions.min_sdk = 21
-build_versions.compile_sdk = 30
-build_versions.target_sdk = 30
-build_versions.build_tools = "30.0.3"
+build_versions.compile_sdk = 31
+build_versions.target_sdk = 31
+build_versions.build_tools = "31.0.0"
 ext.build_versions = build_versions
 
 deps.app_compat = "androidx.appcompat:appcompat:$versions.appcompat"
@@ -38,7 +38,7 @@ def addRepos(RepositoryHandler handler) {
     handler.maven { url 'http://maven.aliyun.com/nexus/content/repositories/releases/'}
     handler.mavenCentral()
 //    handler.maven { url 'https://dl.bintray.com/umsdk/release' }
-//    handler.jcenter()
+    handler.jcenter()
 
 }
 ext.addRepos = this.&addRepos

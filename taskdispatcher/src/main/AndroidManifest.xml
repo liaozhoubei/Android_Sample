@@ -14,7 +14,8 @@
 
         <!-- 2.设置启动Activity主题 -->
         <activity android:name=".example.MainActivity"
-            android:theme="@style/AppTheme.LaunchTheme">
+            android:theme="@style/AppTheme.LaunchTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

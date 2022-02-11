@@ -1,17 +1,15 @@
 plugins {
-    id 'com.android.library'
     id 'com.google.protobuf'
+    id 'com.android.library'
 }
 
 android {
     compileSdkVersion build_versions.compile_sdk
-    buildToolsVersion build_versions.build_tools
+//    buildToolsVersion build_versions.build_tools
 
     defaultConfig {
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-        versionCode 1
-        versionName "1.0"
 
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -34,22 +32,23 @@ protobuf {
         // 会生成 debug 和 release ,两者在 main 目录下会有冲突
 //        generateProtoTasks.generatedFilesBaseDir = "$projectDir/src/main/java" //指定编译生成java类的存放位置
         artifact = 'com.google.protobuf:protoc:3.6.1'
-        generateProtoTasks {
-            all().each { task ->
-                task.builtins {
-                    remove java
-                }
-                task.builtins {
-                    java {}
-                }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                remove java
+            }
+            task.builtins {
+                java {}
             }
         }
-
     }
+
+
 }
 
 dependencies {
-    implementation 'com.google.protobuf:protobuf-java:3.6.1'
+    implementation 'com.google.protobuf:protobuf-java:3.10.0'
 }
 
 // 3.0 的版本是用于编译 android 4.4 版本的 launcher3 所需的 java文件

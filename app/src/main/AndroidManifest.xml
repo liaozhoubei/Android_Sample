@@ -57,7 +57,8 @@ Android 11 添加的管理外置存储卡
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.PermissionActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
