@@ -161,6 +161,8 @@ That's easy let to OOM .
 
  - MediaStoreActivity  演示如何使用 MediaStore 获取图片
 
+ - NetListenerActivity 演示如何监听网络状态
+
  - studytouch.StudyTouchActivity   演示 Android 触摸事件传递
 
  - multilanguage.MultiLanguage     演示如何动态更改国际语言
