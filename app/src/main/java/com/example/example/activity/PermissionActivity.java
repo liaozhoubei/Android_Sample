@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -36,12 +37,9 @@ public class PermissionActivity extends AppCompatActivity implements EasyPermiss
 
         setContentView(R.layout.activity_permission);
 //        getWindow().getDecorView().setBackground(null);
-        try {
-            // 仅仅是用来展示一些起屏页
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // 仅仅是用来展示一些起屏页
+        SystemClock.sleep(2000);
+
         requestPermissionTask();
     }
 
@@ -50,7 +48,7 @@ public class PermissionActivity extends AppCompatActivity implements EasyPermiss
     private void requestPermissionTask() {
         if (EasyPermissions.hasPermissions(this, permissions)) {
             // Have permission, do the thing!
-            Toast.makeText(this, "为所欲为", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "获得权限", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, MainActivity.class));
             finish();
         } else {
