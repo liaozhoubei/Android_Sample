@@ -63,7 +63,8 @@ public class AvcEncoder {
         m_framerate = framerate;
 
         MediaFormat mediaFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, width, height);
-        mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar);
+        mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible);
+//        mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar);
         mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, width * height * 5);
         mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 30);
         mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
