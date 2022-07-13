@@ -15,6 +15,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaCodec;
+import android.media.MediaCodecInfo;
+import android.media.MediaFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,6 +39,7 @@ import android.widget.Toast;
 
 
 import com.example.example.R;
+import com.example.example.util.AvcEncoder;
 import com.example.example.util.BitmapUtils;
 import com.example.example.util.CameraHelper;
 import com.example.example.util.PhotoUtils;
@@ -49,6 +53,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * 若要自动对焦，需要设置对焦模式，不同模式的用法不同，详情看 readme.md
@@ -269,6 +274,14 @@ public class CameraActivity extends AppCompatActivity {
                     }
                 }
                 requestLayout();
+                mCamera.setPreviewCallback(new Camera.PreviewCallback() {
+                    // the default will be the YCbCr_420_SP (NV21) format.
+                    @Override
+                    public void onPreviewFrame(byte[] data, Camera camera) {
+                        //将当前帧图像保存在队列中
+                        AvcEncoder.putYUVData(data, data.length);
+                    }
+                });
                 mCamera.setParameters(mCameraParameters);
                 mCamera.setPreviewDisplay(holder);
                 mCamera.cancelAutoFocus();  // 3.先取消自动对焦
@@ -539,5 +552,69 @@ public class CameraActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mSensorManager.unregisterListener(sensorEventListener, mSensor);
+    }
+
+    public void createMediaCodec(int width , int height){
+
+        MediaFormat mediaFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, width, height);
+        mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible);
+        // 马率
+        mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, width * height * 5);
+        // 调整码率的控流模式
+        mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_VBR);
+        // 设置帧率
+        mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 25);
+        // 设置 I 帧间隔
+        mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
+
+        // 创建 MediaCodec，此时是 Uninitialized 状态
+        MediaCodec mMediaCodec = null;
+        try {
+            mMediaCodec = MediaCodec.createByCodecName(MediaFormat.MIMETYPE_VIDEO_AVC);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 调用 configure 进入 Configured 状态
+        mMediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
+        MediaFormat outputFormat = mMediaCodec.getOutputFormat(); // option B
+        // 调用 start 进入 Executing 状态，开始编解码工作
+        mMediaCodec.start();
+
+        MediaCodec finalMMediaCodec = mMediaCodec;
+    }
+
+    public void startEncoder(){
+        // 从输入缓冲区队列中拿到可用缓冲区，填充数据，再入队
+//                try {
+//                    int inputBufferIndex = finalMMediaCodec.dequeueInputBuffer(-1);
+//                    ByteBuffer inputBuffer = finalMMediaCodec.getInputBuffer(inputBufferIndex);
+////                    ByteBuffer outputBuffers = finalMMediaCodec.getOutputBuffer(0);
+//                    if (inputBufferIndex >= 0) {
+//                        long pts = getOutputPTSUs();
+////                        ByteBuffer inputBuffer = inputBuffers[inputBufferIndex];
+////                        inputBuffer.clear();
+//                        inputBuffer.put(data);
+//                        finalMMediaCodec.queueInputBuffer(inputBufferIndex, 0, data.length, pts, 0);
+////                        generateIndex += 1;
+//                    }
+//                } catch (MediaCodec.CryptoException e) {
+//                    e.printStackTrace();
+//                }
+    }
+
+
+
+    private AvcEncoder avcCodec;
+
+    public void saveH264(View view) {
+        int framerate = 30;
+
+        int biterate = 8500 * 1000;
+        //创建AvEncoder对象
+        avcCodec = new AvcEncoder(previewSize.width, previewSize.height, framerate, biterate);
+
+        //启动编码线程
+        avcCodec.StartEncoderThread();
+        Log.e(TAG, "saveH264: " + previewSize.width + "   height:"+ previewSize.height );
     }
 }

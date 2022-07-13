@@ -64,15 +64,22 @@ public class MainActivity extends AppCompatActivity {
             PackageInfo packageInfo = packageManager.getPackageInfo(
                     getPackageName(), PackageManager.GET_ACTIVITIES);
             for (ActivityInfo activityInfo : packageInfo.activities) {
-                Class aClass = Class.forName(activityInfo.name);
-
-                if (aClass.getSimpleName().equals("PermissionActivity")
-                        || aClass.getSimpleName().equals("AppSettingsDialogHolderActivity")
-                        || aClass.getSimpleName().equals("MainActivity")
-                        || aClass.getSimpleName().equals("LanguageActivity")) {
-                    continue;
+                Class aClass = null;
+                try {
+                    if (activityInfo.name.contains("PermissionActivity")
+                            || activityInfo.name.contains("AppSettingsDialogHolderActivity")
+                            || activityInfo.name.contains("MainActivity")
+                            || activityInfo.name.contains("LanguageActivity")) {
+                        continue;
+                    }
+                    aClass = Class.forName(activityInfo.name);
+                    Log.d(TAG, "loadActivity: " + activityInfo.name );
+                    activityBeanList.add(new ActivityBean(aClass));
+                } catch (ClassNotFoundException e) {
+                    Log.e(TAG, "error: " + activityInfo.name );
+                    e.printStackTrace();
                 }
-                activityBeanList.add(new ActivityBean(aClass));
+
             }
             // 按首字母排序
             Collections.sort(activityBeanList, new Comparator<ActivityBean>() {
@@ -90,8 +97,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
