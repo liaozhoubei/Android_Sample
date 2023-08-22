@@ -32,3 +32,12 @@
 
 # Gson
 -keep class com.example.example.retrofit.**{*;} # 自定义数据模型的bean目录
+
+# r8 会出现关于okhttp v4.x.x 版本 Missing class 的错误
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.conscrypt.*
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE

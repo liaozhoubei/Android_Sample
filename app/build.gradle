@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    namespace 'com.example.example'
     compileSdkVersion build_versions.compile_sdk
     defaultConfig {
         applicationId "com.example.example"
@@ -19,12 +20,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    // 禁止Google抓取您的应用内容的提示
-    // 或者在AndroidManifest.xml文件中，至少一个activity的intent-filter中添加
-    //    <action android:name="android.intent.action.VIEW" />
-    lintOptions {
-        disable 'GoogleAppIndexingWarning'
-    }
+
 
     signingConfigs {
         debug {
@@ -53,6 +49,12 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    // 禁止Google抓取您的应用内容的提示
+    // 或者在AndroidManifest.xml文件中，至少一个activity的intent-filter中添加
+    //    <action android:name="android.intent.action.VIEW" />
+    lint {
+        disable 'GoogleAppIndexingWarning'
     }
 
     android.applicationVariants.all {
@@ -117,16 +119,16 @@ dependencies {
         // 不包含　xpp3 依赖，否则会有重复引用的错误，导致无法编译 release 包
         exclude group: 'xpp3', module: 'xpp3'
     }
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
 
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.14.1'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.11.0'
 
     implementation 'com.contrarywind:Android-PickerView:4.1.8'// 三级联动
-    implementation 'org.jsoup:jsoup:1.11.3'
+    implementation 'org.jsoup:jsoup:1.16.1'
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
     // U盘读写库
     implementation 'me.jahnen.libaums:core:0.9.1'
 

@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace 'com.example.changeskin.nightskin'
     compileSdkVersion build_versions.compile_sdk
 //    buildToolsVersion build_versions.build_tools
 
@@ -26,6 +27,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 
     android.applicationVariants.all {
         variant ->

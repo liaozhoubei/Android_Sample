@@ -59,15 +59,23 @@ public class MediaStoreActivity extends AppCompatActivity {
                 long id = cursor.getLong(idColumn);
                 // 通过id 查询器uri
                 Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-                String displayName = cursor.getString(
-                        cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                int columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                String displayName = cursor.getString(columnIndex);
                 Log.i(TAG, "Display Name: " + displayName);
                 uriArrayList.add(uri);
                 if (uriArrayList.size() > 3) {
                     break;
                 }
-                Log.e(TAG, "img cursor data=" + cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
-                        + ";\nimg cursor type=" + cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.MIME_TYPE)));
+                // Value must be ≥ 0 but getColumnIndex can be -1
+                int dataColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+                int typeColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.MIME_TYPE);
+                if (dataColumnIndex > -1){
+                    Log.e(TAG, "img cursor data=" + cursor.getString(dataColumnIndex));
+                }
+                if (typeColumnIndex > -1){
+                    Log.e(TAG,  "img cursor type=" + cursor.getString(typeColumnIndex));
+                }
+
             }
         }
 
@@ -92,10 +100,12 @@ public class MediaStoreActivity extends AppCompatActivity {
 
                 // Note it's called "Display Name".  This is
                 // provider-specific, and might not necessarily be the file name.
-                String displayName = cursor.getString(
-                        cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                Log.i(TAG, "Display Name: " + displayName);
-
+                // Value must be ≥ 0 but getColumnIndex can be -1
+                int columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if (columnIndex >=0){
+                    String displayName = cursor.getString(columnIndex);
+                    Log.i(TAG, "Display Name: " + displayName);
+                }
                 int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
                 // If the size is unknown, the value stored is null.  But since an
                 // int can't be null in Java, the behavior is implementation-specific,

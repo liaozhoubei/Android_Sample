@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace 'com.example.taskdispatcher'
     compileSdkVersion build_versions.compile_sdk
 //    buildToolsVersion build_versions.build_tools
 
@@ -33,6 +34,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
@@ -41,8 +43,8 @@ dependencies {
     implementation deps.material
     implementation deps.constraint_layout
     testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.android.support:multidex:1.0.3'
     // 以下依赖包仅用于测试

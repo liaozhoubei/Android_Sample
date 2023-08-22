@@ -22,6 +22,8 @@ deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$versions.c
 def addRepos(RepositoryHandler handler) {
     // 是否拥有本地私服仓库(推荐搭建nexus私服，速度会更快)
     def isLocal = false
+
+
     if (isLocal){
         handler.maven { url("http://localhost:9091/repository/aliyun/") }
         handler.maven { url("http://localhost:9091/repository/google/") }
@@ -35,10 +37,11 @@ def addRepos(RepositoryHandler handler) {
 //        handler.maven { url "https://jitpack.io" }
         handler.google()
     }
-    handler.maven { url 'http://maven.aliyun.com/nexus/content/repositories/releases/'}
+    handler.maven {  url 'https://maven.aliyun.com/repository/releases/'}
     handler.mavenCentral()
 //    handler.maven { url 'https://dl.bintray.com/umsdk/release' }
     handler.jcenter()
+
 
 }
 ext.addRepos = this.&addRepos

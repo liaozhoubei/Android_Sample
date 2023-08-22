@@ -150,8 +150,8 @@ public class UsbManagerActivity extends AppCompatActivity implements View.OnClic
         UsbManager usbManager = (UsbManager) mContext.getSystemService(Context.USB_SERVICE);
         returnMsg("开始去读Otg设备");
         UsbMassStorageDevice[] storageDevices = UsbMassStorageDevice.getMassStorageDevices(mContext);
-
-        mPendingIntent = PendingIntent.getBroadcast(mContext, 0, new Intent(ACTION_USB_PERMISSION), 0);
+        // TODO: 2023/8/22 未验证 
+        mPendingIntent = PendingIntent.getBroadcast(mContext, 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_UPDATE_CURRENT);
         if (storageDevices.length == 0) {
             returnMsg("没有检测到U盘s");
             return;
