@@ -1,0 +1,13 @@
+<com.example.customviewdemo.Sliding2.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/slideMenu"
+    android:background="@drawable/bg" >
+
+    <!-- 菜单的布局 -->
+    <include layout="@layout/layout_menu2"/>
+    <!-- 主界面的布局 -->
+    <include layout="@layout/layout_main2"/>
+
+</com.example.customviewdemo.Sliding2.DragLayout>
