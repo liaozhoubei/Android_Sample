@@ -1,7 +1,7 @@
 # CustomViewDemo
 A demo of customView
 
-这是一个用于练习的自定义视图的Demo，有以下几个项目
+这是一个用于练习的自定义视图的Demo，使用 eclipse-android 开发，有以下几个项目
 
 1、使用动画的的菜单栏，效果如下
 
