@@ -1,0 +1,80 @@
+plugins {
+    id 'com.google.protobuf'
+    id 'com.android.library'
+}
+
+android {
+    namespace 'com.example.buildprotobuf'
+    compileSdkVersion build_versions.compile_sdk
+//    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+protobuf {
+    //这里配置protoc编译器
+    protoc {
+        // 会生成 debug 和 release ,两者在 main 目录下会有冲突
+//        generateProtoTasks.generatedFilesBaseDir = "$projectDir/src/main/java" //指定编译生成java类的存放位置
+        artifact = 'com.google.protobuf:protoc:3.6.1'
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                remove java
+            }
+            task.builtins {
+                java {}
+            }
+        }
+    }
+
+
+}
+
+dependencies {
+    implementation 'com.google.protobuf:protobuf-java:3.10.0'
+}
+
+// 3.0 的版本是用于编译 android 4.4 版本的 launcher3 所需的 java文件
+//protobuf {
+//    //这里配置protoc编译器
+//    protoc {
+//        // 会生成 debug 和 release ,两者在 main 目录下会有冲突
+////        generateProtoTasks.generatedFilesBaseDir = "$projectDir/src/main/java" //指定编译生成java类的存放位置
+//        artifact = 'com.google.protobuf:protoc:3.0.0-alpha-3'
+//        generateProtoTasks {
+//            all().each { task ->
+//                task.builtins {
+//                    remove java
+//                    javanano {
+//                        option "java_package=launcher_log.proto|com.android.launcher3.userevent.nano"
+//                        option "enum_style=java"
+//                    }
+//                }
+//            }
+//        }
+//
+//    }
+//}
+//dependencies {
+//    // 3.0 的版本是用于编译 android 4.4 版本的 launcher3 所需的 java文件
+//    implementation 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-2'
+//}

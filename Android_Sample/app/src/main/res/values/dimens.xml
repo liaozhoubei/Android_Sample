@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="logo_text_bottom">15dp</dimen>
+    <dimen name="map_width">300dp</dimen>
+    <dimen name="map_height">300dp</dimen>
+
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="activitybg">#5A5A5A</color>
+    <color name="mytextColor">#FBFBFB</color>
+
+    <color name="left_second_text">#AA00FF</color>
+    <color name="middle_second_text">#2962FF</color>
+    <color name="right_second_text">#FFD600</color>
+</resources>

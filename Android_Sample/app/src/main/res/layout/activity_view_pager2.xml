@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00BCD4"
+    tools:context=".activity.ViewPager2Activity">
+
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
+
+
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/banner_viewpager2"
+        android:layout_width="match_parent"
+        android:layout_height="471px"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:focusedByDefault="true"
+        android:padding="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.example.widget.CircleIndicator
+        android:id="@+id/container_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_below="@+id/banner_viewpager2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20px"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/banner_viewpager2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/container_indicator">
+
+        <Button
+            android:id="@+id/btn_left_imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="left" />
+
+        <Button
+            android:id="@+id/btn_right_imageButtom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="right" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

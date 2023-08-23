@@ -1,0 +1,48 @@
+
+
+ext.deps = [:]
+def versions = [:]
+versions.activity = '1.2.2'
+versions.appcompat = '1.1.0'
+versions.material = "1.0.0"
+versions.constraint_layout = "2.0.4"
+ext.versions = versions
+
+def build_versions = [:]
+build_versions.min_sdk = 21
+build_versions.compile_sdk = 31
+build_versions.target_sdk = 31
+build_versions.build_tools = "31.0.0"
+ext.build_versions = build_versions
+
+deps.app_compat = "androidx.appcompat:appcompat:$versions.appcompat"
+deps.material = "com.google.android.material:material:$versions.material"
+deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
+
+def addRepos(RepositoryHandler handler) {
+    // 是否拥有本地私服仓库(推荐搭建nexus私服，速度会更快)
+    def isLocal = false
+
+
+    if (isLocal){
+        handler.maven { url("http://localhost:9091/repository/aliyun/") }
+        handler.maven { url("http://localhost:9091/repository/google/") }
+        handler.maven { url("http://localhost:9091/repository/gradle-plugin/") }
+//        handler.maven { url "https://jitpack.io" }
+    }else{
+        handler.maven { url("https://maven.aliyun.com/repository/public") }
+        handler.maven { url("https://maven.aliyun.com/repository/google") }
+        handler.maven { url("https://maven.aliyun.com/repository/gradle-plugin") }
+
+//        handler.maven { url "https://jitpack.io" }
+        handler.google()
+    }
+    handler.maven {  url 'https://maven.aliyun.com/repository/releases/'}
+    handler.mavenCentral()
+//    handler.maven { url 'https://dl.bintray.com/umsdk/release' }
+    handler.jcenter()
+
+
+}
+ext.addRepos = this.&addRepos
+

@@ -1,0 +1,60 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'com.example.makejar'
+    compileSdkVersion build_versions.compile_sdk
+//    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    // 看情况添加依赖
+}
+
+// 不需要生成 BuildConfig.java
+afterEvaluate {
+    generateReleaseBuildConfig.enabled = false
+    generateDebugBuildConfig.enabled = false
+}
+
+def SDK_BASENAME = "myjar";
+def SDK_VERSION = "_v1.0.0";
+def sdkDestinationPath = "build/outputs/jar/";
+// 文件目录不固定(不同 android studio 版本不一样)，需要从 build 中查找(需要先 assemble )
+//def zipFile = file('build/intermediates/bundles/debug/classes.jar')
+//def zipFile = file('build/intermediates/packaged-classes/release/classes.jar')
+def zipFile = file('build/intermediates/aar_main_jar/release/classes.jar')
+
+task deleteBuild(type: Delete) {
+    delete sdkDestinationPath + SDK_BASENAME + SDK_VERSION + ".jar"
+}
+// 从 build 目录中取出 jar 包，然后添加 assets 文件重新打包
+// 先进行assemble ,然后手动执行此任务
+task makeJarlib(type: Jar) {
+    from zipTree(zipFile)
+    from fileTree(dir: 'src/main', includes: ['assets/**']) // 打包assets目录下的所有文件
+    archiveBaseName = SDK_BASENAME + SDK_VERSION
+    destinationDirectory = file(sdkDestinationPath)
+}
+
+makeJarlib.dependsOn(deleteBuild, build)

@@ -1,0 +1,10 @@
+import "student.proto";
+
+option java_package = "com.example";
+option java_outer_classname = "AClassProto";
+
+message AClass {
+    required int32 id = 1;
+    optional string name = 2;
+    repeated Student student_list = 3;
+}

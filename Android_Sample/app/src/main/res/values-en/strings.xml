@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Example</string>
+    <string name="tip_language">I am first, yes</string>
+    <string name="hello">hello</string>
+</resources>

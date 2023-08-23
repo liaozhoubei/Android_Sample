@@ -1,0 +1,8 @@
+include ':buildprotobuf'
+include ':changeskin:dayskin'
+include ':changeskin:nightskin'
+include ':changeskin'
+include ':taskdispatcher'
+include ':makeJar'
+include ':app'
+

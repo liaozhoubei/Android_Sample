@@ -1,0 +1,1 @@
+hello,this is example to how to make jar in android studio!
