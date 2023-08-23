@@ -1,0 +1,921 @@
+{
+    "code": 0,
+    "result": [
+        {
+            "body": [
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/5914716e28caaa94f9c4d7eecf5d0d1421401285.jpg",
+                    "danmaku": "1208",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5934046",
+                    "play": "8.3万",
+                    "style": "gm_av",
+                    "title": "【多素材/舞曲/AMV】舞动二次元～Shut Up and Dance（dance系列1）",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/9bf31b66e5b18e0adfa5b95194ca56fc7f70489c.png",
+                    "danmaku": "5579",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5938592",
+                    "play": "12.6万",
+                    "style": "gm_av",
+                    "title": "【岑先生】我的世界（男伪女）",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/28f4f16979fe8a3efd2aa85f4c2a95fd1e9d7a7f.jpg",
+                    "danmaku": "1956",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5307154",
+                    "play": "42.1万",
+                    "style": "gm_av",
+                    "title": "【全英雄】这个世界需要更多的rap",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/b54892137ad4aa3f4ddb79df308b4d42f36d40ef.png",
+                    "danmaku": "1640",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5934350",
+                    "play": "7.8万",
+                    "style": "gm_av",
+                    "title": "【柏原崇|影视混剪】【殿堂级美少年的颜值暴击】Cry More-此间少年！",
+                    "width": 350
+                }
+            ],
+            "head": {
+                "goto": "",
+                "param": "",
+                "style": "gm_av",
+                "title": "热门焦点"
+            },
+            "type": "recommend"
+        },
+        {
+            "body": [
+                {
+                    "area": "单机联机",
+                    "area_id": 1,
+                    "cover": "http://i0.hdslb.com/bfs/live/da6db4af475b8c0eb896f3785e531067b3f5d2c0.jpg",
+                    "goto": "live",
+                    "height": 364,
+                    "online": 3495,
+                    "param": "316989",
+                    "style": "gm_live",
+                    "title": "【老鬼】守望先锋送刨冰雨抽奖送皮肤刀",
+                    "up": "AzureGhost",
+                    "up_face": "http://i0.hdslb.com/bfs/face/0cd0aefbc2d8951139ce6ac20e3bda03ddc8fba6.jpg",
+                    "width": 580
+                },
+                {
+                    "area": "电子竞技",
+                    "area_id": 4,
+                    "cover": "http://i0.hdslb.com/bfs/live/7b253562cbf8b88cb1b306e2127fbb48e16fc189.jpg",
+                    "goto": "live",
+                    "height": 364,
+                    "online": 8277,
+                    "param": "83264",
+                    "style": "gm_live",
+                    "title": "(≖ ‿ ≖)✧你感受过绝望吗",
+                    "up": "黑哲君丶",
+                    "up_face": "http://i1.hdslb.com/bfs/face/4e8cad07713ce0ded34dba3f4c56da680f6ba979.jpg",
+                    "width": 580
+                },
+                {
+                    "area": "手机直播",
+                    "area_id": 11,
+                    "cover": "http://i0.hdslb.com/bfs/live/2cf121f2dd2b6f27ad0bd570d075eaf2c4b7c058.jpg",
+                    "goto": "live",
+                    "height": 364,
+                    "online": 14,
+                    "param": "365292",
+                    "style": "gm_live",
+                    "title": "我已经直播了",
+                    "up": "小粽粽子.",
+                    "up_face": "http://i0.hdslb.com/bfs/face/1eb98e362e4991cb4866683afa7ca22416d9fcfa.jpg",
+                    "width": 580
+                },
+                {
+                    "area": "单机联机",
+                    "area_id": 1,
+                    "cover": "http://i0.hdslb.com/bfs/live/a8e1430bf92fea2dc7961902956900029614ed14.jpg",
+                    "goto": "live",
+                    "height": 364,
+                    "online": 5088,
+                    "param": "34180",
+                    "style": "gm_live",
+                    "title": ".......................................",
+                    "up": "红发杰克丶",
+                    "up_face": "http://i0.hdslb.com/bfs/face/adf18a45bdf8112fe268b69a33b53ab4ea36df2c.jpg",
+                    "width": 580
+                }
+            ],
+            "head": {
+                "count": 4265,
+                "goto": "live",
+                "param": "",
+                "style": "gm_av",
+                "title": "热门直播"
+            },
+            "type": "live"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/0db840f8d1d77114e329c73170d4709d21965170.jpg",
+                    "desc1": "更新到第8话",
+                    "goto": "bangumi_list",
+                    "height": 422,
+                    "param": "5040",
+                    "style": "gs_bangumi",
+                    "title": "魔法少女？Naria☆Girls",
+                    "width": 320
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/d47ec4baf741b4257137601061eef4880985f940.jpg",
+                    "desc1": "更新到第8话",
+                    "goto": "bangumi_list",
+                    "height": 422,
+                    "param": "5039",
+                    "style": "gs_bangumi",
+                    "title": "OZMAFIA!!",
+                    "width": 320
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/e0da60381847bd416428d5f08d4d90a306adcd05.jpg",
+                    "desc1": "更新到第8话",
+                    "goto": "bangumi_list",
+                    "height": 422,
+                    "param": "5038",
+                    "style": "gs_bangumi",
+                    "title": "月歌",
+                    "width": 320
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/14c21cae0ad8613a19ba342fbbd7a9c6378bdcdc.jpg",
+                    "desc1": "更新到第20话",
+                    "goto": "bangumi_list",
+                    "height": 422,
+                    "param": "3462",
+                    "style": "gs_bangumi",
+                    "title": "双星之阴阳师",
+                    "width": 320
+                }
+            ],
+            "head": {
+                "goto": "subarea",
+                "param": "13",
+                "style": "gs_bangumi",
+                "title": "番剧推荐"
+            },
+            "type": "bangumi_2"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/bfabf3dc0aacc2fd913b378f7de9b0dd435bd29f.jpg_320x200.jpg",
+                    "danmaku": "789",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5971744",
+                    "play": "4.1万",
+                    "style": "gm_av",
+                    "title": "【盘点】动漫中那些中文十级的爆笑瞬间 第二期",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/4c640253ded4b7543449be678c48a88a5d72fa83.jpg_320x200.jpg",
+                    "danmaku": "841",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5963630",
+                    "play": "3.0万",
+                    "style": "gm_av",
+                    "title": "MMD Girls GUMI  巡音 弱音 镜音 初音 凤凰式旗袍 改模配布",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/2fa33ca7b39a4f88bebeb4b4070c251ba298ff99.jpg_320x200.jpg",
+                    "danmaku": "93",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5976468",
+                    "play": "8553",
+                    "style": "gm_av",
+                    "title": "【东方】小伞 VS 泡面",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/90c47a18167e0c9b47bfca3dd31093e767ab24f7.jpg_320x200.jpg",
+                    "danmaku": "588",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5981634",
+                    "style": "gm_av",
+                    "title": "朋友，你知道乳摇吗？【不懂二次元vol.10】",
+                    "width": 350
+                }
+            ],
+            "head": {
+                "goto": "subarea",
+                "param": "1",
+                "style": "gm_av",
+                "title": "动画区"
+            },
+            "type": "region"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/32358d877b882445ab33b0d6f240db2d0bf5155a.jpg_320x200.jpg",
+                    "danmaku": "1050",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5952107",
+                    "play": "9.3万",
+                    "style": "gm_av",
+                    "title": "【Re：从零开始的异世界生活 完整OP2】MYTH & ROID-Paradisus-Paradoxum【中日歌",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/47f96874eeb2946a19634ff6c3ae01aae9517b57.jpg_320x200.jpg",
+                    "danmaku": "145",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5963249",
+                    "play": "1.1万",
+                    "style": "gm_av",
+                    "title": "櫻井翔  Rolling days",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/50778c0077386c9fc6e74abdf70272ee96132d6b.jpg_320x200.jpg",
+                    "danmaku": "517",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5967695",
+                    "play": "1.2万",
+                    "style": "gm_av",
+                    "title": "ぐるたみん/咕噜碳 - Yell for (full movie)",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/8afc3ae0c43717b5d3a1eaef305471861c89c74f.jpg_320x200.jpg",
+                    "danmaku": "801",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5982126",
+                    "play": "7738",
+                    "style": "gm_av",
+                    "title": "【不忘初心x守护猴宝】活久见的神级阵容，151212 StageFighter特别公演",
+                    "width": 350
+                }
+            ],
+            "head": {
+                "goto": "subarea",
+                "param": "3",
+                "style": "gm_av",
+                "title": "音乐区"
+            },
+            "type": "region"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/b1a707e9039dba5181ba748d30ccc3da146247dc.jpg_320x200.jpg",
+                    "danmaku": "520",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5979204",
+                    "play": "3.1万",
+                    "style": "gm_av",
+                    "title": "【Chinka×Rikinn】七夕【合作一周年】",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/7b6ccf2efcce31c20cb5f8c2e2628ff15fd599ae.jpg_320x200.jpg",
+                    "danmaku": "66",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5963362",
+                    "play": "1.3万",
+                    "style": "gm_av",
+                    "title": "【单色舞蹈】经典性感爵士舞《girl gone wild》 羞耻PLAY",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/2b2d6f7d408afb24101355d136b5ade0dac8df3e.jpg_320x200.jpg",
+                    "danmaku": "210",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5973204",
+                    "play": "8258",
+                    "style": "gm_av",
+                    "title": "【深深X蜗牛妻X爪爪】極樂淨土♥",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/1b1fa1968316348270b996ac36d07a47310ae08a.jpg_320x200.jpg",
+                    "danmaku": "797",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5970117",
+                    "play": "7048",
+                    "style": "gm_av",
+                    "title": "【周刊】哔哩哔哩舞蹈排行榜2016年8月第三周#75",
+                    "width": 350
+                }
+            ],
+            "head": {
+                "goto": "subarea",
+                "param": "129",
+                "style": "gm_av",
+                "title": "舞蹈区"
+            },
+            "type": "region"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/069b96a5350a74e68b28365e19ac9b4f25330c2d.jpg",
+                    "goto": "weblink",
+                    "height": 211,
+                    "param": "http://www.bilibili.com/topic/v2/phone1462.html",
+                    "style": "gl_normal",
+                    "title": "",
+                    "width": 714
+                }
+            ],
+            "head": {
+                "goto": "",
+                "param": "",
+                "style": "",
+                "title": ""
+            },
+            "type": "weblink"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/4e221ac18271a51381239e908451387f4f78551e.jpg_320x200.jpg",
+                    "danmaku": "957",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5977958",
+                    "play": "5.4万",
+                    "style": "gm_av",
+                    "title": "我很久没打是我不对啦但是你居然敢惹三气不知火舞",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/17f394b1c7c0c04279f1050bd3f48009195b45f7.jpg_320x200.jpg",
+                    "danmaku": "2411",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5961811",
+                    "play": "2.1万",
+                    "style": "gm_av",
+                    "title": "【Q君实况】高分神作 极限脱出 刻之困境 中文版 PART.14~15",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/fc825165f68b0e4e9367a58ee2f820b7e37b29f0.jpg_320x200.jpg",
+                    "danmaku": "1.3万",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5974851",
+                    "play": "8.8万",
+                    "style": "gm_av",
+                    "title": "【KBShinya】撩汉的正确方式【更新至4P邢月线完结】",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/5315bed720da91e44270b8a8d2de308b746aea7e.png_320x200.png",
+                    "danmaku": "3180",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5963153",
+                    "play": "4.7万",
+                    "style": "gm_av",
+                    "title": "【若风解说】五杀美人！旋转跳跃！",
+                    "width": 350
+                }
+            ],
+            "head": {
+                "goto": "subarea",
+                "param": "4",
+                "style": "gm_av",
+                "title": "游戏区"
+            },
+            "type": "region"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/306b8ef78af8b38569db3a87da0e6f75ab4b46cb.jpg",
+                    "goto": "weblink",
+                    "height": 211,
+                    "param": "http://www.bilibili.com/topic/v2/phone1456.html",
+                    "style": "gl_normal",
+                    "title": "",
+                    "width": 714
+                }
+            ],
+            "head": {
+                "goto": "",
+                "param": "",
+                "style": "",
+                "title": ""
+            },
+            "type": "weblink"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/cc22f40c72bc95cc2320fbd16a70d3048d5cec13.jpg_320x200.jpg",
+                    "danmaku": "143",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5991988",
+                    "play": "1.5万",
+                    "style": "gm_av",
+                    "title": "全明星教你背古诗",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/3a7e19109314e436ea249a14756c257c00e17768.jpg_320x200.jpg",
+                    "danmaku": "213",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5973470",
+                    "play": "1.2万",
+                    "style": "gm_av",
+                    "title": "【PDD】我的第一次",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/58f99f16ac7203adead3b8a616ad651f0efdddf5.jpg_320x200.jpg",
+                    "danmaku": "83",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5982575",
+                    "play": "2814",
+                    "style": "gm_av",
+                    "title": "【Highscore】守望先锋 枪声音乐+音MAD （新人制作）",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/3a1c7f2e3b75950b818bac206314cc713d6c5a48.jpg_320x200.jpg",
+                    "danmaku": "598",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5971526",
+                    "play": "6636",
+                    "style": "gm_av",
+                    "title": "【反法西斯述史】元首·九九八十一（失败的帝国）----B站首个专注文艺鬼畜的科西嘉文艺馆出品【已授权】",
+                    "width": 350
+                }
+            ],
+            "head": {
+                "goto": "subarea",
+                "param": "119",
+                "style": "gm_av",
+                "title": "鬼畜区"
+            },
+            "type": "region"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/031a1d6fc34343ee7402ec27a51b7f04d792cfa8.jpg_320x200.jpg",
+                    "danmaku": "101",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5954438",
+                    "play": "1.2万",
+                    "style": "gm_av",
+                    "title": "「E分钟」160822：小米note2魅族Pro齐上曲面屏？索尼PS4 slim将发布",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/f2f3ff2f5e859ab9faf55973aeb84e87a16ee84d.jpg_320x200.jpg",
+                    "danmaku": "824",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5977290",
+                    "play": "1.4万",
+                    "style": "gm_av",
+                    "title": "【神船】GTX M1070开箱实测！110吗这里有新型核弹！",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/9829480ba76b7a834807efe0a7f53db7099264f0.jpg_320x200.jpg",
+                    "danmaku": "40",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5989183",
+                    "play": "5334",
+                    "style": "gm_av",
+                    "title": "be quiet! DarkBase 900 超棒的机箱！ @西欧帝字幕组/hardware canucks",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/2560bc93cce11f8df4d64ed8040401a4e1f3e5ae.jpg_320x200.jpg",
+                    "danmaku": "117",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5994059",
+                    "play": "1.1万",
+                    "style": "gm_av",
+                    "title": "「E分钟」160824：新一代iPhone se大曝光！魅蓝U10＆20悄悄发布",
+                    "width": 350
+                }
+            ],
+            "head": {
+                "goto": "subarea",
+                "param": "36",
+                "style": "gm_av",
+                "title": "科技区"
+            },
+            "type": "region"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/bc813429915d43a5bf9fe3c5ffc8e259289fd042.jpg",
+                    "goto": "weblink",
+                    "height": 211,
+                    "param": "http://www.bilibili.com/html/activity-MAD2016-m.html",
+                    "style": "gl_act",
+                    "title": "快看，野生的大触手！ (´・ω・｀)",
+                    "width": 714
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/a440a225cb8b53e897490254568d0f6d02dccd41.jpg",
+                    "goto": "weblink",
+                    "height": 211,
+                    "param": "http://www.bilibili.com/html/activity-punipuni3-m.html",
+                    "style": "gl_act",
+                    "title": "厨房被小电视们占领了？꒰꒪д꒪|||",
+                    "width": 714
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/4b10531f3e1a0e6f5e9c25d78849b69d5b7f56a5.png",
+                    "goto": "weblink",
+                    "height": 211,
+                    "param": "http://www.bilibili.com/html/activity-cinecism-m.html",
+                    "style": "gl_act",
+                    "title": "可以，这很影评",
+                    "width": 714
+                }
+            ],
+            "head": {
+                "goto": "activity",
+                "param": "subarea",
+                "style": "",
+                "title": "活动中心"
+            },
+            "type": "activity"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/530602c23e3e80f87a48be7a7d2cbc82b3201389.jpg_320x200.jpg",
+                    "danmaku": "336",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5955779",
+                    "play": "1.7万",
+                    "style": "gm_av",
+                    "title": "想舔古埃及遗址的喝水喉结",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/72a0570cdbc777cca309df7c57acd84d958f5b27.jpg_320x200.jpg",
+                    "danmaku": "369",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5956288",
+                    "play": "4.0万",
+                    "style": "gm_av",
+                    "title": "【张继科】吐槽马龙开车 提到现场喊要给他生孩子的迷妹[观致汽车苏州世乒赛]",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/8e5d84deb8d7683c6077a3893c5e65a47e71225f.jpg_320x200.jpg",
+                    "danmaku": "1611",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5981741",
+                    "play": "4.9万",
+                    "style": "gm_av",
+                    "title": "今天没有喝假酒，就是想和大家说说话",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/d0ce89c23b8ee71e8553c01565b1f918d2400c9f.jpg_320x200.jpg",
+                    "danmaku": "457",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5957243",
+                    "play": "9.6万",
+                    "style": "gm_av",
+                    "title": "【后会有期】奥运结束了，里约奥运搞笑集锦送给大家。希望大家天天开心呦",
+                    "width": 350
+                }
+            ],
+            "head": {
+                "goto": "subarea",
+                "param": "160",
+                "style": "gm_av",
+                "title": "生活区"
+            },
+            "type": "region"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/c6e8faf19cbf3f74a72ac939c77b040e68c0f033.jpg",
+                    "goto": "weblink",
+                    "height": 211,
+                    "param": "http://www.bilibili.com/topic/1469.html",
+                    "style": "gl_normal",
+                    "title": "",
+                    "width": 714
+                }
+            ],
+            "head": {
+                "goto": "",
+                "param": "",
+                "style": "",
+                "title": ""
+            },
+            "type": "weblink"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/3b9a628bbc6a70beeacd16a6dfd34d85bf477451.jpg_320x200.jpg",
+                    "danmaku": "563",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5983969",
+                    "play": "5820",
+                    "style": "gm_av",
+                    "title": "【大宝剑联盟】充斥着各种帅哥兄贵的2016服装秀",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/f00c1b5ba4616cb606bf235139ab9ae019d0e9e0.jpg_320x200.jpg",
+                    "danmaku": "69",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5956915",
+                    "play": "5673",
+                    "style": "gm_av",
+                    "title": "【SUKI】如何将化妆品＆护肤品用到最尽 一省再省",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/80453177096ba7f390cbcb6719524fa91b79a958.jpg_320x200.jpg",
+                    "danmaku": "1213",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5979194",
+                    "play": "9300",
+                    "style": "gm_av",
+                    "title": "Liz栗子| 近期妆品购物分享",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/d9fe12faa5100613e8188ed701448f6f407dcd2f.jpg_320x200.jpg",
+                    "danmaku": "286",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5961955",
+                    "play": "1.7万",
+                    "style": "gm_av",
+                    "title": "【Vivekatt】简单凉爽的－双丸子头",
+                    "width": 350
+                }
+            ],
+            "head": {
+                "goto": "subarea",
+                "param": "155",
+                "style": "gm_av",
+                "title": "时尚区"
+            },
+            "type": "region"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/112e87cb1f6e2286c31ec530f0956f72641c44f2.jpg_320x200.jpg",
+                    "danmaku": "24",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5973515",
+                    "play": "2605",
+                    "style": "gm_av",
+                    "title": "【薛之谦】你薛这么浪你们还管不管了233",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/0f65129772dbf8add633ff784408f90fbb2baf24.jpg_320x200.jpg",
+                    "danmaku": "128",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5965214",
+                    "play": "2113",
+                    "style": "gm_av",
+                    "title": "木村拓哉之所以成为木村拓哉",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/abedfff80106bae3a159df1da275e296596ece7b.png_320x200.png",
+                    "danmaku": "274",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5975980",
+                    "play": "2548",
+                    "style": "gm_av",
+                    "title": "【日本蓝担】好久不见！GN开封Japonism DVD! 这次的DVD好用心！",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/40b8267088acc31ddc637496fb6acc55354f94c4.jpg_320x200.jpg",
+                    "danmaku": "347",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5977222",
+                    "play": "4091",
+                    "style": "gm_av",
+                    "title": "【张若昀】放飞自我之路【附《麻雀》唐山海个人向丨双城】",
+                    "width": 350
+                }
+            ],
+            "head": {
+                "goto": "subarea",
+                "param": "5",
+                "style": "gm_av",
+                "title": "娱乐区"
+            },
+            "type": "region"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/e19f2e34b88f8487d16f43689f04918f3fc8fb82.jpg_320x200.jpg",
+                    "danmaku": "1286",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5985493",
+                    "play": "3.5万",
+                    "style": "gm_av",
+                    "title": "【老九门】启月夫妇发糖《暖暖》陈伟霆赵丽颖 霸道一吻定终身",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/f819aa5b11a05010710d6c1a774f3504cd05d8c8.jpg_320x200.jpg",
+                    "danmaku": "256",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5958985",
+                    "play": "4116",
+                    "style": "gm_av",
+                    "title": "【九州天空城】【张若昀】风天逸个人舔屏向|传说(就喜欢看羽皇哭的样子）",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/b40124b80e42fe3f7f576399462aadfee2356309.jpg_320x200.jpg",
+                    "danmaku": "126",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5963625",
+                    "play": "2637",
+                    "style": "gm_av",
+                    "title": "【魔道祖师】【徐海乔x杨洋】【忘羡】【剧情向·伪·片花】精剪来了~",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i1.hdslb.com/bfs/archive/140384125ad49494f87788dfa7539c6a9b14c410.jpg_320x200.jpg",
+                    "danmaku": "348",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5971714",
+                    "play": "2549",
+                    "style": "gm_av",
+                    "title": "【War of High School】【高校战争】第二集OT角色CUT(中文字幕)",
+                    "width": 350
+                }
+            ],
+            "head": {
+                "goto": "subarea",
+                "param": "11",
+                "style": "gm_av",
+                "title": "电视剧区"
+            },
+            "type": "region"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/b3b472207e215aecbe524aa57bb01fe302c88ce3.jpg_320x200.jpg",
+                    "danmaku": "425",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5986277",
+                    "play": "5930",
+                    "style": "gm_av",
+                    "title": "【视频大赏】电影中的核弹危机",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/ed367c91f5407287f40f53ca0c05c21b404d5c6d.jpg_320x200.jpg",
+                    "danmaku": "112",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5969825",
+                    "play": "4868",
+                    "style": "gm_av",
+                    "title": "【双语字幕】正义联盟成员大盘点@闪电字幕组",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/053d2785b50a975cd5c38495b8e3a7decb073c08.jpg_320x200.jpg",
+                    "danmaku": "255",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "5964428",
+                    "play": "1.8万",
+                    "style": "gm_av",
+                    "title": "五分钟连看三部《星际迷航》",
+                    "width": 350
+                },
+                {
+                    "cover": "http://i2.hdslb.com/bfs/archive/17e6edae69342afd344a955a0348b65b014e185b.jpg_320x200.jpg",
+                    "danmaku": "125",
+                    "goto": "av",
+                    "height": 219,
+                    "param": "6001266",
+                    "play": "1813",
+                    "style": "gm_av",
+                    "title": "【刘老师】逆天吐槽《床下有人2》",
+                    "width": 350
+                }
+            ],
+            "head": {
+                "goto": "subarea",
+                "param": "23",
+                "style": "gm_av",
+                "title": "电影区"
+            },
+            "type": "region"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/b6dfcc97fb71612bd3927ca70f4e52d5e7ff872e.jpg",
+                    "goto": "weblink",
+                    "height": 211,
+                    "param": "http://www.bilibili.com/html/activity-20160819movieweekend.html",
+                    "style": "gl_normal",
+                    "title": "周末放映室 第103期复古季 ",
+                    "width": 714
+                }
+            ],
+            "head": {
+                "goto": "",
+                "param": "",
+                "style": "",
+                "title": ""
+            },
+            "type": "weblink"
+        },
+        {
+            "body": [
+                {
+                    "cover": "http://i0.hdslb.com/bfs/archive/2e16eaf771e823ae45cc9abad97dfde8e0a96dbe.jpg",
+                    "goto": "weblink",
+                    "height": 211,
+                    "param": "http://www.bilibili.com/topic/v2/phone1468.html",
+                    "style": "gl_normal",
+                    "title": "",
+                    "width": 714
+                }
+            ],
+            "head": {
+                "goto": "",
+                "param": "",
+                "style": "",
+                "title": ""
+            },
+            "type": "weblink"
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "personData": [
+        {
+            "age": 12,
+            "name": "nate",
+            "schoolInfo": [
+                {
+                    "School_name": "清华"
+                },
+                {
+                    "School_name": "北大"
+                }
+            ],
+            "url": "http://pic.yesky.com/uploadImages/2014/345/36/E8C039MU0180.jpg"
+        },
+        {
+            "age": 24,
+            "name": "jack",
+            "schoolInfo": [
+                {
+                    "School_name": "人大"
+                },
+                {
+                    "School_name": "复旦"
+                }
+            ],
+            "url": "http://pic.yesky.com/uploadImages/2014/345/35/228TSWE5QQU9.jpg"
+        }
+    ],
+    "result": 1
+}

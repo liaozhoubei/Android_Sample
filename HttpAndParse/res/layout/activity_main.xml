@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/netfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下载网络图片" />
+
+    <Button
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="WebView上网" />
+
+    <Button
+        android:id="@+id/getandpost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get和Post请求" />
+
+    <Button
+        android:id="@+id/json_parse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="JSON解析" />
+
+    <Button
+        android:id="@+id/gson_parse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GSON解析" />
+
+    <Button
+        android:id="@+id/xml_parse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="XML解析" />
+
+    <Button
+        android:id="@+id/bt_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="上传文件" />
+
+</LinearLayout>
