@@ -1,11 +1,12 @@
 package com.example.databasecontentprovider;
-
+import android.content.Intent;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import com.example.databasecontentprovider.loadinterface.*;
 
 public class MainActivity extends Activity {
 
@@ -77,6 +78,13 @@ public class MainActivity extends Activity {
 			}
 		});
 		
+		Button signOutButton = (Button) findViewById(R.id.sign_out);
+		signOutButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(MainActivity.this, LoginActivity.class));
+			}
+		});
 		
 	}
 
