@@ -6,6 +6,9 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.widget.Toast;
 
+/**
+ * 演示同一进程的服务
+ */
 public class TestService extends Service {
     @Override
     public IBinder onBind(Intent intent) {

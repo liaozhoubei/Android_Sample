@@ -1,41 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.studyservice.service.MainActivity">
+    android:gravity="center"
+    android:padding="16dp">
 
     <Button
-        android:id="@+id/start_server"
+        android:id="@+id/btn_start_bind_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="start_server" />
+        android:text="开始与绑定服务演示" />
 
     <Button
-        android:id="@+id/stop_server"
+        android:id="@+id/btn_callback_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="stop_server" />
+        android:text="服务回调 Activity" />
 
     <Button
-        android:id="@+id/bind_server"
+        android:id="@+id/btn_aidl_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="bind_server" />
+        android:text="跨进程 AIDL" />
 
     <Button
-        android:id="@+id/bind_method"
+        android:id="@+id/messager_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="bind_method" />
-
-    <Button
-        android:id="@+id/unbind_server"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="unbind_server" />
-
-
+        android:text="Handler 接收服务信息" />
 </LinearLayout>

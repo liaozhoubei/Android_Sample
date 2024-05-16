@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    tools:context=".messageservice.MessengerActivity">
+
+
+    <Button
+        android:id="@+id/let_service_create_int"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="let_service_create_int" />
+
+    <Button
+        android:id="@+id/let_service_create_float"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="let_service_create_float" />
+
+    <Button
+        android:id="@+id/let_service_create_string"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="let_service_create_string" />
+
+    <Button
+        android:id="@+id/let_service_create_bundle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="let_service_create_bundle" />
+
+    <TextView
+        android:id="@+id/message_from_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="TextView" />
+</LinearLayout>

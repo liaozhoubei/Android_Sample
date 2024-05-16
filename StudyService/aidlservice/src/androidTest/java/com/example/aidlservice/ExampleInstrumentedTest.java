@@ -1,4 +1,4 @@
-//package com.example.studyservice;
+//package com.example.aidlservice;
 //
 //import android.content.Context;
 //import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@
 //        // Context of the app under test.
 //        Context appContext = InstrumentationRegistry.getTargetContext();
 //
-//        assertEquals("com.example.studyservice", appContext.getPackageName());
+//        assertEquals("com.example.aidlservice", appContext.getPackageName());
 //    }
 //}

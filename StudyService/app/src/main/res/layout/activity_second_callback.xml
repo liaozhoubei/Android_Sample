@@ -7,25 +7,25 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
-    tools:context=".callbackservice.ThirdActivity">
+    tools:context=".callbackservice.SecondActivity">
 
     <Button
-        android:onClick="finishThis"
-        android:text="finishThis"
+        android:onClick="thirdActivity"
+        android:text="thirdActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:visibility="gone"
         android:text="getInfo"
         android:onClick="getInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <TextView
+        android:id="@+id/tv_s_view"
         android:gravity="center"
         android:hint="return message"
-        android:id="@+id/tv_t_view"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 </LinearLayout>
