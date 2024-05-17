@@ -21,8 +21,8 @@ import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 
 import com.example.example.BuildConfig;
@@ -76,17 +76,24 @@ public class PhotoUtils {
 
 
     /**
+     * Intent.ACTION_PICK 似乎已经无法在使用，使用 Intent.ACTION_OPEN_DOCUMENT 替代
      * @param activity    当前activity
      * @param requestCode 打开相册的请求码
      */
     public static void openPic(Activity activity, int requestCode) {
         //这是打开系统默认的相册(就是你系统怎么分类,就怎么显示,展示分类列表)
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        intent.setType("image/*");
+        Intent intent = new Intent( );
+//        intent.setAction(Intent.ACTION_PICK);
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             //添加这一句表示对目标应用临时授权该Uri所代表的文件
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            // 使用 ACTION_OPEN_DOCUMENT 需要
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
         }
+        // 支持多选（长按多选）  多选的情况下数据会在 clipData 中
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -117,18 +124,21 @@ public class PhotoUtils {
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);
         // 加入访问权限，查询所有符合 intent 跳转目标应用类型的应用，注意此方法必须放置setDataAndType的方法之后
-//        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-//                | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         // 查询匹配的应用列表，需要在设置 action 和 category 后运行
         List<ResolveInfo> resInfoList = activity.getPackageManager()
                 .queryIntentActivities(intent, PackageManager.MATCH_ALL);
         for (ResolveInfo resolveInfo : resInfoList) {
             String packageName = resolveInfo.activityInfo.packageName;
+            Log.e(TAG, "cropImageUri: " + packageName );
             //添加这一句表示对目标应用(第三方应用)临时授权该Uri所代表的文件
             activity.grantUriPermission(packageName, desUri, Intent.FLAG_GRANT_READ_URI_PERMISSION
                     | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         }
         activity.startActivityForResult(intent, requestCode);
+
+
     }
 
     public static Uri CreateTakePhotoUri(Context context, File file) {
@@ -336,10 +346,12 @@ public class PhotoUtils {
         }
         ParcelFileDescriptor parcelFileDescriptor = null;
         try {
-            parcelFileDescriptor =
-                    context.getContentResolver().openFileDescriptor(uri, "rw");
+            ContentResolver contentResolver = context.getContentResolver();
+            parcelFileDescriptor = contentResolver.openFileDescriptor(uri, "r");
             FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
             Bitmap bitmapFromUri = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+
+
 
             FileOutputStream out = new FileOutputStream(f);
             bitmapFromUri.compress(Bitmap.CompressFormat.JPEG, 90, out);
@@ -358,10 +370,8 @@ public class PhotoUtils {
                 newexifInterface.setAttribute(ExifInterface.TAG_ORIENTATION, String.valueOf(orientation));
                 newexifInterface.saveAttributes();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Log.e(TAG, "could not saveBitmap: ", e);
         } finally {
             if (parcelFileDescriptor != null) {
                 try {
@@ -375,24 +385,23 @@ public class PhotoUtils {
     }
 
     /**
-     *
      * @param context
      * @param bitmap
-     * @param filePath  小于 android Q 则为照片存储的全路径，大于则是相对路径
+     * @param filePath 小于 android Q 则为照片存储的全路径，大于则是相对路径
      * @param fileName
      */
-    public static void saveBitmap(Context context, Bitmap  bitmap, String filePath, String fileName) {
+    public static void saveBitmap(Context context, Bitmap bitmap, String filePath, String fileName) {
 
 
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.DESCRIPTION, "This is an image");
         values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-        values.put(MediaStore.Images.Media.TITLE, "title"+".jpg");
+        values.put(MediaStore.Images.Media.TITLE, "title" + ".jpg");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             values.put(MediaStore.Images.Media.RELATIVE_PATH, filePath);
-        }else {
-            values.put(MediaStore.Images.Media.DATA, filePath );
+        } else {
+            values.put(MediaStore.Images.Media.DATA, filePath);
         }
 
         Uri external = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
@@ -406,7 +415,7 @@ public class PhotoUtils {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 90, os);
             } catch (IOException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 try {
                     if (os != null) {
                         os.close();

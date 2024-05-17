@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -78,7 +79,9 @@ public class MediaStoreActivity extends AppCompatActivity {
 
             }
         }
-
+        if (uriArrayList.size() == 0){
+            Toast.makeText(this, "没有找到图片，也可能是不支持此api", Toast.LENGTH_SHORT).show();
+        }
         ImageAdapter imageAdapter = new ImageAdapter();
         imageAdapter.setDataList(uriArrayList);
         rvMedia.setAdapter(imageAdapter);

@@ -2,18 +2,22 @@ package com.example.example.activity;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -35,7 +39,7 @@ import java.io.IOException;
  * Android 7.0 以后 获取相册照片以及相机拍照返回的方式发送变化
  * 通过手机自带的文件系统已无法获取路径，可实现简单的文件浏览器来获取路径
  * 可查看 https://blog.csdn.net/lmj623565791/article/details/72859156 了解 FileProvide 相关知识
- *
+ * <p>
  * Android 10 以后，getExternalFilesDir()  为私有目录，可以获取路径，其他文件夹路径均无法获取
  */
 public class FileProvideActivity extends AppCompatActivity {
@@ -78,7 +82,7 @@ public class FileProvideActivity extends AppCompatActivity {
 
     public void GetFile(View view) {
         if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-            FileUtils.performFileSearch(this, READ_REQUEST_CODE );
+            FileUtils.performFileSearch(this, READ_REQUEST_CODE);
         } else {
             // 在目标版本为 7.0 之前可用系统文件浏览器获取路径
             // Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -101,14 +105,14 @@ public class FileProvideActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GET_PHOTO_FROM_CAMERA && resultCode != Activity.RESULT_CANCELED) {
             Log.e("FileProvideActivity", "onActivityResult: 拍摄照片");
-            if (data.getData()==null){
+            if (data.getData() == null) {
                 Log.e(TAG, "onActivityResult capture photo: if you set output path , data will return null ");
             }
             String state = Environment.getExternalStorageState();
             if (!state.equals(Environment.MEDIA_MOUNTED)) return;
             // 把原图显示到界面上
             File cachefile = new File(getExternalCacheDir(), "face-cropped");
-            if (!cachefile.exists()){
+            if (!cachefile.exists()) {
                 try {
                     cachefile.createNewFile();
                 } catch (IOException e) {
@@ -133,7 +137,7 @@ public class FileProvideActivity extends AppCompatActivity {
             }
         } else if (requestCode == GET_PHOTO_FROM_CROP && resultCode == Activity.RESULT_OK) {
             // 裁剪后获取图片
-            Bitmap bitmap = getBitmepAfterCrop(FileProvideActivity.this);
+            Bitmap bitmap = getBitmepAfterCrop(FileProvideActivity.this, data.getData());
             if (bitmap == null) return;
             ivImg.setImageBitmap(bitmap);
             Log.e("FileProvideActivity", "onActivityResult: 裁剪照片");
@@ -154,6 +158,8 @@ public class FileProvideActivity extends AppCompatActivity {
             Uri uri = null;
             if (data != null) {
                 uri = data.getData();
+                Toast.makeText(this, uri.getPath(), Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "Uri: " + uri.getPath());
                 Log.i(TAG, "Uri: " + uri.toString());
                 FileUtils.dumpFileMetaData(FileProvideActivity.this, uri);
 //                String s = readTextFromUri(uri);
@@ -161,11 +167,11 @@ public class FileProvideActivity extends AppCompatActivity {
             }
         }
 
-        if (resultCode != Activity.RESULT_OK){
-            Toast.makeText(this, "执行失败", Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "onActivityResult: result error" + resultCode );
+        if (resultCode != Activity.RESULT_OK) {
+            Toast.makeText(this, "onActivityResult 返回失败", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "onActivityResult: result error" + resultCode);
         }
-        Log.e(TAG, "onActivityResult: is result ok =" + (resultCode == Activity.RESULT_OK) );
+        Log.e(TAG, "onActivityResult: is result ok =" + (resultCode == Activity.RESULT_OK));
 
     }
 
@@ -183,9 +189,24 @@ public class FileProvideActivity extends AppCompatActivity {
             String imagePath = PhotoUtils.saveBitmap(this, data.getData());
             File realfile = new File(imagePath);
             Uri newUri = PhotoUtils.createUri(context, realfile);
-            File cachefile = new File(getExternalCacheDir(), "face-cropped");
-            Uri cropImageUri = Uri.fromFile(cachefile);
+
+            Uri cropImageUri;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                String mimeType = getContentResolver().getType(newUri);
+                String imageName = System.currentTimeMillis() / 1000 + "." + MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType);
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, imageName);
+                contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                contentValues.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+                contentValues.put(MediaStore.Video.Media.DATE_MODIFIED, System.currentTimeMillis() / 1000);
+                cropImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            } else {
+                File cachefile = new File(getExternalCacheDir(), "face-cropped");
+                cropImageUri = Uri.fromFile(cachefile);
+            }
+
             PhotoUtils.cropImageUri(this, newUri, cropImageUri, 1, 1, 480, 480, GET_PHOTO_FROM_CROP);
+//            ivImg.setImageURI(Uri.fromFile(new File(imagePath)));
         } else {
             // 设置需要裁剪的缓存路径
             File cachefile = new File(getExternalCacheDir(), "face-cropped");
@@ -202,12 +223,12 @@ public class FileProvideActivity extends AppCompatActivity {
     }
 
     // 获取以及裁剪的图片
-    private Bitmap getBitmepAfterCrop(Context context) {
+    private Bitmap getBitmepAfterCrop(Context context, Uri uri) {
         // 从缓存路径中查找图片
-        File cachefile = new File(getExternalCacheDir(), "face-cropped");
+//        File cachefile = new File(getExternalCacheDir(), "face-cropped");
 //        Uri cropImageUri = PhotoUtils.createUri(context,cachefile);
-        Uri cropImageUri = Uri.fromFile(cachefile);
-        Bitmap bitmap = PhotoUtils.getBitmapFromUri(cropImageUri, this);
+//        Uri cropImageUri = Uri.fromFile(cachefile);
+        Bitmap bitmap = PhotoUtils.getBitmapFromUri(uri, this);
         if (bitmap == null) {
             Toast.makeText(this, "获取图片失败", Toast.LENGTH_SHORT).show();
             return null;
@@ -303,9 +324,6 @@ public class FileProvideActivity extends AppCompatActivity {
     }
 
 // 打开文件
-
-
-
 
 
 }

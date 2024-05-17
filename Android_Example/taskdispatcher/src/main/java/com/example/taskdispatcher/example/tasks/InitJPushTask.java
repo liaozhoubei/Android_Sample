@@ -5,8 +5,6 @@ import android.util.Log;
 import com.example.taskdispatcher.example.MyApplication;
 import com.example.taskdispatcher.task.Task;
 
-import cn.jpush.android.api.JPushInterface;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class InitJPushTask extends Task {
     @Override
     public void run() {
         MyApplication app = (MyApplication) mContext;
-        Log.e(TAG, "run: InitJPushTask DeviceId:" + app.getDeviceId() );
+        Log.e(TAG, "run: InitJPushTask DeviceId:" + app.getmDeviceId() );
 //        JPushInterface.init(mContext);
 //        JPushInterface.setAlias(mContext, 0, app.getDeviceId());
     }

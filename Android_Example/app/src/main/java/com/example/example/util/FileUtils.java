@@ -35,7 +35,7 @@ public class FileUtils {
         // ACTION_OPEN_DOCUMENT is the intent to choose a file via the system's file
         // browser.
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         // Filter to only show results that can be "opened", such as a
         // file (as opposed to a list of contacts or timezones)
         intent.addCategory(Intent.CATEGORY_OPENABLE);

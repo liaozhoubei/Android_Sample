@@ -16,7 +16,6 @@ import com.example.taskdispatcher.example.tasks.InitJPushTask;
 import com.example.taskdispatcher.example.tasks.InitStethoTask;
 import com.example.taskdispatcher.example.tasks.InitUmengTask;
 import com.example.taskdispatcher.example.tasks.InitWeexTask;
-import com.tencent.mmkv.MMKV;
 
 public class MyApplication extends Application {
 
@@ -74,7 +73,7 @@ public class MyApplication extends Application {
         this.mDeviceId = deviceId;
     }
 
-    public String getDeviceId() {
+    public String getmDeviceId() {
         return mDeviceId;
     }
 

@@ -23,10 +23,6 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.Utils;
-
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -51,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private void initdata() {
         activityBeanList = new ArrayList<>();
         try {
+            //-------------------------------------------------------------------------
 //            LauncherApps mLauncherApps =(LauncherApps)
 //                    Utils.getApp().getSystemService(Context.LAUNCHER_APPS_SERVICE);
 //            List<LauncherActivityInfo> activityList = mLauncherApps.getActivityList(getPackageName(), Process.myUserHandle());
@@ -59,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 //                boolean activityEnabled = mLauncherApps.isActivityEnabled(componentName, Process.myUserHandle());
 //                Log.e("MainActivity", "initdata: "+info.getName() +  " activityEnabled:"+ activityEnabled);
 //            }
-
+            //----------------------------------------------------
             PackageManager packageManager = getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(
                     getPackageName(), PackageManager.GET_ACTIVITIES);
@@ -74,13 +71,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                     aClass = Class.forName(activityInfo.name);
                     Log.d(TAG, "loadActivity: " + activityInfo.name );
-                    activityBeanList.add(new ActivityBean(aClass));
+                    if (activityInfo.name.startsWith("com.example.example")){
+                        activityBeanList.add(new ActivityBean(aClass));
+                    }
                 } catch (ClassNotFoundException e) {
                     Log.e(TAG, "error: " + activityInfo.name );
                     e.printStackTrace();
                 }
 
             }
+            //-------------------------------------------------------------------------------------
             // 按首字母排序
             Collections.sort(activityBeanList, new Comparator<ActivityBean>() {
                 @Override
@@ -96,12 +96,11 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, activityBeanList.get(position).getaClass()));
                 }
             });
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
+
 
 
     class ActivityBean {
