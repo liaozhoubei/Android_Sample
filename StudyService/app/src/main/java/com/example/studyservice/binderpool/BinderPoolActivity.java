@@ -1,29 +1,42 @@
-package com.ryg.chapter_2.binderpool;
+package com.example.studyservice.binderpool;
 
-import com.ryg.chapter_2.R;
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
-public class BinderPoolActivity extends Activity {
+import com.example.studyservice.R;
+
+public class BinderPoolActivity extends AppCompatActivity {
     private static final String TAG = "BinderPoolActivity";
 
     private ISecurityCenter mSecurityCenter;
     private ICompute mCompute;
+    private Button bindPool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_binder_pool);
-        new Thread(new Runnable() {
+        initView();
+    }
 
+    private void initView() {
+        bindPool = (Button) findViewById(R.id.bind_pool);
+        bindPool.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                doWork();
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        doWork();
+                    }
+                }).start();
             }
-        }).start();
+        });
     }
 
     private void doWork() {
@@ -35,11 +48,11 @@ public class BinderPoolActivity extends Activity {
                 .asInterface(securityBinder);
         Log.d(TAG, "visit ISecurityCenter");
         String msg = "helloworld-安卓";
-        System.out.println("content:" + msg);
+        Log.d(TAG,"content:" + msg);
         try {
             String password = mSecurityCenter.encrypt(msg);
-            System.out.println("encrypt:" + password);
-            System.out.println("decrypt:" + mSecurityCenter.decrypt(password));
+            Log.d(TAG,"encrypt:" + password);
+            Log.d(TAG,"decrypt:" + mSecurityCenter.decrypt(password));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -50,10 +63,11 @@ public class BinderPoolActivity extends Activity {
         ;
         mCompute = ComputeImpl.asInterface(computeBinder);
         try {
-            System.out.println("3+5=" + mCompute.add(3, 5));
+            Log.d(TAG,"3+5=" + mCompute.add(3, 5));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
+
 
 }

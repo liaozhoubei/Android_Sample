@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.studyservice.aidlclient.AIDLClientActivity;
+import com.example.studyservice.binderpool.BinderPoolActivity;
 import com.example.studyservice.callbackservice.SecondActivity;
 import com.example.studyservice.messageservice.MessengerActivity;
 import com.example.studyservice.service.StartAndBindServiceActivity;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnCallbaceActivity;
     private Button btnAidlActivity;
     private Button messagerActivity;
+    private Button binderpoolActivity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, MessengerActivity.class));
+            }
+        });
+        binderpoolActivity = (Button) findViewById(R.id.binderpool_activity);
+        binderpoolActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, BinderPoolActivity.class));
             }
         });
     }

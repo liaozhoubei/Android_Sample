@@ -1,4 +1,4 @@
-package com.ryg.chapter_2.binderpool;
+package com.example.studyservice.binderpool;
 
 import android.os.RemoteException;
 

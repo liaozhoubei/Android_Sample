@@ -41,6 +41,16 @@
         <activity android:name=".messageservice.MessengerActivity"/>
         <service android:name=".messageservice.MessengerService"
             />
+
+        <service
+            android:name=".binderpool.BinderPoolService"
+            android:process=":remote" />
+
+        <activity
+            android:name=".binderpool.BinderPoolActivity"
+            android:label="BinderPoolActivity" >
+
+        </activity>
     </application>
 
 </manifest>

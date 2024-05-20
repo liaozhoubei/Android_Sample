@@ -29,4 +29,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Handler 接收服务信息" />
+
+    <Button
+        android:id="@+id/binderpool_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BinderPoolActivity" />
 </LinearLayout>

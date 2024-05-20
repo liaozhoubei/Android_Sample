@@ -1,4 +1,4 @@
-package com.ryg.chapter_2.binderpool;
+package com.example.studyservice.binderpool;
 
 import java.util.concurrent.CountDownLatch;
 

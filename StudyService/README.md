@@ -32,3 +32,7 @@ https://www.jianshu.com/p/c7407e532307
 演示 Messenger 如何在跨进程中使用。
 
 注意 Message.obj 在跨进程中只支持经过 Parcelable 序列化的对象，其他对象无法传递(基础数据类型也一样)
+
+ - BinderPoolActivity 
+
+演示如何使用 binder 线程池
