@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Android_Example" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- SplashActivity 专属主题 -->
+    <style name="Theme.App.Splash" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- 核心：窗口背景直接显示 Logo，完全屏蔽 Compose 加载期的白屏 -->
+        <item name="android:windowBackground">@drawable/splash_background</item>
+
+        <!-- 确保状态栏和导航栏颜色沉浸 -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 1. 背景颜色（匹配你的应用背景） -->
+    <item android:drawable="@android:color/white" />
+    <!-- 2. 居中的 Logo 图标 -->
+    <item
+        android:width="120dp"
+        android:height="120dp"
+        android:gravity="center">
+        <bitmap
+            android:gravity="fill"
+            android:src="@drawable/ic_launcher" /> <!-- 换成你的 Logo 图标 -->
+    </item>
+</layer-list>

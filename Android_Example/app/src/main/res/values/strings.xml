@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Android Example</string>
+    <string name="title_activity_second">SecondActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_camera_xactivity">CameraXActivity</string>
+    <string name="title_activity_crop">CropActivity</string>
+    <string name="title_activity_file_explorer">FileExplorerActivity</string>
+    <string name="title_activity_adaptive_layout">AdaptiveLayoutActivity</string>
+</resources>
